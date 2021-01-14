@@ -26,27 +26,6 @@ const FeedPostForm = () => {
     }
 
     return (
-        // <div className="FeedPostForm">
-        //     <Container className="mt-5">
-        //         <Row className="justify-content-center">
-        //             <Col xs={12} md={10} lg={8} xl={6}>
-        //                 <Form className="FeedPostForm-form text-center border p-5">
-        //                     <h3 className="mb-5">Post to your feed</h3>
-        //                     <FormGroup>
-        //                         <Input className="form-control"
-        //                             type="textarea"
-        //                             name="content"
-        //                             placeholder="What's up today?"
-        //                             onChange={handleChange}
-        //                         />
-        //                     </FormGroup>
-        //                     <Button className="mt-4 mb-5 mx-1" color="primary" onClick={handleSubmit}>Post</Button>
-        //                     <Button className="mt-4 mb-5 mx-1" color="secondary" onClick={() => history.push("/")}>Cancel</Button>
-        //                 </Form>
-        //             </Col>
-        //         </Row>
-        //     </Container>
-        // </div>
         <div className="FeedPostForm">
             <Container className="mb-5 px-0">
                 <Row className="justify-content-center">
