@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button, Alert, Label } from "reactstrap";
-import { addUser } from "../actions/users";
+import { SIGNUP_MUTATION } from "../queries/users";
+import { useMutation } from "@apollo/client";
 
 import "./SignUpForm.css";
 
@@ -13,29 +13,24 @@ const SignUpForm = () => {
         email: ''
     };
     const [formData, setFormData] = useState(INITIAL_STATE);
-    const [alert, setAlert] = useState({visible: false, text: ''});
-
-    let history = useHistory();
-
     const handleChange = (e) => {
         e.preventDefault();
         const {name, value} = e.target;
         setFormData(oldFormData => ({...oldFormData, [name] : value}))
     }
 
-    const dispatch = useDispatch();
-    const handleSignUp = async (e) => {
-        e.preventDefault();
-        console.log("Signing up with:", formData)
-        dispatch(addUser({...formData}));
-        history.push("/home");
-    }
+    let history = useHistory();
+
+    const [signup] = useMutation(SIGNUP_MUTATION, {
+        variables: {...formData},
+        onCompleted: ({addUser}) => {
+            localStorage.setItem("roarCurrentUser", addUser.token);
+            history.push("/home");
+        }
+    })
 
     return (
         <div className="SignUpForm">
-            <Alert color="danger" isOpen={alert.visible} toggle={() => setAlert({visible: false, text: ''})}>
-                {alert.text}
-            </Alert>
             <Container className="mt-5">
                 <Row className="justify-content-center">
                     <Col xs={10} md={8} lg={6} xl={5}>
@@ -66,7 +61,7 @@ const SignUpForm = () => {
                                 />
                             </FormGroup>
                             <div className="text-center">
-                                <Button className="mt-4 mb-5" color="primary" size="lg" onClick={handleSignUp}>Sign Up</Button>
+                                <Button className="mt-4 mb-5" color="primary" size="lg" onClick={signup}>Sign Up</Button>
                             </div>
                         </Form>
                     </Col>

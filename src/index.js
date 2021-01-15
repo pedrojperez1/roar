@@ -10,12 +10,39 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from "react-redux";
 import { store } from "./store"
 
+// Apollo Client initialization
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("roarCurrentUser");
+  console.log("token:", token);
+  console.log("old headers:", headers);
+  const newHeaders = {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+  console.log("new headers:", newHeaders);
+  return newHeaders;
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+
 ReactDOM.render(
-  <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-  </Provider>,
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ApolloProvider>, 
   document.getElementById('root')
 );
 

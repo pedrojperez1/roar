@@ -1,21 +1,19 @@
-import React, { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Button } from "reactstrap";
-import { markTaskComplete } from "../actions/ladders";
-import LadderContext from "../helpers/LadderContext";
+import { useMutation } from "@apollo/client";
+import { COMPLETE_ASSIGNMENT_MUTATION } from "../queries/assignments";
 
-const MarkComplete = ({assignmentId}) => {
-    const ladderId = useContext(LadderContext);
-    const ladderObj = useSelector(store => store.ladders[ladderId]);
-    const dispatch = useDispatch();
-    const handleMarkComplete = (assignmentId) => {
-        console.log(`Marking ${assignmentId} as complete!`);
-        dispatch(markTaskComplete(ladderId, ladderObj, assignmentId))
-    }
+const MarkComplete = ({assignmentId, refetch}) => {
+
+    const [markComplete] = useMutation(COMPLETE_ASSIGNMENT_MUTATION, {
+        variables: {id: assignmentId},
+        onCompleted: () => refetch()
+    });
+
     return (
         <Button 
             size="sm" 
-            onClick={() => handleMarkComplete(assignmentId)}
+            onClick={markComplete}
         >Mark Complete</Button>
     )
 };

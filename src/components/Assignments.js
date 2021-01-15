@@ -5,8 +5,7 @@ import {
 } from "reactstrap";
 import MarkComplete from "./MarkComplete";
 
-const Assignments = ({assignments}) => {
-    console.log(`rendering <Assignments />, assingments: ${assignments}`);
+const Assignments = ({assignments, refetch}) => {
     return (
         <div className="Assignments">
             <Container fluid>
@@ -25,8 +24,8 @@ const Assignments = ({assignments}) => {
                                 <tr>
                                     <th scope="row">{idx}</th>
                                     <td>{a.task}</td>
-                                    <td>{a.dueDate.format("MM/DD/YYYY")}</td>
-                                    <td>{a.completed ? "Done!" : <MarkComplete assignmentId={a.id}/>}</td>
+                                    <td>{a.dueDate}</td>
+                                    <td>{a.completed ? "Done!" : <MarkComplete assignmentId={a.id} refetch={refetch}/>}</td>
                                 </tr>
                             ))
                         }

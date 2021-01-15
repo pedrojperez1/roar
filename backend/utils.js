@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
-const { APP_SECRET } = require("./config");
+const { SECRET_KEY } = require("./config");
 const dayjs = require("dayjs");
 
 function getTokenPayload(token) {
-  return jwt.verify(token, APP_SECRET);
+  return jwt.verify(token, SECRET_KEY);
 }
 
 function getUserId(req, authToken) {
   if (req) {
     const authHeader = req.headers.authorization;
+    console.log("####### authHeader:", authHeader, "#######");
     if (authHeader) {
       const token = authHeader.replace('Bearer ', '');
       if (!token) {

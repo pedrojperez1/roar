@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 
 const conn = new Sequelize("postgres://localhost/roar-db");
 
@@ -62,10 +63,11 @@ Ladder.hasMany(Assignment);
 Assignment.belongsTo(Ladder);
 
 conn.sync({force: true})
-    .then(() => {
+    .then(async () => {
+        const password = await bcrypt.hash("test", 12);
         return User.create({
             username: "test", 
-            password: "test", 
+            password: password, 
             email: "test@test.com"
         }).then((user) => {
         return user.createLadder({

@@ -16,15 +16,13 @@ import {
 } from 'reactstrap';
 import { MdAccountCircle, MdEdit } from "react-icons/md";
 import "./NavBar.css";
-import { useSelector } from "react-redux";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
-  const currentUser = useSelector(store => store.users.currentUser);
-
+  const currentUser = localStorage.getItem("roarCurrentUser");
+  
   return (
     <div>
       <Navbar light expand="md" className="navbar navbar-dark bg-dark mb-5">
@@ -80,7 +78,7 @@ const NavBar = (props) => {
                   <Link to="/profile">
                     <DropdownItem>Settings</DropdownItem>
                   </Link>
-                  <Link to="/">
+                  <Link to="/logout">
                     <DropdownItem>Log Out</DropdownItem>
                   </Link>
                 </DropdownMenu>

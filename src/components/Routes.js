@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
+import Logout from "./Logout";
 import SignUp from "./SignUp";
 import About from "./About";
 import Learn from "./Learn";
@@ -9,13 +10,11 @@ import Home from "./Home";
 import Feed from "./Feed";
 import Profile from "./Profile";
 import MessageBoardPostForm from "./MessageBoardPostForm";
-import { useSelector } from "react-redux";
 import FearLadderForm from "./FearLadderForm";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
 
 const Routes = () => {
-    const currentUserId = useSelector(store => store.users.currentUserId);
     return (
         <Switch>
             <Route exact path="/">
@@ -23,6 +22,9 @@ const Routes = () => {
             </Route>
             <Route exact path="/login">
                 <Login />
+            </Route>
+            <Route exact path="/logout">
+                <Logout />
             </Route>
             <Route exact path="/signup">
                 <SignUp />
@@ -35,9 +37,6 @@ const Routes = () => {
             </Route>
             <Route exact path="/home">
                 <Home />
-            </Route>
-            <Route exact path="/feed">
-                <Feed userId={currentUserId}/>
             </Route>
             <Route exact path="/profile">
                 <Profile />

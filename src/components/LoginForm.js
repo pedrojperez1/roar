@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
-import { loginUser } from "../actions/users";
+import { useMutation } from "@apollo/client";
+import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
 const LoginForm = () => {
-    const INITIAL_STATE = {
-        username: '',
-        password: ''
-    };
+    const INITIAL_STATE = { username: '', password: '' };
     const [formData, setFormData] = useState(INITIAL_STATE);
-    // const [alertVisible, setAlertVisible] = useState(false);
-    // const [alertText, setAlertText] = useState('');
+    
     const history = useHistory();
 
     const handleChange = (e) => {
@@ -21,16 +17,21 @@ const LoginForm = () => {
         setFormData(oldFormData => ({...oldFormData, [name] : value}))
     }
 
-    const dispatch = useDispatch();
-    const users = useSelector(store => store.users.users)
+    // const handleLogIn = async (e) => {
+    //     const authPayload = await RoarApi.logIn({...formData});
+    //     if (authPayload) {
+    //         localStorage.setItem("roarUserToken", authPayload);
+    //     }
+    //     history.push("/home");
+    // }
 
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        const userId = Object.values(users).filter(u => u.username === formData.username)[0].id;
-        console.log('userId:', userId);
-        dispatch(loginUser(userId));
-        history.push("/home");
-    }
+    const [login] = useMutation(LOGIN_MUTATION, {
+        variables: {...formData},
+        onCompleted: ({login}) => {
+            localStorage.setItem("roarCurrentUser", login.token);
+            history.push("/home");
+        }
+    })
 
     return (
         <div className="LoginForm">
@@ -58,7 +59,7 @@ const LoginForm = () => {
                                     onChange={handleChange}
                                 />
                             </FormGroup>
-                            <Button className="mt-4 mb-5" color="primary" size="lg" onClick={handleSignIn}>Sign In</Button>
+                            <Button className="mt-4 mb-5" color="primary" size="lg" onClick={login}>Sign In</Button>
                             <p>Need an account? Sign up <Link to="/signup">here!</Link></p>
                         </Form>
                     </Col>

@@ -1,18 +1,23 @@
 import React from "react";
 import { Button, Col, Container, Row, Card, CardText } from "reactstrap";
 import Feed from "./Feed";
-import { useSelector } from "react-redux";
+import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = () => {
-    const currentUserId = useSelector(store => store.users.currentUser);
+    const currentUser = localStorage.getItem("roarCurrentUser");
+    if (!currentUser) {
+        return <h3>Please log in first.</h3>
+    }
     return (
         <div className="Home">
             <Container className="pt-3">
                 <Row>
                     <Col xs={12} sm={12} md={7}>
-                        <Container className="p-2 vh-100 d-inline-block"><Feed userId={currentUserId}/></Container>
+                        <Container className="p-2 vh-100 d-inline-block">
+                            {/* <Feed username={currentUser}/> */}
+                        </Container>
                     </Col>
                     <Col>
                         <Row>

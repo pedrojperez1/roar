@@ -11,7 +11,7 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("./config");
 const jwt = require("jsonwebtoken");
-const { genDueDate } = require("./utils");
+const { genDueDate, getUserId } = require("./utils");
 
 const User = new GraphQLObjectType({
     name: "User",
@@ -165,6 +165,7 @@ const AuthPayload = new GraphQLObjectType({
     description: "This represents an authentication payload",
     fields: () => {
         return {
+            username: { type: GraphQLString },
             token: { type: GraphQLString }
         }
     }
@@ -194,6 +195,9 @@ const Query = new GraphQLObjectType({
             },
             ladders: {
                 type: new GraphQLList(Ladder),
+                args: {
+                    id: { type: GraphQLInt }
+                },
                 resolve(root, args) {
                     return db.models.ladders.findAll({where: args});
                 }
@@ -228,14 +232,14 @@ const Mutation = new GraphQLObjectType({
                 },
                 async resolve(_, args) {
                     const hashedPw = await bcrypt.hash(args.password, BCRYPT_WORK_FACTOR);
-                    const newUser = db.models.users.create({
+                    const newUser = await db.models.users.create({
                         username: args.username,
                         password: hashedPw,
                         email: args.email
                     });
                     return {
-                        token: jwt.sign({ username: newUser.username }, SECRET_KEY),
-                        user: newUser.username
+                        username: newUser.username,
+                        token: jwt.sign({ userId: newUser.id }, SECRET_KEY)
                     }
                 }
             },
@@ -255,7 +259,8 @@ const Mutation = new GraphQLObjectType({
                         const isValid = await bcrypt.compare(args.password, user.password);
                         if (isValid) {
                             return {
-                                token: jwt.sign({ username: user.username }, SECRET_KEY)
+                                username: user.username,
+                                token: jwt.sign({ userId: user.id }, SECRET_KEY)
                             }
                         }
                     }
@@ -267,7 +272,6 @@ const Mutation = new GraphQLObjectType({
             addLadder: {
                 type: Ladder,
                 args: {
-                    userId: {type: new GraphQLNonNull(GraphQLInt)},
                     name: { type: new GraphQLNonNull(GraphQLString) },
                     level1: { type: GraphQLString },
                     level2: { type: GraphQLString },
@@ -278,8 +282,10 @@ const Mutation = new GraphQLObjectType({
                     level7: { type: GraphQLString },
                     level8: { type: GraphQLString }
                 },
-                async resolve(_, args) {
-                    const user = await db.models.users.findByPk(args.userId);
+                async resolve(_, args, context) {
+                    const userId = getUserId(context);
+                    console.log("######## userid:", userId, "########")
+                    const user = await db.models.users.findByPk(userId);
                     const newLadder = await user.createLadder({
                         name: args.name,
                         level1: args.level1,
@@ -293,12 +299,30 @@ const Mutation = new GraphQLObjectType({
                     });
                     const levels = Object.keys(args).filter(k => k.includes("level"));
                     levels.forEach(level => {
-                        const firstDueDate = genDueDate(level);
-                        newLadder.createAssignment({task: args[level], dueDate: firstDueDate.format()});
-                        newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(2, "day").format()});
-                        newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(4, "day").format()});
+                        if (args[level]) {
+                            const firstDueDate = genDueDate(level);
+                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.format()});
+                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(2, "day").format()});
+                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(4, "day").format()});
+                        }
                     });
                     return newLadder
+                }
+            },
+            completeAssignment: {
+                type: GraphQLString,
+                args: {
+                    id: { type: GraphQLInt }
+                },
+                async resolve(_, args) {
+                    try {
+                        const assignment = await db.models.assignments.findByPk(args.id);
+                        assignment.completed = true;
+                        await assignment.save();
+                        return "success";
+                    } catch {
+                        return "error";
+                    }
                 }
             }
         }
