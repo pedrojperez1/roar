@@ -5,7 +5,8 @@ const {
     GraphQLBoolean,
     GraphQLList,
     GraphQLSchema,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLScalarType
 } = require("graphql");
 const db = require("./db");
 const bcrypt = require("bcrypt");
@@ -160,6 +161,39 @@ const Assignment = new GraphQLObjectType({
     }
 });
 
+const FeedPost = new GraphQLObjectType({
+    name: "FeedPost",
+    description: "This represents a post to a user's feed",
+    fields: () => {
+        return {
+            id: {
+                type: GraphQLInt,
+                resolve(feedpost) {
+                    return feedpost.id;
+                }
+            },
+            content: {
+                type: GraphQLString,
+                resolve(feedpost) {
+                    return feedpost.content;
+                }
+            },
+            type: {
+                type: GraphQLString,
+                resolve(feedpost) {
+                    return feedpost.type;
+                }
+            },
+            createdAt: {
+                type: GraphQLString,
+                resolve(feedpost) {
+                    return feedpost.createdAt;
+                }
+            }
+        }
+    }
+})
+
 const AuthPayload = new GraphQLObjectType({
     name: "AuthPayload",
     description: "This represents an authentication payload",
@@ -206,6 +240,23 @@ const Query = new GraphQLObjectType({
                 type: new GraphQLList(Assignment),
                 resolve(root, args) {
                     return db.models.assignments.findAll({where: args});
+                }
+            },
+            getMyLadders : {
+                type: new GraphQLList(Ladder),
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    return await user.getLadders();
+                }
+            },
+            getMyFeed : {
+                type: new GraphQLList(FeedPost),
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    console.log(Object.getOwnPropertyNames(user))
+                    return await user.getFeedposts();
                 }
             }
         }
@@ -323,6 +374,21 @@ const Mutation = new GraphQLObjectType({
                     } catch {
                         return "error";
                     }
+                }
+            },
+            addFeedPost: {
+                type: FeedPost,
+                args: {
+                    content: { type: new GraphQLNonNull(GraphQLString) },
+                    type: { type: new GraphQLNonNull(GraphQLString) }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    return await user.createFeedpost({
+                        content: args.content,
+                        type: args.type
+                    });
                 }
             }
         }

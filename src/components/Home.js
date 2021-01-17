@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = () => {
-    const currentUser = localStorage.getItem("roarCurrentUser");
+    const currentUser = localStorage.getItem("ROAR_CURRENT_USER");
     if (!currentUser) {
         return <h3>Please log in first.</h3>
     }
@@ -16,7 +16,7 @@ const Home = () => {
                 <Row>
                     <Col xs={12} sm={12} md={7}>
                         <Container className="p-2 vh-100 d-inline-block">
-                            {/* <Feed username={currentUser}/> */}
+                            <Feed />
                         </Container>
                     </Col>
                     <Col>

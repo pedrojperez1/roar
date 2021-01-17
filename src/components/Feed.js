@@ -2,30 +2,33 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import FeedItem from "./FeedItem";
 import FeedPostForm from "./FeedPostForm";
-import { FETCH_FEED_ITEMS } from "../queries/users";
+import { GET_MY_FEED } from "../queries/feeds";
+import Loading from "./Loading";
 
-const Feed = ({username}) => {
+const Feed = () => {
 
-    // const allFeeds = useQuery(FETCH_FEED_ITEMS, {
-    //     variables: {username: username}
-    // });
-    // const feed = allFeeds.filter(f => f.userId === userId);
+    const {loading, error, data} = useQuery(GET_MY_FEED);
+    if (loading) return <Loading />
+    if (error) {
+        console.log("error", error);
+        return `Something went wrong! ${error.message}`
+    };
+    const feed = data.getMyFeed;
 
     return (
         <div className="Feed">
-            {/* <h2 className="mb-3">My Feed</h2>
+            <h2 className="mb-3">My Feed</h2>
             <FeedPostForm />
             {
                 feed.length === 0 ? 
                 <p>Wow. Such empty :( Post something!</p> : 
-                feed.map(f => (
+                feed.map(post => (
                     <FeedItem 
-                        key={f.post.id} 
-                        username={currentUsername} 
-                        content={f.post.content} 
+                        key={post.id}
+                        content={post.content} 
                     />
                 ))
-            } */}
+            }
         </div>
     )
 };

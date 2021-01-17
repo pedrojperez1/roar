@@ -54,3 +54,12 @@ query getLadder($id: Int!){
   }
 }
 `;
+
+export const GET_LADDERS_BY_USERID = gql`
+query {
+    getMyLadders {
+        id
+        name
+    }
+}
+`;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -15,14 +15,24 @@ import {
   Button
 } from 'reactstrap';
 import { MdAccountCircle, MdEdit } from "react-icons/md";
+import { useApolloClient } from "@apollo/client";
 import "./NavBar.css";
+
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const client = useApolloClient();
+  const history = useHistory();
   const toggle = () => setIsOpen(!isOpen);
-  const currentUser = localStorage.getItem("roarCurrentUser");
-  
+  const currentUser = localStorage.getItem("ROAR_CURRENT_USER");
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("ROAR_CURRENT_USER");
+    // clear Apollo store
+    client.clearStore();
+    history.push("/");
+    history.go(0);
+  }
   return (
     <div>
       <Navbar light expand="md" className="navbar navbar-dark bg-dark mb-5">
@@ -53,14 +63,8 @@ const NavBar = (props) => {
                   </NavbarBrand>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link to="/feed">
-                    <DropdownItem>New Feed Post</DropdownItem>
-                  </Link>
                   <Link to="/ladders/new">
                     <DropdownItem>New Fear Ladder</DropdownItem>
-                  </Link>
-                  <Link to="/board/new">
-                    <DropdownItem>New Message Board Post</DropdownItem>
                   </Link>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -78,9 +82,10 @@ const NavBar = (props) => {
                   <Link to="/profile">
                     <DropdownItem>Settings</DropdownItem>
                   </Link>
-                  <Link to="/logout">
-                    <DropdownItem>Log Out</DropdownItem>
-                  </Link>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <Button color="danger" size="sm" onClick={handleLogOut}>Log Out</Button>
+                  </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>

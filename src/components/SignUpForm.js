@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button, Alert, Label } from "reactstrap";
 import { SIGNUP_MUTATION } from "../queries/users";
-import { useMutation } from "@apollo/client";
-
+import { useApolloClient, useMutation } from "@apollo/client";
 import "./SignUpForm.css";
 
 const SignUpForm = () => {
@@ -19,13 +18,13 @@ const SignUpForm = () => {
         setFormData(oldFormData => ({...oldFormData, [name] : value}))
     }
 
+    const client = useApolloClient();
     let history = useHistory();
-
     const [signup] = useMutation(SIGNUP_MUTATION, {
         variables: {...formData},
         onCompleted: ({addUser}) => {
-            localStorage.setItem("roarCurrentUser", addUser.token);
-            history.push("/home");
+            localStorage.setItem("ROAR_CURRENT_USER", addUser.token);
+            client.resetStore().then(() => history.push("/home"));
         }
     })
 

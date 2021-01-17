@@ -7,9 +7,7 @@ import SignUp from "./SignUp";
 import About from "./About";
 import Learn from "./Learn";
 import Home from "./Home";
-import Feed from "./Feed";
 import Profile from "./Profile";
-import MessageBoardPostForm from "./MessageBoardPostForm";
 import FearLadderForm from "./FearLadderForm";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
@@ -40,9 +38,6 @@ const Routes = () => {
             </Route>
             <Route exact path="/profile">
                 <Profile />
-            </Route>
-            <Route exact path="/board/new">
-                <MessageBoardPostForm />
             </Route>
             <Route exact path="/ladders">
                 <LadderList />

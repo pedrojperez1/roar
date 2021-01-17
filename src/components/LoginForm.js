@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
@@ -16,20 +16,15 @@ const LoginForm = () => {
         const {name, value} = e.target;
         setFormData(oldFormData => ({...oldFormData, [name] : value}))
     }
-
-    // const handleLogIn = async (e) => {
-    //     const authPayload = await RoarApi.logIn({...formData});
-    //     if (authPayload) {
-    //         localStorage.setItem("roarUserToken", authPayload);
-    //     }
-    //     history.push("/home");
-    // }
-
+    const client = useApolloClient();
     const [login] = useMutation(LOGIN_MUTATION, {
         variables: {...formData},
         onCompleted: ({login}) => {
-            localStorage.setItem("roarCurrentUser", login.token);
-            history.push("/home");
+            localStorage.setItem("ROAR_CURRENT_USER", login.token);
+            client.resetStore().then(() => {
+                history.push("/home")
+                history.go(0)
+            });
         }
     })
 

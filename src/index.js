@@ -6,10 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 
-// import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import { store } from "./store"
-
 // Apollo Client initialization
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
@@ -19,16 +15,13 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("roarCurrentUser");
-  console.log("token:", token);
-  console.log("old headers:", headers);
+  const token = localStorage.getItem("ROAR_CURRENT_USER");
   const newHeaders = {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : ''
     }
   };
-  console.log("new headers:", newHeaders);
   return newHeaders;
 });
 

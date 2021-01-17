@@ -28,10 +28,10 @@ const FearLadderForm = () => {
     
     let history = useHistory();
     const [addLadder] = useMutation(ADD_LADDER_MUTATION, {
-        variables: {...formData}
-        // onCompleted: ({addLadder}) => {
-        //     history.push(`/ladders/${addLadder.id}`);
-        // }
+        variables: {...formData},
+        onCompleted: ({addLadder}) => {
+            history.push(`/ladders/${addLadder.id}`);
+        }
     })
 
     return (

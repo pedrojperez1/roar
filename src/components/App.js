@@ -7,8 +7,7 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes />
-    </div>
-  );
+    </div>  );
 }
 
 export default App;

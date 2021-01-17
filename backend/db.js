@@ -53,12 +53,27 @@ const Assignment = conn.define("assignments", {
     }
 });
 
+const FeedPost = conn.define("feedposts", {
+    content: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    type: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }
+});
 // Relationships
+
 // User <one to many> Ladder
 User.hasMany(Ladder);
 Ladder.belongsTo(User);
 
-// assignment <one to many> Ladder
+// User <one to many> FeedPost
+User.hasMany(FeedPost);
+FeedPost.belongsTo(User)
+
+// Assignment <one to many> Ladder
 Ladder.hasMany(Assignment);
 Assignment.belongsTo(Ladder);
 

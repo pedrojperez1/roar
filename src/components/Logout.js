@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 const Logout = () => {
     // clear localstorage
-    localStorage.removeItem("roarCurrentUser");
+    localStorage.removeItem("ROAR_CURRENT_USER");
     // clear Apollo store
     const client = useApolloClient();
     client.clearStore();

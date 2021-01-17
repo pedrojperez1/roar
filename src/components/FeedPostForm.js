@@ -1,29 +1,32 @@
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
-import { addToFeed } from "../actions/feeds";
+import { ADD_FEED_POST } from "../queries/feeds";
 import "./FeedPostForm.css";
 
 const FeedPostForm = () => {
     const INITIAL_STATE = '';
     const [content, setContent] = useState(INITIAL_STATE);
-    const currentUserId = useSelector(store => store.users.currentUser);
 
     const history = useHistory();
+
     const handleChange = (e) => {
         e.preventDefault();
         setContent(e.target.value);
     }
-    const dispatch = useDispatch();
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("You posted this:", content);
-        dispatch(addToFeed(currentUserId, { content: content }));
-        setContent(INITIAL_STATE);
-        e.target.value = '';
-        history.push("/home")
-    }
+
+    const [addPost] = useMutation(ADD_FEED_POST, {
+        variables: {
+            content: content,
+            type: "user"
+        },
+        onCompleted: () => {
+            setContent(INITIAL_STATE);
+            // e.target.value = '';
+            history.push(0);
+        }
+    });
 
     return (
         <div className="FeedPostForm">
@@ -42,7 +45,7 @@ const FeedPostForm = () => {
                             </FormGroup>
                             {content.length > 1 &&
                                 <>
-                                <Button className="mx-1" color="primary" size="sm" onClick={handleSubmit}>Post</Button>
+                                <Button className="mx-1" color="primary" size="sm" onClick={addPost}>Post</Button>
                                 <Button className="mx-1" color="secondary" size="sm" onClick={() => setContent(INITIAL_STATE)}>Cancel</Button>
                                 </>
                             }
