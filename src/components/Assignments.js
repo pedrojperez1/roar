@@ -4,8 +4,13 @@ import {
     Table
 } from "reactstrap";
 import MarkComplete from "./MarkComplete";
+import dayjs from "dayjs";
 
 const Assignments = ({assignments, refetch}) => {
+    const sorted = [...assignments].sort((a, b) => {
+        return Date.parse(a.dueDate) - Date.parse(b.dueDate);
+    });
+
     return (
         <div className="Assignments">
             <Container fluid>
@@ -20,11 +25,11 @@ const Assignments = ({assignments, refetch}) => {
                     </thead>
                     <tbody>
                         {
-                            assignments.map((a, idx) => (
-                                <tr>
+                            sorted.map((a, idx) => (
+                                <tr key={a.id}>
                                     <th scope="row">{idx}</th>
                                     <td>{a.task}</td>
-                                    <td>{a.dueDate}</td>
+                                    <td>{dayjs(a.dueDate).format("ddd, MMM DD, YYYY")}</td>
                                     <td>{a.completed ? "Done!" : <MarkComplete assignmentId={a.id} refetch={refetch}/>}</td>
                                 </tr>
                             ))

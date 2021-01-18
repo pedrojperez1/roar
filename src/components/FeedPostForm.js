@@ -1,15 +1,12 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
 import { ADD_FEED_POST } from "../queries/feeds";
 import "./FeedPostForm.css";
 
-const FeedPostForm = () => {
+const FeedPostForm = ({refetch}) => {
     const INITIAL_STATE = '';
     const [content, setContent] = useState(INITIAL_STATE);
-
-    const history = useHistory();
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -23,8 +20,7 @@ const FeedPostForm = () => {
         },
         onCompleted: () => {
             setContent(INITIAL_STATE);
-            // e.target.value = '';
-            history.push(0);
+            refetch();
         }
     });
 

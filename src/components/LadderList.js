@@ -21,7 +21,8 @@ const LadderList = () => {
                 <ListGroup>
                     {
                         currentUserLadders.map(ladder => (
-                            <ListGroupItem 
+                            <ListGroupItem
+                                key={ladder.id} 
                                 tag={Link} 
                                 to={`/ladders/${ladder.id}`}
                             >{ladder.name}</ListGroupItem>

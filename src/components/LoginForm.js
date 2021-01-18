@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
 import { useApolloClient, useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../queries/users";

@@ -1,8 +1,32 @@
 import React from "react";
 import { Media } from "reactstrap";
+import dayjs from "dayjs";
 import "./FeedItem.css";
 
-const FeedItem = ({username, content}) => {
+const FeedItem = ({content, username, createdAt}) => {
+    
+    const genTimeAgo = (unixString) => {
+        const created = dayjs.unix(Number(unixString) / 1000);
+        const dateDiffSeconds = dayjs().diff(created, "second");
+        if (dateDiffSeconds > (60 * 60 * 24 * 30)) {
+            const diff = Math.floor(dateDiffSeconds / (60 * 60 * 24 * 30));
+            return `${diff} month${diff !== 1 ? 's' : ''} ago`
+        }
+        if (dateDiffSeconds > (60 * 60 * 24)) {
+            const diff = Math.floor(dateDiffSeconds / (60 * 60 * 24));
+            return `${diff} day${diff !== 1 ? 's' : ''} ago`
+        }
+        if (dateDiffSeconds > (60 * 60)) {
+            const diff = Math.floor(dateDiffSeconds / (60 * 60));
+            return `${diff} hour${diff !== 1 ? 's' : ''} ago`
+        }
+        if (dateDiffSeconds > (60)) {
+            const diff = Math.floor(dateDiffSeconds / 60);
+            return `${diff} min${diff !== 1 ? 's' : ''} ago`
+        }
+        return `${dateDiffSeconds} seconds ago`
+    }
+
     return (
         <div className="FeedItem text-left border rounded my-2 p-3">
             <Media>
@@ -12,7 +36,7 @@ const FeedItem = ({username, content}) => {
                 <Media body>
                     <span className="mr-2"><b>{username}</b></span>
                     {content}<br/>
-                    <span className="text-muted font-weight-light font-italic">Posted 3 hours ago</span>
+                    <span className="text-muted font-weight-light font-italic">Posted {genTimeAgo(createdAt)}</span>
                 </Media>
             </Media>
         </div>

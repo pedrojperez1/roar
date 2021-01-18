@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Col, Container, Row, Card, CardText } from "reactstrap";
 import Feed from "./Feed";
-import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
@@ -14,7 +13,7 @@ const Home = () => {
         <div className="Home">
             <Container className="pt-3">
                 <Row>
-                    <Col xs={12} sm={12} md={7}>
+                    <Col xs={12} sm={12} md={8}>
                         <Container className="p-2 vh-100 d-inline-block">
                             <Feed />
                         </Container>

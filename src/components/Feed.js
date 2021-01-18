@@ -7,7 +7,7 @@ import Loading from "./Loading";
 
 const Feed = () => {
 
-    const {loading, error, data} = useQuery(GET_MY_FEED);
+    const {loading, error, data, refetch} = useQuery(GET_MY_FEED);
     if (loading) return <Loading />
     if (error) {
         console.log("error", error);
@@ -18,14 +18,16 @@ const Feed = () => {
     return (
         <div className="Feed">
             <h2 className="mb-3">My Feed</h2>
-            <FeedPostForm />
+            <FeedPostForm refetch={refetch}/>
             {
                 feed.length === 0 ? 
                 <p>Wow. Such empty :( Post something!</p> : 
                 feed.map(post => (
                     <FeedItem 
                         key={post.id}
-                        content={post.content} 
+                        content={post.content}
+                        username={post.user.username}
+                        createdAt={post.createdAt}
                     />
                 ))
             }

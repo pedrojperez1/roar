@@ -20,18 +20,18 @@ import "./NavBar.css";
 
 
 const NavBar = (props) => {
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem("ROAR_CURRENT_USER"));
   const [isOpen, setIsOpen] = useState(false);
   const client = useApolloClient();
   const history = useHistory();
   const toggle = () => setIsOpen(!isOpen);
-  const currentUser = localStorage.getItem("ROAR_CURRENT_USER");
   const handleLogOut = (e) => {
     e.preventDefault();
     localStorage.removeItem("ROAR_CURRENT_USER");
+    setCurrentUser('');
     // clear Apollo store
     client.clearStore();
     history.push("/");
-    history.go(0);
   }
   return (
     <div>
@@ -44,7 +44,7 @@ const NavBar = (props) => {
               <NavLink tag={Link} to="/about">About Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/learn">What is exposure therapy?</NavLink>
+              <NavLink tag={Link} to="/learn">Learn More</NavLink>
             </NavItem>
           </Nav>
           { !currentUser ?

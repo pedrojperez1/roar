@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Row, Col, Form, FormGroup, Input, Button, Alert, Label } from "reactstrap";
+import { Container, Row, Col, Form, FormGroup, Input, Button, Label } from "reactstrap";
 import { SIGNUP_MUTATION } from "../queries/users";
 import { useApolloClient, useMutation } from "@apollo/client";
 import "./SignUpForm.css";

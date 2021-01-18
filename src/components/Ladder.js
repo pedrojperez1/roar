@@ -20,7 +20,9 @@ const Ladder = () => {
         return `Something went wrong! ${error.message}`
     };
     const ladder = data.ladders[0];
-    const levels = Object.keys(ladder).filter(key => key.includes("level"));
+    const levels = Object.keys(ladder).filter(key => {
+        return key.includes("level") && ladder[key]
+    });
     const assignments = ladder.assignments;
 
     function getLevelAssignments(levelTask) {
@@ -41,9 +43,9 @@ const Ladder = () => {
                 <ListGroup>
                     {
                         levels.map(level => (
-                            <>
+                            <div key={level}>
                                 <ListGroupItem tag="button" id={`toggler${level}`} action>
-                                    <LadderLevelTitle 
+                                    <LadderLevelTitle
                                         level={level[5]} 
                                         task={ladder[level]}
                                         progress={getLevelProgress(ladder[level])}
@@ -53,14 +55,13 @@ const Ladder = () => {
                                     <Card>
                                         <CardBody>
                                             <Assignments
-                                                key={level}
                                                 assignments={getLevelAssignments(ladder[level])}
                                                 refetch={refetch} 
                                             />
                                         </CardBody>
                                     </Card>
                                 </UncontrolledCollapse>
-                            </>
+                            </div>
                         ))
                     }
                 </ListGroup>

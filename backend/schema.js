@@ -189,6 +189,12 @@ const FeedPost = new GraphQLObjectType({
                 resolve(feedpost) {
                     return feedpost.createdAt;
                 }
+            },
+            user: {
+                type: User,
+                resolve(feedpost) {
+                    return feedpost.getUser();
+                }
             }
         }
     }
