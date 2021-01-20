@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
@@ -11,21 +11,29 @@ import Profile from "./Profile";
 import FearLadderForm from "./FearLadderForm";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
+import CurrentUserContext from "../helpers/CurrentUserContext";
+import NewLadderStep1 from "./NewLadderStep1";
+import NewLadderStep0 from "./NewLadderStep0";
+import NewLadderStep2 from "./NewLadderStep2";
+import NewLadderStep3 from "./NewLadderStep3";
+import NewLadderStep4 from "./NewLadderStep4";
+import NewLadderStep5 from "./NewLadderStep5";
 
 const Routes = () => {
+    const {currentUser, setUser} = useContext(CurrentUserContext);
     return (
         <Switch>
             <Route exact path="/">
                 <LandingPage />
             </Route>
             <Route exact path="/login">
-                <Login />
+                <Login setUser={setUser}/>
             </Route>
             <Route exact path="/logout">
                 <Logout />
             </Route>
             <Route exact path="/signup">
-                <SignUp />
+                <SignUp setUser={setUser}/>
             </Route>
             <Route exact path="/about">
                 <About />
@@ -47,6 +55,24 @@ const Routes = () => {
             </Route>
             <Route exact path="/ladders/:id">
                 <Ladder />
+            </Route>
+            <Route exact path="/newladder">
+                <NewLadderStep0 />
+            </Route>
+            <Route exact path="/newladder/1">
+                <NewLadderStep1 />
+            </Route>
+            <Route exact path="/newladder/2">
+                <NewLadderStep2 />
+            </Route>
+            <Route exact path="/newladder/3">
+                <NewLadderStep3 />
+            </Route>
+            <Route exact path="/newladder/4">
+                <NewLadderStep4 />
+            </Route>
+            <Route exact path="/newladder/5">
+                <NewLadderStep5 />
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

@@ -1,17 +1,22 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { FETCH_MY_PROFILE_QUERY } from "../queries/users";
+import Loading from "./Loading";
 
 const Profile = () => {
-    const users = useSelector(store => store.users);
-    const currentUser = users.users[users.currentUser];
-    if (!currentUser) {
-        return <Redirect to="/login" />
+    const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY);
+    if (loading) return <Loading />;
+    if (error) {
+        return `Something bad happened. ${error}`
+        // return <Redirect to="/login" />;
     }
+    console.log(data);
+
     return (
         <div className="Profile">
-            <p>username: {currentUser.username}</p>
-            <p>email: {currentUser.email}</p>
+            <p>username: {data.getMyProfile.username}</p>
+            <p>email: {data.getMyProfile.email}</p>
         </div>
     )
 };

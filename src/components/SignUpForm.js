@@ -5,7 +5,7 @@ import { SIGNUP_MUTATION } from "../queries/users";
 import { useApolloClient, useMutation } from "@apollo/client";
 import "./SignUpForm.css";
 
-const SignUpForm = () => {
+const SignUpForm = ({setUser}) => {
     const INITIAL_STATE = {
         username: '',
         password: '',
@@ -23,7 +23,7 @@ const SignUpForm = () => {
     const [signup] = useMutation(SIGNUP_MUTATION, {
         variables: {...formData},
         onCompleted: ({addUser}) => {
-            localStorage.setItem("ROAR_CURRENT_USER", addUser.token);
+            setUser(addUser.token);
             client.resetStore().then(() => history.push("/home"));
         }
     })

@@ -5,7 +5,7 @@ import { useApolloClient, useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
-const LoginForm = () => {
+const LoginForm = ({setUser}) => {
     const INITIAL_STATE = { username: '', password: '' };
     const [formData, setFormData] = useState(INITIAL_STATE);
     
@@ -20,11 +20,9 @@ const LoginForm = () => {
     const [login] = useMutation(LOGIN_MUTATION, {
         variables: {...formData},
         onCompleted: ({login}) => {
-            localStorage.setItem("ROAR_CURRENT_USER", login.token);
-            client.resetStore().then(() => {
-                history.push("/home")
-                history.go(0)
-            });
+            setUser(login.token);
+            history.push("/home");
+
         }
     })
 

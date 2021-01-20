@@ -1,10 +1,10 @@
 import React from "react";
 import SignUpForm from "./SignUpForm";
 
-const SignUp = () => {
+const SignUp = ({setUser}) => {
     return (
         <div className="SignUp">
-            <SignUpForm />
+            <SignUpForm setUser={setUser}/>
         </div>
     )
 };

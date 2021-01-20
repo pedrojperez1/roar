@@ -248,21 +248,27 @@ const Query = new GraphQLObjectType({
                     return db.models.assignments.findAll({where: args});
                 }
             },
-            getMyLadders : {
+            getMyLadders: {
                 type: new GraphQLList(Ladder),
-                async resolve(root, args, context) {
+                async resolve(_, args, context) {
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
                     return await user.getLadders();
                 }
             },
-            getMyFeed : {
+            getMyFeed: {
                 type: new GraphQLList(FeedPost),
-                async resolve(root, args, context) {
+                async resolve(_, args, context) {
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
-                    console.log(Object.getOwnPropertyNames(user))
                     return await user.getFeedposts();
+                }
+            },
+            getMyProfile: {
+                type: User,
+                resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    return db.models.users.findByPk(userId);
                 }
             }
         }

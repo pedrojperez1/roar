@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Collapse,
@@ -17,18 +17,19 @@ import {
 import { MdAccountCircle, MdEdit } from "react-icons/md";
 import { useApolloClient } from "@apollo/client";
 import "./NavBar.css";
+import CurrentUserContext from "../helpers/CurrentUserContext";
 
 
-const NavBar = (props) => {
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem("ROAR_CURRENT_USER"));
+const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+
+  const {currentUser, setUser} = useContext(CurrentUserContext);
   const client = useApolloClient();
   const history = useHistory();
-  const toggle = () => setIsOpen(!isOpen);
   const handleLogOut = (e) => {
     e.preventDefault();
-    localStorage.removeItem("ROAR_CURRENT_USER");
-    setCurrentUser('');
+    setUser('');
     // clear Apollo store
     client.clearStore();
     history.push("/");

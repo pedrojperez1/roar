@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Col, Container, Row, Card, CardText } from "reactstrap";
 import Feed from "./Feed";
 import { Link } from "react-router-dom";
 import "./Home.css";
+import CurrentUserContext from "../helpers/CurrentUserContext";
 
 const Home = () => {
-    const currentUser = localStorage.getItem("ROAR_CURRENT_USER");
+    const {currentUser} = useContext(CurrentUserContext);
     if (!currentUser) {
         return <h3>Please log in first.</h3>
     }
