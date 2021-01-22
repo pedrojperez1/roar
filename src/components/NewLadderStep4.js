@@ -4,23 +4,24 @@ import { Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
 import NewLadderContext from "../helpers/NewLadderContext";
 
 const NewLadderStep4 = () => {
-    const [level8, setLevel8] = useState('');
     const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
+    const [level8, setLevel8] = useState(newLadderData.level8 || '');
     const history = useHistory();
-    const handleEnter = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            setNewLadderData({...newLadderData, level8});
-            console.log(level8);
-            history.push("/newladder/5");
-        };
-    };
+    
     useEffect(() => {
+        const handleEnter = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                setNewLadderData({...newLadderData, level8});
+                console.log(level8);
+                history.push("/newladder/5");
+            };
+        };
         window.addEventListener("keydown", handleEnter);
         return () => {
             window.removeEventListener("keydown", handleEnter)
         }
-    }, [handleEnter]);
+    }, [newLadderData, setNewLadderData, level8, history]);
 
 
     return (
@@ -28,16 +29,19 @@ const NewLadderStep4 = () => {
             <div className="NewLadderStep4">
                 <Container>
                     <div className="text-left">
-                        <blockquote className="blockquote">What is the one activity that you would like to be able to do but cannot because of this fear?</blockquote>
-                        <p className="lead">Example: I want to be able to live with a dog, but my fear of dogs won't let me.</p>
+                        <blockquote className="blockquote">What is the one activity that you would like to be able to do but cannot because of this fear? We'll call this your <b>Goal Activity</b>.</blockquote>
+                        <p className="lead"><u><b>Example:</b></u> My fear of dogs will not allow me to live with a dog, so my Goal Activity is: <i>Living with a dog</i>.</p>
                         <Col xs="6" className="pl-0">
                             <Form>
                                 <FormGroup>
-                                    <Input onChange={(e) => setLevel8(e.target.value)} type="text" />
+                                    <Input onChange={(e) => setLevel8(e.target.value)} type="text" value={level8}/>
                                 </FormGroup>
                             </Form>
                         </Col>
-                        <p className="lead">Press <kbd>Enter</kbd> to continue</p>
+                        { level8.length > 4 && 
+                        <p className="lead mt-5">Press <kbd>Enter</kbd> to continue</p>
+                        }
+                        
                     </div>
                 </Container>
             </div>

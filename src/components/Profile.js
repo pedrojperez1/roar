@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { FETCH_MY_PROFILE_QUERY } from "../queries/users";
 import Loading from "./Loading";
 
@@ -9,9 +8,7 @@ const Profile = () => {
     if (loading) return <Loading />;
     if (error) {
         return `Something bad happened. ${error}`
-        // return <Redirect to="/login" />;
     }
-    console.log(data);
 
     return (
         <div className="Profile">

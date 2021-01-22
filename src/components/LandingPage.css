@@ -1,0 +1,5 @@
+.LandingPage > .jumbotron {
+    height: 600px;
+    background-image: url("../home-jumbotron.jpg");
+    background-size: cover;
+}

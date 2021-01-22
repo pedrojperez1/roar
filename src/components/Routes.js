@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -8,7 +8,6 @@ import About from "./About";
 import Learn from "./Learn";
 import Home from "./Home";
 import Profile from "./Profile";
-import FearLadderForm from "./FearLadderForm";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
@@ -18,13 +17,14 @@ import NewLadderStep2 from "./NewLadderStep2";
 import NewLadderStep3 from "./NewLadderStep3";
 import NewLadderStep4 from "./NewLadderStep4";
 import NewLadderStep5 from "./NewLadderStep5";
+import NewLadderStep6 from "./NewLadderStep6";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
     return (
         <Switch>
             <Route exact path="/">
-                <LandingPage />
+                { currentUser ? <Redirect to="/home" /> : <LandingPage /> }
             </Route>
             <Route exact path="/login">
                 <Login setUser={setUser}/>
@@ -50,9 +50,6 @@ const Routes = () => {
             <Route exact path="/ladders">
                 <LadderList />
             </Route>
-            <Route exact path="/ladders/new">
-                <FearLadderForm />
-            </Route>
             <Route exact path="/ladders/:id">
                 <Ladder />
             </Route>
@@ -73,6 +70,9 @@ const Routes = () => {
             </Route>
             <Route exact path="/newladder/5">
                 <NewLadderStep5 />
+            </Route>
+            <Route exact path="/newladder/6">
+                <NewLadderStep6 />
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

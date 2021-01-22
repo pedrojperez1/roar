@@ -21,6 +21,7 @@ import CurrentUserContext from "../helpers/CurrentUserContext";
 
 
 const NavBar = () => {
+  
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -33,19 +34,20 @@ const NavBar = () => {
     // clear Apollo store
     client.clearStore();
     history.push("/");
-  }
+  };
+
   return (
     <div>
-      <Navbar light expand="md" className="navbar navbar-dark bg-dark mb-5">
+      <Navbar light expand="md" className="navbar navbar-dark bg-dark sticky-top mb-5">
         <Link to="/"><NavbarBrand>Roar</NavbarBrand></Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink tag={Link} to="/about">About Us</NavLink>
+              <NavLink tag={Link} to="/about">Who are we?</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/learn">Learn More</NavLink>
+              <NavLink tag={Link} to="/learn">What is exposure therapy?</NavLink>
             </NavItem>
           </Nav>
           { !currentUser ?
@@ -64,7 +66,7 @@ const NavBar = () => {
                   </NavbarBrand>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link to="/ladders/new">
+                  <Link to="/newladder">
                     <DropdownItem>New Fear Ladder</DropdownItem>
                   </Link>
                 </DropdownMenu>

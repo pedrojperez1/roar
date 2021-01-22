@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
@@ -16,7 +16,6 @@ const LoginForm = ({setUser}) => {
         const {name, value} = e.target;
         setFormData(oldFormData => ({...oldFormData, [name] : value}))
     }
-    const client = useApolloClient();
     const [login] = useMutation(LOGIN_MUTATION, {
         variables: {...formData},
         onCompleted: ({login}) => {

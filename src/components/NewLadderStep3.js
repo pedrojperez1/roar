@@ -4,23 +4,23 @@ import { Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
 import NewLadderContext from "../helpers/NewLadderContext";
 
 const NewLadderStep3 = () => {
-    const [intensity, setIntensity] = useState();
     const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
+    const [intensity, setIntensity] = useState(newLadderData.intensity || null);
     const history = useHistory();
-    const handleEnter = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            setNewLadderData({...newLadderData, intensity: intensity});
-            console.log(intensity);
-            history.push("/newladder/4");
-        };
-    };
+    
     useEffect(() => {
+        const handleEnter = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                setNewLadderData({...newLadderData, intensity: intensity});
+                history.push("/newladder/4");
+            };
+        };
         window.addEventListener("keydown", handleEnter);
         return () => {
             window.removeEventListener("keydown", handleEnter)
         }
-    }, [handleEnter]);
+    }, [newLadderData, setNewLadderData, intensity, history]);
 
 
     return (
@@ -36,7 +36,10 @@ const NewLadderStep3 = () => {
                                 </FormGroup>
                             </Form>
                         </Col>
-                        <p className="lead">Press <kbd>Enter</kbd> to continue</p>
+                        { intensity && 
+                        <p className="lead mt-5">Press <kbd>Enter</kbd> to continue</p>
+                        }
+                        
                     </div>
                 </Container>
             </div>  

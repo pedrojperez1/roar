@@ -1,21 +1,20 @@
-import React, { useContext, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Fade } from "reactstrap";
-import NewLadderContext from "../helpers/NewLadderContext";
 
 const NewLadderStep0 = () => {
-    const {setNewLadderData} = useContext(NewLadderContext);
     const history = useHistory();
-    const handleKeyPress = (e) => {
-        console.log(e.key);
-        history.push("/newladder/1")
-    }
+    
     useEffect(() => {
+        const handleKeyPress = (e) => {
+            console.log(e.key);
+            history.push("/newladder/1")
+        };
         window.addEventListener('keydown', handleKeyPress);
         return () => {
             window.removeEventListener("keydown", handleKeyPress)
         }
-    }, [handleKeyPress])
+    }, [history])
 
     return (
         <Fade>
@@ -23,7 +22,7 @@ const NewLadderStep0 = () => {
                 <Container className="text-left">
                     <blockquote className="blockquote">Now we will walk you through the process of creating a new fear ladder.</blockquote>
                     <blockquote className="blockquote">Let's get started!</blockquote>
-                    <p class="lead">Press <kbd>Enter</kbd> to begin</p>
+                    <p class="lead mt-5">Press <kbd>Enter</kbd> to continue</p>
                 </Container>
             </div>
         </Fade>

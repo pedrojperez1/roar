@@ -24,3 +24,7 @@ a.dropdown-toggle.nav-link {
 .nav-item > a {
     color: white;
 }
+
+.navbar-brand {
+    font-weight: bold;
+}
