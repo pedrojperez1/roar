@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 
-const conn = new Sequelize("postgres://localhost/roar-db");
+const conn = new Sequelize(process.env.DATABASE_URL || "postgres://localhost/roar-db");
 
 const User = conn.define("users", {
     username: {
