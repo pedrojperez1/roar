@@ -27,6 +27,7 @@ query getMyFeed {
         id
         content
         createdAt
+        type
         user {
             username
         }

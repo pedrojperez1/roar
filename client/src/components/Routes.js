@@ -42,10 +42,10 @@ const Routes = () => {
                 <Learn />
             </Route>
             <Route exact path="/home">
-                <Home />
+            { !currentUser ? <Redirect to="/login" /> : <Home /> }
             </Route>
             <Route exact path="/profile">
-                <Profile />
+            { !currentUser ? <Redirect to="/login" /> : <Profile /> }
             </Route>
             <Route exact path="/ladders">
                 <LadderList />
@@ -54,25 +54,25 @@ const Routes = () => {
                 <Ladder />
             </Route>
             <Route exact path="/newladder">
-                <NewLadderStep0 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep0 /> }
             </Route>
             <Route exact path="/newladder/1">
-                <NewLadderStep1 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep1 /> }
             </Route>
             <Route exact path="/newladder/2">
-                <NewLadderStep2 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep2 /> }
             </Route>
             <Route exact path="/newladder/3">
-                <NewLadderStep3 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep3 /> }
             </Route>
             <Route exact path="/newladder/4">
-                <NewLadderStep4 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep4 /> }
             </Route>
             <Route exact path="/newladder/5">
-                <NewLadderStep5 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep5 /> }
             </Route>
             <Route exact path="/newladder/6">
-                <NewLadderStep6 />
+                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep6 /> }
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

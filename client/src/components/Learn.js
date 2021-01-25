@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Fade, Jumbotron } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Button, Container, Fade, Jumbotron } from "reactstrap";
 
 const Learn = () => {
     return (
@@ -14,6 +15,8 @@ const Learn = () => {
                         <p className="text-left lead">Sint irure veniam consectetur voluptate deserunt consectetur sint ex. In id velit minim elit eu consequat reprehenderit elit exercitation ullamco eu commodo ipsum. Minim laborum nostrud officia elit anim nostrud dolor occaecat ex velit laboris. Aliquip excepteur minim esse dolore minim.</p>
                         <p className="text-left lead">Sint irure veniam consectetur voluptate deserunt consectetur sint ex. In id velit minim elit eu consequat reprehenderit elit exercitation ullamco eu commodo ipsum. Minim laborum nostrud officia elit anim nostrud dolor occaecat ex velit laboris. Aliquip excepteur minim esse dolore minim.</p>
                         <p className="text-left lead">Sint irure veniam consectetur voluptate deserunt consectetur sint ex. In id velit minim elit eu consequat reprehenderit elit exercitation ullamco eu commodo ipsum. Minim laborum nostrud officia elit anim nostrud dolor occaecat ex velit laboris. Aliquip excepteur minim esse dolore minim.</p>
+                        <p className="mt-5 h4">Interested? Start by building you own fear ladder.</p>
+                        <Button className="mt-3" color="primary"><Link to="/newladder/2">Get Started</Link></Button>
                     </Container>
 
             </div>

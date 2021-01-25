@@ -41,7 +41,7 @@ const LandingPage = () => {
             </Row>
             <Row className="mb-5 justify-content-center">
                 <Col xs="9" sm="7" md="5" lg="3" xl="2">
-                    <Link to="/signup"><Button block size="lg" color="primary">Get Started</Button></Link>
+                    <Button block size="lg" color="primary"><Link to="/signup">Get Started</Link></Button>
                 </Col>
             </Row>
 

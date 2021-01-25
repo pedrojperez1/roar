@@ -3,7 +3,7 @@ import { Media } from "reactstrap";
 import dayjs from "dayjs";
 import "./FeedItem.css";
 
-const FeedItem = ({content, username, createdAt}) => {
+const FeedItem = ({type, content, username, createdAt}) => {
     
     const genTimeAgo = (unixString) => {
         const created = dayjs.unix(Number(unixString) / 1000);
@@ -27,7 +27,8 @@ const FeedItem = ({content, username, createdAt}) => {
         return `${dateDiffSeconds} seconds ago`
     }
 
-    return (
+
+    return ( type === "user" ?
         <div className="FeedItem text-left border rounded my-2 p-3">
             <Media>
                 <Media left className="mr-3">
@@ -39,7 +40,10 @@ const FeedItem = ({content, username, createdAt}) => {
                     <span className="text-muted font-weight-light font-italic">Posted {genTimeAgo(createdAt)}</span>
                 </Media>
             </Media>
-        </div>
+        </div> :
+        <div className="FeedItem my-5">
+            <p><b>{username}</b> <span className="font-italic">{content} {genTimeAgo(createdAt)}</span></p>
+        </div> 
     )
 };
 

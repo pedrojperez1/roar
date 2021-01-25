@@ -13,7 +13,8 @@ const Feed = () => {
         console.log("error", error);
         return `Something went wrong! ${error.message}`
     };
-    const feed = data.getMyFeed;
+    let feed = data.getMyFeed;
+    const sortedFeed = [...feed].sort((a, b) => Number(b.createdAt) - Number(a.createdAt)); // sort feed by time posted
 
     return (
         <div className="Feed">
@@ -22,9 +23,10 @@ const Feed = () => {
             {
                 feed.length === 0 ? 
                 <p>Wow. Such empty :( Post something!</p> : 
-                feed.map(post => (
+                sortedFeed.map(post => (
                     <FeedItem 
                         key={post.id}
+                        type={post.type}
                         content={post.content}
                         username={post.user.username}
                         createdAt={post.createdAt}
