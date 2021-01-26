@@ -8,13 +8,15 @@ const NewLadderStep4 = () => {
     const [level8, setLevel8] = useState(newLadderData.level8 || '');
     const history = useHistory();
     
+    const saveAndNext = () => {
+        setNewLadderData({...newLadderData, level8});
+        history.push("/newladder/5");
+    };
     useEffect(() => {
         const handleEnter = (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                setNewLadderData({...newLadderData, level8});
-                console.log(level8);
-                history.push("/newladder/5");
+                saveAndNext();
             };
         };
         window.addEventListener("keydown", handleEnter);
@@ -23,6 +25,19 @@ const NewLadderStep4 = () => {
         }
     }, [newLadderData, setNewLadderData, level8, history]);
 
+    const nextButtonOrText = () => {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return (
+                <Button onClick={saveAndNext}>Continue</Button>
+            )
+        } else {
+            return (
+                <>
+                    Press <kbd>Enter</kbd> to continue
+                </>
+            )
+        }
+    };
 
     return (
         <Fade>
@@ -39,7 +54,7 @@ const NewLadderStep4 = () => {
                             </Form>
                         </Col>
                         { level8.length > 4 && 
-                        <p className="lead mt-5">Press <kbd>Enter</kbd> to continue</p>
+                        <p className="lead mt-5">{nextButtonOrText()}</p>
                         }
                         
                     </div>

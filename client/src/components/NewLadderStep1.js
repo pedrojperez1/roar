@@ -18,13 +18,31 @@ const NewLadderStep1 = () => {
         return () => {
             window.removeEventListener("keydown", handleKeyPress);
         }
-    }, [history])
+    }, [history]);
+
+    const nextButtonOrText = () => {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return (
+                <>
+                    <Button onClick={() => history.push("/newladder/2")}>Yes</Button>
+                    <Button onClick={() => history.push("/learn")}>No</Button>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <kbd>1</kbd> Yes <kbd>2</kbd> No
+                </>
+            )
+        }
+    }
+
     return (
         <Fade>
             <div className="NewLadderStep1">
                 <Container>
                     <blockquote class="blockquote text-left">Have you ever created a fear ladder before?</blockquote>
-                    <p class="lead text-left mt-5"><kbd>1</kbd> Yes <kbd>2</kbd> No</p>
+                    <p class="lead text-left mt-5">{nextButtonOrText()}</p>
                 </Container>
             </div>
         </Fade>
