@@ -14,7 +14,7 @@ const LandingPage = () => {
                             <h1 className="display-2">Hello, world!</h1>
                             <p className="lead">Roar is a tool to help you overcome your fears in a safe and supervised environment.</p>
                             <p className="lead">
-                            <Button color="primary">Learn More</Button>
+                            <Button color="primary"><Link to="/learn">Learn More</Link></Button>
                             </p>
                         </Col>
                     </Row>
