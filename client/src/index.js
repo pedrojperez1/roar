@@ -10,8 +10,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+const APP_PORT = process.env.PORT;
+console.log(APP_PORT);
+
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: `http://localhost:${APP_PORT}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
