@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Fade } from "reactstrap";
+import { Button, Container, Fade } from "reactstrap";
 
 const NewLadderStep1 = () => {
     const history = useHistory();

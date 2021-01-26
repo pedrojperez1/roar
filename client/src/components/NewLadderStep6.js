@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Fade} from "reactstrap";
+import { Button, Container, Fade} from "reactstrap";
 import NewLadderContext from "../helpers/NewLadderContext";
 import ActivitySummary from "./ActivitySummary";
 import { ADD_LADDER_MUTATION } from "../queries/ladders";
@@ -19,12 +19,16 @@ const NewLadderStep6 = () => {
             history.push(`/ladders/${addLadder.id}`);
         }
     });
+    const saveAndNext = useCallback(() => {
+        setNewLadderFormatted(formatNewLadderData(newLadderData));
+        addLadder();
+    }, [newLadderData, addLadder]);
+
     useEffect(() => {
         const handleEnter = (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                setNewLadderFormatted(formatNewLadderData(newLadderData));
-                addLadder();
+                saveAndNext();
             };
             
             if (e.key === "b") {
@@ -36,7 +40,7 @@ const NewLadderStep6 = () => {
         return () => {
             window.removeEventListener("keydown", handleEnter)
         }
-    }, [addLadder, history, newLadderData]);
+    }, [history, saveAndNext]);
 
     const formatNewLadderData = (newLadder) => {
         let formatted = {};
@@ -49,7 +53,22 @@ const NewLadderStep6 = () => {
         return formatted;
     };
 
-    
+    const nextButtonOrText = () => {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return (
+                <>
+                    <Button onClick={saveAndNext}>Continue</Button>
+                    <Button onClick={() => history.push("/newladder/5")}>Back</Button>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    Press <kbd>Enter</kbd> to finish or <kbd>B</kbd> to go back
+                </>
+            )
+        }
+    };
     
     return (
         <Fade>
@@ -62,7 +81,7 @@ const NewLadderStep6 = () => {
                             You can go back and make any changes now or you can always edit your ladder later on.
                         </blockquote>
                         <ActivitySummary newLadderData={newLadderData}/>
-                        <p className="lead mt-5">Press <kbd>Enter</kbd> to finish or <kbd>B</kbd> to go back</p>
+                        <p className="lead mt-5">{nextButtonOrText()}</p>
                     </div>
                 </Container>
             </div>

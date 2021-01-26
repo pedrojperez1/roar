@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Col, Container, Fade, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
 import NewLadderContext from "../helpers/NewLadderContext";
@@ -11,13 +11,17 @@ const NewLadderStep5 = () => {
     const [activities, setActivities] = useState(newLadderData.activities || {});
     const history = useHistory();
     
+    const saveAndNext = useCallback(() => {
+        setNewLadderData({...newLadderData, activities});
+        history.push("/newladder/6");
+    }, [newLadderData, setNewLadderData, activities, history]);
+
     useEffect(() => {
         const handleEnter = (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 if (Object.keys(activities).length >= 3) { // disallow enter if we don't have 3 activites yet
-                    setNewLadderData({...newLadderData, activities});
-                    history.push("/newladder/6");
+                    saveAndNext();
                 }
             };
         };
@@ -25,17 +29,31 @@ const NewLadderStep5 = () => {
         return () => {
             window.removeEventListener("keydown", handleEnter)
         }
-    }, [newLadderData, setNewLadderData, activities, history]);
+    }, [activities, saveAndNext]);
 
     const handleAddActivity = (e) => {
         e.preventDefault();
         setActivities({ ...activities, [activity]: {anxiety: 50} });
         setActivity('');
-    }
+    };
 
     const handleChangeAnxiety = (task, newAnxiety) => {
         setActivities({ ...activities, [task]: {anxiety: newAnxiety} });
-    }
+    };
+
+    const nextButtonOrText = () => {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return (
+                <Button onClick={saveAndNext}>Continue</Button>
+            )
+        } else {
+            return (
+                <>
+                    Press <kbd>Enter</kbd> to continue
+                </>
+            )
+        }
+    };
 
     return (
         <Fade>
@@ -73,7 +91,7 @@ const NewLadderStep5 = () => {
                             </Col>
                         </Row>
                         {Object.keys(activities).length > 2 && 
-                        <p className="lead mt-5">Press <kbd>Enter</kbd> to continue</p>}
+                        <p className="lead mt-5">{nextButtonOrText()}</p>}
                     </div>
                 </Container>
             </div>

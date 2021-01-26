@@ -1,16 +1,18 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
+import { Button, Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
 import NewLadderContext from "../helpers/NewLadderContext";
 
 const NewLadderStep3 = () => {
     const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
     const [intensity, setIntensity] = useState(newLadderData.intensity || null);
     const history = useHistory();
-    const saveAndNext = () => {
+
+    const saveAndNext = useCallback(() => {
         setNewLadderData({...newLadderData, intensity: intensity});
         history.push("/newladder/4");
-    };
+    }, [newLadderData, setNewLadderData, intensity, history]);
+    
     useEffect(() => {
         const handleEnter = (e) => {
             if (e.key === "Enter") {
@@ -22,7 +24,7 @@ const NewLadderStep3 = () => {
         return () => {
             window.removeEventListener("keydown", handleEnter)
         }
-    }, [newLadderData, setNewLadderData, intensity, history]);
+    }, [saveAndNext]);
     
     const nextButtonOrText = () => {
         if (/Mobi|Android/i.test(navigator.userAgent)) {
