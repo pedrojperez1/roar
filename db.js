@@ -1,18 +1,19 @@
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 
-const CONN_STRING = process.env.DATABASE_URL || "postgres://localhost/roar-db";
-const conn = new Sequelize(CONN_STRING, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
+const conn = process.env.NODE_ENV === 'production' ?
+    new Sequelize(process.env.DATABASE_URL, { // for prod env only
+        dialect: 'postgres',
+        protocol: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
         }
-    }
-}
-);
+    }) :
+    new Sequelize("postgres://localhost/roar-db")
+
 
 const User = conn.define("users", {
     username: {

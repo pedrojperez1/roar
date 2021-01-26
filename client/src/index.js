@@ -11,10 +11,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@ap
 import { setContext } from "@apollo/client/link/context";
 
 const DB_URL = process.env.NODE_ENV === 'production' ?
-  'https://peaceful-sands-95286.herokuapp.com/graphql' :
+  process.env.GRAPHQL_ENDPOINT :
   `http://localhost:${process.env.PORT || 4000}/graphql`
-console.log(DB_URL);
-console.log(process.env.DATABASE_URL);
 
 const httpLink = createHttpLink({
   uri: DB_URL,
