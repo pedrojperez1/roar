@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
+  Container,
+  Row,
+  Col,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -79,15 +82,32 @@ const NavBar = () => {
                   </NavbarBrand>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link to="/home">
-                    <DropdownItem>My Profile</DropdownItem>
+                  <DropdownItem header>
+                    <Container className="justify-content-center">
+                      <Row className="mb-3">
+                        <img className="img-thumbnail rounded-circle" src="https://i.pinimg.com/736x/be/6c/11/be6c1171376d578fbd11e7bb4a540630.jpg" alt="profile"></img>
+                      </Row>
+                      <Row>
+                        <Col className="text-center">
+                          <p>Pedro Perez</p>
+                          <p className="font-weight-light">pedrojperez1@email.com</p>
+                        </Col>
+                      </Row>   
+                    </Container>
+                  </DropdownItem>
+
+                  <DropdownItem divider />
+
+                  <Link to="/home" className="text-center">
+                    <DropdownItem className="py-2">My Profile</DropdownItem>
                   </Link>
-                  <Link to="/profile">
-                    <DropdownItem>Settings</DropdownItem>
+                  <Link to="/profile" className="text-center">
+                    <DropdownItem className="py-2">Settings</DropdownItem>
                   </Link>
+                  
                   <DropdownItem divider />
                   <DropdownItem>
-                    <Button color="danger" size="sm" onClick={handleLogOut}>Log Out</Button>
+                    <Button color="danger" size="sm" onClick={handleLogOut} block>Log Out</Button>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
