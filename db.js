@@ -7,7 +7,10 @@ const conn = new Sequelize("postgres://cueqsaphiwtssd:74c9ee6f902be9026e1ae7660a
         dialect: 'postgres',
         protocol: 'postgres',
         dialectOptions: {
-            ssl: true
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
         }
     }
 );
