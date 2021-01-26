@@ -14,6 +14,7 @@ const DB_URL = process.env.NODE_ENV === 'production' ?
   'https://peaceful-sands-95286.herokuapp.com/graphql' :
   `http://localhost:${process.env.PORT || 4000}/graphql`
 console.log(DB_URL);
+console.log(process.env.DATABASE_URL);
 
 const httpLink = createHttpLink({
   uri: DB_URL,
