@@ -10,11 +10,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-const APP_PORT = process.env.PORT;
-console.log(APP_PORT);
+const DB_URL = process.env.NODE_ENV === 'production' ?
+  'https://peaceful-sands-95286.herokuapp.com/graphql' :
+  `http://localhost:${process.env.PORT || 4000}/graphql`
+console.log(DB_URL);
 
 const httpLink = createHttpLink({
-  uri: `http://localhost:${APP_PORT}/graphql`,
+  uri: DB_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
