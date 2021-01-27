@@ -25,10 +25,16 @@ const User = new GraphQLObjectType({
                     return person.id;
                 }
             },
-            username: {
+            firstName: {
                 type: GraphQLString,
                 resolve(person) {
-                    return person.username;
+                    return person.firstName;
+                }
+            },
+            lastName: {
+                type: GraphQLString,
+                resolve(person) {
+                    return person.lastName;
                 }
             },
             password: {
@@ -41,6 +47,12 @@ const User = new GraphQLObjectType({
                 type: GraphQLString,
                 resolve(person) {
                     return person.email;
+                }
+            },
+            profileImage: {
+                type: GraphQLString,
+                resolve(person) {
+                    return person.profileImage;
                 }
             },
             ladders: {
@@ -205,7 +217,7 @@ const AuthPayload = new GraphQLObjectType({
     description: "This represents an authentication payload",
     fields: () => {
         return {
-            username: { type: GraphQLString },
+            email: { type: GraphQLString },
             token: { type: GraphQLString }
         }
     }
@@ -221,9 +233,6 @@ const Query = new GraphQLObjectType({
                 args: {
                     id: {
                         type: GraphQLInt
-                    },
-                    username: {
-                        type: GraphQLString
                     },
                     email: {
                         type: GraphQLString
@@ -283,8 +292,11 @@ const Mutation = new GraphQLObjectType({
             addUser: {
                 type: AuthPayload,
                 args: {
-                    username: {
+                    firstName: {
                         type: new GraphQLNonNull(GraphQLString)
+                    },
+                    lastName: {
+                        type: GraphQLString
                     },
                     password: {
                         type: new GraphQLNonNull(GraphQLString)
@@ -296,12 +308,13 @@ const Mutation = new GraphQLObjectType({
                 async resolve(_, args) {
                     const hashedPw = await bcrypt.hash(args.password, BCRYPT_WORK_FACTOR);
                     const newUser = await db.models.users.create({
-                        username: args.username,
+                        firstName: args.firstName,
+                        lastName: args.lastName,
                         password: hashedPw,
                         email: args.email
                     });
                     return {
-                        username: newUser.username,
+                        email: newUser.email,
                         token: jwt.sign({ userId: newUser.id }, SECRET_KEY)
                     }
                 }
@@ -309,7 +322,7 @@ const Mutation = new GraphQLObjectType({
             login: {
                 type: AuthPayload,
                 args: {
-                    username: {
+                    email: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
                     password: {
@@ -317,18 +330,18 @@ const Mutation = new GraphQLObjectType({
                     }
                 },
                 async resolve(_, args) {
-                    const user = await db.models.users.findOne({where: {username: args.username}});
+                    const user = await db.models.users.findOne({where: {email: args.email}});
                     if (user) {
                         const isValid = await bcrypt.compare(args.password, user.password);
                         if (isValid) {
                             return {
-                                username: user.username,
+                                email: user.email,
                                 token: jwt.sign({ userId: user.id }, SECRET_KEY)
                             }
                         }
                     }
                     return {
-                        error: "Invalid username/password"
+                        error: "Invalid email/password"
                     }
                 }
             },

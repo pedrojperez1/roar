@@ -7,7 +7,8 @@ import "./SignUpForm.css";
 
 const SignUpForm = ({setUser}) => {
     const INITIAL_STATE = {
-        username: '',
+        firstName: '',
+        lastName: '',
         password: '',
         email: ''
     };
@@ -36,18 +37,18 @@ const SignUpForm = ({setUser}) => {
                         <Form className="SignUpForm-form text-left border p-5">
                             <h1 className="mb-5 text-center">Sign up for Roar!</h1>
                             <FormGroup>
-                                <Label for="username">Username</Label>
+                                <Label for="firstName">First Name</Label>
                                 <Input className="form-control"
                                     type="text"
-                                    name="username"
+                                    name="firstName"
                                     onChange={handleChange}
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="password">Password</Label>
+                                <Label for="lastName">Last Name</Label>
                                 <Input className="form-control"
-                                    type="password"
-                                    name="password"
+                                    type="text"
+                                    name="lastName"
                                     onChange={handleChange}
                                 />
                             </FormGroup>
@@ -56,6 +57,14 @@ const SignUpForm = ({setUser}) => {
                                 <Input className="form-control"
                                     type="email"
                                     name="email"
+                                    onChange={handleChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="password">Password</Label>
+                                <Input className="form-control"
+                                    type="password"
+                                    name="password"
                                     onChange={handleChange}
                                 />
                             </FormGroup>

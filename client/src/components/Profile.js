@@ -12,8 +12,8 @@ const Profile = () => {
 
     return (
         <div className="Profile">
-            <p>username: {data.getMyProfile.username}</p>
-            <p>email: {data.getMyProfile.email}</p>
+            <p>Name: {data.getMyProfile.firstName} {data.getMyProfile.lastName}</p>
+            <p>Email: {data.getMyProfile.email}</p>
         </div>
     )
 };

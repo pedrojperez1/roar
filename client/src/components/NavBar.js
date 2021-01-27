@@ -21,7 +21,7 @@ import { MdAccountCircle, MdEdit } from "react-icons/md";
 import { useApolloClient } from "@apollo/client";
 import "./NavBar.css";
 import CurrentUserContext from "../helpers/CurrentUserContext";
-
+import ProfilePreviewDropdown from "./ProfilePreviewDropdown";
 
 const NavBar = () => {
   
@@ -29,6 +29,7 @@ const NavBar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   const {currentUser, setUser} = useContext(CurrentUserContext);
+
   const client = useApolloClient();
   const history = useHistory();
   const handleLogOut = (e) => {
@@ -89,8 +90,7 @@ const NavBar = () => {
                       </Row>
                       <Row>
                         <Col className="text-center">
-                          <p>Pedro Perez</p>
-                          <p className="font-weight-light">pedrojperez1@email.com</p>
+                          <ProfilePreviewDropdown />
                         </Col>
                       </Row>   
                     </Container>

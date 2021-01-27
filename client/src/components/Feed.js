@@ -15,7 +15,7 @@ const Feed = () => {
     };
     let feed = data.getMyFeed;
     const sortedFeed = [...feed].sort((a, b) => Number(b.createdAt) - Number(a.createdAt)); // sort feed by time posted
-
+    console.log(sortedFeed);
     return (
         <div className="Feed">
             <h2 className="mb-3">My Feed</h2>
@@ -28,7 +28,8 @@ const Feed = () => {
                         key={post.id}
                         type={post.type}
                         content={post.content}
-                        username={post.user.username}
+                        firstName={post.user.firstName}
+                        lastName={post.user.lastName}
                         createdAt={post.createdAt}
                     />
                 ))

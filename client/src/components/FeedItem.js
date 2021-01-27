@@ -3,7 +3,7 @@ import { Media } from "reactstrap";
 import dayjs from "dayjs";
 import "./FeedItem.css";
 
-const FeedItem = ({type, content, username, createdAt}) => {
+const FeedItem = ({type, content, firstName, lastName, createdAt}) => {
     
     const genTimeAgo = (unixString) => {
         const created = dayjs.unix(Number(unixString) / 1000);
@@ -35,14 +35,14 @@ const FeedItem = ({type, content, username, createdAt}) => {
                     <img className="img-thumbnail rounded-circle" src="https://i.pinimg.com/736x/be/6c/11/be6c1171376d578fbd11e7bb4a540630.jpg" alt="profile"></img>
                 </Media>
                 <Media body>
-                    <span className="mr-2"><b>{username}</b></span>
+                    <span className="mr-2"><b>{`${firstName} ${lastName}`}</b></span>
                     {content}<br/>
                     <span className="text-muted font-weight-light font-italic">Posted {genTimeAgo(createdAt)}</span>
                 </Media>
             </Media>
         </div> :
         <div className="FeedItem my-5">
-            <p><b>{username}</b> <span className="font-italic">{content} {genTimeAgo(createdAt)}</span></p>
+            <p><b>{firstName}</b> <span className="font-italic">{content} {genTimeAgo(createdAt)}</span></p>
         </div> 
     )
 };

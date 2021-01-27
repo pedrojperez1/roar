@@ -29,7 +29,8 @@ query getMyFeed {
         createdAt
         type
         user {
-            username
+            firstName
+            lastName
         }
     }
 }

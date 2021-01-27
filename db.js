@@ -16,10 +16,12 @@ const conn = process.env.NODE_ENV === 'production' ?
 
 
 const User = conn.define("users", {
-    username: {
+    firstName: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
+    },
+    lastName: {
+        type: Sequelize.STRING
     },
     password: {
         type: Sequelize.STRING,
@@ -32,6 +34,10 @@ const User = conn.define("users", {
         validate: {
             isEmail: true
         }
+    },
+    profileImage: {
+        type: Sequelize.STRING,
+        defaultValue: "https://sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
     }
 });
 
@@ -93,9 +99,10 @@ conn.sync({force: true})
     .then(async () => {
         const password = await bcrypt.hash("test", 12);
         return User.create({
-            username: "test", 
-            password: password, 
-            email: "test@test.com"
+            firstName: "Test",
+            lastName: "User",
+            email: "test@test.com",
+            password: password
         }).then((user) => {
         return user.createLadder({
                 name: "My Test Ladder",

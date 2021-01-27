@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
+import { Alert, Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
 const LoginForm = ({setUser}) => {
-    const INITIAL_STATE = { username: '', password: '' };
+    const INITIAL_STATE = { email: '', password: '' };
     const [formData, setFormData] = useState(INITIAL_STATE);
-    
+    const [alert, setAlert] = useState('');
     const history = useHistory();
 
     const handleChange = (e) => {
@@ -19,17 +19,22 @@ const LoginForm = ({setUser}) => {
     const [login] = useMutation(LOGIN_MUTATION, {
         variables: {...formData},
         onCompleted: ({login}) => {
-            setUser(login.token);
-            history.push("/home");
+            if (login.token) {
+                setUser(login.token);
+                history.push("/home");
+            } else {
+                setFormData({...formData, password: ''});
+                setAlert('Invalid login credentials. Please try again.');
+            }
 
         }
     })
 
     return (
         <div className="LoginForm">
-            {/* <Alert color="danger" isOpen={alertVisible} toggle={() => setAlertVisible(false)}>
-                {alertText}
-            </Alert> */}
+            <Alert color="danger" isOpen={alert !== ''} toggle={() => setAlert('')}>
+                {alert}
+            </Alert>
             <Container className="mt-5">
                 <Row className="justify-content-center">
                     <Col xs={10} md={8} lg={6} xl={5}>
@@ -38,9 +43,10 @@ const LoginForm = ({setUser}) => {
                             <FormGroup>
                                 <Input className="form-control"
                                     type="text"
-                                    name="username"
-                                    placeholder="Username"
+                                    name="email"
+                                    placeholder="Email address"
                                     onChange={handleChange}
+                                    value={formData.email}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -49,6 +55,7 @@ const LoginForm = ({setUser}) => {
                                     name="password"
                                     placeholder="Password"
                                     onChange={handleChange}
+                                    value={formData.password}
                                 />
                             </FormGroup>
                             <Button className="mt-4 mb-5" color="primary" size="lg" onClick={login}>Sign In</Button>
