@@ -43,6 +43,7 @@ query getMyProfile {
         firstName
         lastName
         email
+        profileImage
     }
 }
 `;

@@ -32,8 +32,8 @@ const NewLadderStep0 = () => {
         <Fade>
             <div className="NewLadderStep0 mt-5">
                 <Container className="text-left">
-                    <blockquote className="blockquote">Now we will walk you through the process of creating a new fear ladder.</blockquote>
-                    <blockquote className="blockquote">Let's get started!</blockquote>
+                    <blockquote className="blockquote">We will walk you through the process of creating a new fear ladder, step by step. Make sure to read the instructions carefully so you get the most out of this exercise.</blockquote>
+                    <blockquote className="blockquote">Now, let's get started!</blockquote>
                     <p class="lead mt-5">{nextButtonOrText()}</p>
                 </Container>
             </div>

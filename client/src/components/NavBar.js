@@ -1,9 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
-  Container,
-  Row,
-  Col,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -84,16 +81,7 @@ const NavBar = () => {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem header>
-                    <Container className="justify-content-center">
-                      <Row className="mb-3">
-                        <img className="img-thumbnail rounded-circle" src="https://i.pinimg.com/736x/be/6c/11/be6c1171376d578fbd11e7bb4a540630.jpg" alt="profile"></img>
-                      </Row>
-                      <Row>
-                        <Col className="text-center">
-                          <ProfilePreviewDropdown />
-                        </Col>
-                      </Row>   
-                    </Container>
+                    <ProfilePreviewDropdown />
                   </DropdownItem>
 
                   <DropdownItem divider />

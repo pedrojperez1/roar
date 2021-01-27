@@ -30,6 +30,7 @@ const Feed = () => {
                         content={post.content}
                         firstName={post.user.firstName}
                         lastName={post.user.lastName}
+                        profileImage={post.user.profileImage}
                         createdAt={post.createdAt}
                     />
                 ))

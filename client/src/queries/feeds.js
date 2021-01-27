@@ -31,6 +31,7 @@ query getMyFeed {
         user {
             firstName
             lastName
+            profileImage
         }
     }
 }

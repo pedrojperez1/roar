@@ -3,7 +3,7 @@ import { Media } from "reactstrap";
 import dayjs from "dayjs";
 import "./FeedItem.css";
 
-const FeedItem = ({type, content, firstName, lastName, createdAt}) => {
+const FeedItem = ({type, content, firstName, lastName, profileImage, createdAt}) => {
     
     const genTimeAgo = (unixString) => {
         const created = dayjs.unix(Number(unixString) / 1000);
@@ -32,7 +32,7 @@ const FeedItem = ({type, content, firstName, lastName, createdAt}) => {
         <div className="FeedItem text-left border rounded my-2 p-3">
             <Media>
                 <Media left className="mr-3">
-                    <img className="img-thumbnail rounded-circle" src="https://i.pinimg.com/736x/be/6c/11/be6c1171376d578fbd11e7bb4a540630.jpg" alt="profile"></img>
+                    <img className="img-thumbnail rounded-circle" src={profileImage} alt="profile"></img>
                 </Media>
                 <Media body>
                     <span className="mr-2"><b>{`${firstName} ${lastName}`}</b></span>
