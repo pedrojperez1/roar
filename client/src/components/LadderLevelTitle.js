@@ -1,22 +1,36 @@
-import React from "react";
-import { Col, Container, Progress, Row } from "reactstrap";
+import React from 'react';
+
+import {
+  Heading,
+  Container,
+  Box,
+  Flex,
+  Button,
+  Link,
+  Text,
+  Progress,
+} from '@chakra-ui/react';
 
 const LadderLevelTitle = ({level, task, progress}) => {
-    return (
-        <Container fluid>
-            <Row>
-                <Col xs={2}>
-                    <span>Level {level}</span>
-                </Col>
-                <Col>
-                    <span className="text-muted"><b>{task}</b></span>
-                </Col>
-                <Col xs={2}>
-                    <Progress animated color="success" value={progress} />
-                </Col>
-            </Row>
-        </Container>
-    )
+  console.warn(progress);
+  return (
+    <Container p="16">
+      <Flex mb="30px" alignItems="flex-start" flexDirection="column">
+        <Flex width="100%" alignItems="center" justifyContent="space-between">
+          <Text fontSize="xl" fontWeight="bold">
+            Level {level}
+          </Text>
+          <Link color="teal">View Sub Tasks</Link>
+        </Flex>
+
+        <Text fontWeight="bold" fontSize="large" color="gray.500">
+          {task}
+        </Text>
+      </Flex>
+      <Text textAlign="left">Task Done: {progress.toFixed(2)} / 100 %</Text>
+      <Progress animated colorScheme="green" value={progress} />
+    </Container>
+  );
 };
 
 export default LadderLevelTitle;
