@@ -8,17 +8,17 @@ const ProfilePreviewDropdown = () => {
     const {loading, error, data} = useQuery(FETCH_MY_PROFILE_QUERY);
     if (loading) return <Loading />;
     if (error) return `Error fetching profile.`;
-    console.log(data);
     return (
         <div className="ProfilePreviewDropdown">
             <Container className="justify-content-center">
                     <Row className="mb-3">
-                        <img className="img-thumbnail rounded-circle" src={data.getMyProfile.profileImage} alt="profile"></img>
+                        <Col>
+                            <img className="img-thumbnail rounded-circle" src={data.getMyProfile.profileImage} alt="profile"></img>
+                        </Col>
                     </Row>
                     <Row>
                         <Col className="text-center">
-                            <p>{data.getMyProfile.firstName} {data.getMyProfile.lastName}</p>
-                            <p className="font-weight-light">{data.getMyProfile.email}</p>
+                            <p>{data.getMyProfile.username}</p>
                         </Col>
                     </Row>
             </Container>

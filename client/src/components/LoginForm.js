@@ -6,7 +6,7 @@ import { LOGIN_MUTATION } from "../queries/users";
 import "./LoginForm.css";
 
 const LoginForm = ({setUser}) => {
-    const INITIAL_STATE = { email: '', password: '' };
+    const INITIAL_STATE = { username: '', password: '' };
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [alert, setAlert] = useState('');
     const history = useHistory();
@@ -43,10 +43,10 @@ const LoginForm = ({setUser}) => {
                             <FormGroup>
                                 <Input className="form-control"
                                     type="text"
-                                    name="email"
-                                    placeholder="Email address"
+                                    name="username"
+                                    placeholder="Username"
                                     onChange={handleChange}
-                                    value={formData.email}
+                                    value={formData.username}
                                 />
                             </FormGroup>
                             <FormGroup>

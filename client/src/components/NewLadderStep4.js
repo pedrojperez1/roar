@@ -18,7 +18,7 @@ const NewLadderStep4 = () => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 saveAndNext();
-            };
+            }
         };
         window.addEventListener("keydown", handleEnter);
         return () => {

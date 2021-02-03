@@ -11,7 +11,7 @@ const LadderList = () => {
     if (error) {
         console.log("error", error);
         return `Something went wrong! ${error.message}`
-    };
+    }
     const currentUserLadders = data.getMyLadders;
 
     return (

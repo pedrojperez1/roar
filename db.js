@@ -1,5 +1,10 @@
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
+const AssignmentModel = require("./models/AssignmentModel");
+const FeedPostModel = require("./models/FeedPostModel");
+const LadderModel = require("./models/LadderModel");
+const UserModel = require("./models/UserModel");
+const FollowsModel = require("./models/FollowsModel");
 
 const conn = process.env.NODE_ENV === 'production' ?
     new Sequelize(process.env.DATABASE_URL, { // for prod env only
@@ -14,73 +19,12 @@ const conn = process.env.NODE_ENV === 'production' ?
     }) :
     new Sequelize("postgres://localhost/roar-db")
 
+const User = conn.define("users", UserModel);
+const Ladder = conn.define("ladders", LadderModel);
+const Assignment = conn.define("assignments", AssignmentModel);
+const FeedPost = conn.define("feedposts", FeedPostModel);
+const Follows = conn.define("follows", FollowsModel);
 
-const User = conn.define("users", {
-    firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: Sequelize.STRING
-    },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true
-        }
-    },
-    profileImage: {
-        type: Sequelize.STRING,
-        defaultValue: "https://sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
-    }
-});
-
-const Ladder = conn.define("ladders", {
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    level1: {type: Sequelize.STRING},
-    level2: {type: Sequelize.STRING},
-    level3: {type: Sequelize.STRING},
-    level4: {type: Sequelize.STRING},
-    level5: {type: Sequelize.STRING},
-    level6: {type: Sequelize.STRING},
-    level7: {type: Sequelize.STRING},
-    level8: {type: Sequelize.STRING}
-});
-
-const Assignment = conn.define("assignments", {
-    task: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    dueDate: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    completed: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-    }
-});
-
-const FeedPost = conn.define("feedposts", {
-    content: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    type: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
-});
 // Relationships
 
 // User <one to many> Ladder
@@ -95,32 +39,28 @@ FeedPost.belongsTo(User)
 Ladder.hasMany(Assignment);
 Assignment.belongsTo(Ladder);
 
+// Follows <many to many> Users
+User.belongsToMany(User, {through: Follows, as: "Following", foreignKey: "userId"});
+User.belongsToMany(User, {through: Follows, as: "Followers", foreignKey: "followingId"});
+
 conn.sync({force: true})
-    .then(async () => {
+.then(async () => {
+    const password = await bcrypt.hash("test", 12);
+    User.create({
+        username: "test",
+        password: password
+    })
+    .then(async (u1) => {
         const password = await bcrypt.hash("test", 12);
-        return User.create({
-            firstName: "Test",
-            lastName: "User",
-            email: "test@test.com",
+        User.create({
+            username: "rando",
             password: password
-        }).then((user) => {
-        return user.createLadder({
-                name: "My Test Ladder",
-                level1: "Sample level 1 fear",
-                level2: "Sample level 2 fear",
-                level3: "Sample level 3 fear",
-                level4: "Sample level 4 fear",
-                level5: "Sample level 5 fear",
-                level6: "Sample level 6 fear",
-                level7: "Sample level 7 fear",
-                level8: "Sample level 8 fear",
-        }).then((ladder) => {
-            return ladder.createAssignment({
-                task: "Sample level 1 fear",
-                dueDate: "2021-02-01"
-            })
+        })
+        .then(u2 => {
+            u2.addFollowing(u1)
         })
     })
-});
+})
+
 
 module.exports = conn;

@@ -6,11 +6,11 @@ import { gql } from "@apollo/client";
 
 export const LOGIN_MUTATION = gql`
 mutation Login(
-    $email: String!
+    $username: String!
     $password: String!
 ) {
     login(
-        email: $email
+        username: $username
         password: $password
     ) {
         token
@@ -20,16 +20,12 @@ mutation Login(
 
 export const SIGNUP_MUTATION = gql`
 mutation addUser(
-    $firstName: String!
-    $lastName: String
+    $username: String!
     $password: String!
-    $email: String!
 ) {
     addUser(
-        firstName: $firstName
-        lastName: $lastName
+        username: $username
         password: $password
-        email: $email
     ) {
         token
     }
@@ -40,10 +36,38 @@ export const FETCH_MY_PROFILE_QUERY = gql`
 query getMyProfile {
     getMyProfile {
         id
-        firstName
-        lastName
-        email
+        username
         profileImage
+        createdAt
+        ladders {
+            id
+            assignments {
+                id
+                dueDate
+                completed
+            }
+        }
     }
+}
+`;
+
+export const FETCH_PROFILE = gql`
+query fetchProfile ($username: String!){
+  fetchProfile (username: $username) {
+    username
+    profileImage
+    createdAt
+    ladders {
+        assignments {
+            id
+        }
+    }
+    following {
+        id
+    }
+    followers {
+        id
+    }
+  }
 }
 `;
