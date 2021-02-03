@@ -1,13 +1,12 @@
 import React from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link as ReactRouterLink } from "react-router-dom"
 import { Card, CardBody, UncontrolledCollapse } from "reactstrap"
 import Assignments from "./Assignments"
 import Loading from "./Loading"
 import LadderLevelTitle from "./LadderLevelTitle"
 import { useQuery } from "@apollo/client"
 import { LADDER_QUERY } from "../queries/ladders"
-import { Heading, Container, Box, Flex, Button, Link } from "@chakra-ui/react"
-import { Link as ReactRouterLink } from "react-router-dom"
+import { Heading, Container, Box, Flex, Link } from "@chakra-ui/react"
 
 const Ladder = () => {
   const { id } = useParams()
@@ -25,8 +24,8 @@ const Ladder = () => {
   const levels = Object.keys(ladder).filter(key => {
     return key.includes("level") && ladder[key]
   })
-  const assignments = ladder.assignments
 
+  const assignments = ladder.assignments
   function getLevelAssignments(levelTask) {
     return assignments.filter(a => a.task === levelTask)
   }
@@ -51,7 +50,7 @@ const Ladder = () => {
           </Link>
         </Flex>
         {levels.map(level => (
-          <Box mb="3" boxShadow="md">
+          <Box key={level} mb="3" boxShadow="md">
             <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
               <Box tag="button" id={`toggler${level}`} action>
                 <LadderLevelTitle

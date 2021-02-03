@@ -1,18 +1,9 @@
-import React from 'react';
+import React from "react"
 
-import {
-  Heading,
-  Container,
-  Box,
-  Flex,
-  Button,
-  Link,
-  Text,
-  Progress,
-} from '@chakra-ui/react';
+import { Container, Flex, Link, Text, Progress } from "@chakra-ui/react"
 
-const LadderLevelTitle = ({level, task, progress}) => {
-  console.warn(progress);
+const LadderLevelTitle = ({ level, task, progress }) => {
+  console.warn(progress)
   return (
     <Container p="16">
       <Flex mb="30px" alignItems="flex-start" flexDirection="column">
@@ -30,7 +21,7 @@ const LadderLevelTitle = ({level, task, progress}) => {
       <Text textAlign="left">Task Done: {progress.toFixed(2)} / 100 %</Text>
       <Progress animated colorScheme="green" value={progress} />
     </Container>
-  );
-};
+  )
+}
 
-export default LadderLevelTitle;
+export default LadderLevelTitle
