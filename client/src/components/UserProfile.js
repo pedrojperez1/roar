@@ -17,7 +17,7 @@ const UserProfile = () => {
     return (
         <div className="UserProfile">
             <h1>{profile.username}</h1>
-            <img src={profile.profileImage} alt="profile"/>
+            <img src={profile.profileImage} alt="profile" style={{width: "200px"}}/>
             <p>Joined: {profile.createdAt}</p>
             <p>Following: {profile.following.length}</p>
             <p>Followers: {profile.followers.length}</p>
