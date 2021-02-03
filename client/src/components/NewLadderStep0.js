@@ -34,7 +34,7 @@ const NewLadderStep0 = () => {
                 <Container className="text-left">
                     <blockquote className="blockquote">We will walk you through the process of creating a new fear ladder, step by step. Make sure to read the instructions carefully so you get the most out of this exercise.</blockquote>
                     <blockquote className="blockquote">Now, let's get started!</blockquote>
-                    <p class="lead mt-5">{nextButtonOrText()}</p>
+                    <p className="lead mt-5">{nextButtonOrText()}</p>
                 </Container>
             </div>
         </Fade>

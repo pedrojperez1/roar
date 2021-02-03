@@ -7,7 +7,7 @@ import SignUp from "./SignUp";
 import About from "./About";
 import Learn from "./Learn";
 import Home from "./Home";
-import Profile from "./Profile";
+import Settings from "./Settings";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
@@ -18,6 +18,7 @@ import NewLadderStep3 from "./NewLadderStep3";
 import NewLadderStep4 from "./NewLadderStep4";
 import NewLadderStep5 from "./NewLadderStep5";
 import NewLadderStep6 from "./NewLadderStep6";
+import UserProfile from "./UserProfile";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -45,7 +46,7 @@ const Routes = () => {
             { !currentUser ? <Redirect to="/login" /> : <Home /> }
             </Route>
             <Route exact path="/profile">
-            { !currentUser ? <Redirect to="/login" /> : <Profile /> }
+            { !currentUser ? <Redirect to="/login" /> : <Settings /> }
             </Route>
             <Route exact path="/ladders">
                 <LadderList />
@@ -73,6 +74,9 @@ const Routes = () => {
             </Route>
             <Route exact path="/newladder/6">
                 { !currentUser ? <Redirect to="/login" /> : <NewLadderStep6 /> }
+            </Route>
+            <Route exact path="/u/:username">
+                { !currentUser ? <Redirect to="/login" /> : <UserProfile /> }
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

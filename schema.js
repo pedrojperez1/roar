@@ -25,16 +25,22 @@ const User = new GraphQLObjectType({
                     return person.id;
                 }
             },
-            firstName: {
+            // firstName: {
+            //     type: GraphQLString,
+            //     resolve(person) {
+            //         return person.firstName;
+            //     }
+            // },
+            // lastName: {
+            //     type: GraphQLString,
+            //     resolve(person) {
+            //         return person.lastName;
+            //     }
+            // },
+            username: {
                 type: GraphQLString,
                 resolve(person) {
-                    return person.firstName;
-                }
-            },
-            lastName: {
-                type: GraphQLString,
-                resolve(person) {
-                    return person.lastName;
+                    return person.username;
                 }
             },
             password: {
@@ -43,22 +49,34 @@ const User = new GraphQLObjectType({
                     return person.password;
                 }
             },
-            email: {
-                type: GraphQLString,
-                resolve(person) {
-                    return person.email;
-                }
-            },
             profileImage: {
                 type: GraphQLString,
                 resolve(person) {
                     return person.profileImage;
                 }
             },
+            createdAt: {
+                type: GraphQLString,
+                resolve(person) {
+                    return person.createdAt;
+                }
+            },
             ladders: {
                 type: new GraphQLList(Ladder),
                 resolve(person) {
                     return person.getLadders();
+                }
+            },
+            following: {
+                type: new GraphQLList(User),
+                resolve(person) {
+                    return person.getFollowing();
+                }
+            },
+            followers: {
+                type: new GraphQLList(User),
+                resolve(person) {
+                    return person.getFollowers();
                 }
             }
         }
@@ -217,7 +235,7 @@ const AuthPayload = new GraphQLObjectType({
     description: "This represents an authentication payload",
     fields: () => {
         return {
-            email: { type: GraphQLString },
+            username: { type: GraphQLString },
             token: { type: GraphQLString }
         }
     }
@@ -234,7 +252,7 @@ const Query = new GraphQLObjectType({
                     id: {
                         type: GraphQLInt
                     },
-                    email: {
+                    username: {
                         type: GraphQLString
                     }
                 },
@@ -279,6 +297,34 @@ const Query = new GraphQLObjectType({
                     const userId = getUserId(context);
                     return db.models.users.findByPk(userId);
                 }
+            },
+            getMyFollowers: {
+                type: new GraphQLList(User),
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    return await user.getFollowers();
+                }
+            },
+            getMyFollowing: {
+                type: new GraphQLList(User),
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    return await user.getFollowing(); 
+                }
+            },
+            fetchProfile: {
+                type: User,
+                args: {
+                    username: { type: GraphQLString }
+                },
+                resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    if (userId) {
+                        return db.models.users.findOne({where: args})
+                    }
+                }
             }
         }
     }
@@ -292,29 +338,21 @@ const Mutation = new GraphQLObjectType({
             addUser: {
                 type: AuthPayload,
                 args: {
-                    firstName: {
+                    username: {
                         type: new GraphQLNonNull(GraphQLString)
-                    },
-                    lastName: {
-                        type: GraphQLString
                     },
                     password: {
-                        type: new GraphQLNonNull(GraphQLString)
-                    },
-                    email: {
                         type: new GraphQLNonNull(GraphQLString)
                     }
                 },
                 async resolve(_, args) {
                     const hashedPw = await bcrypt.hash(args.password, BCRYPT_WORK_FACTOR);
                     const newUser = await db.models.users.create({
-                        firstName: args.firstName,
-                        lastName: args.lastName,
-                        password: hashedPw,
-                        email: args.email
+                        username: args.username,
+                        password: hashedPw
                     });
                     return {
-                        email: newUser.email,
+                        username: newUser.username,
                         token: jwt.sign({ userId: newUser.id }, SECRET_KEY)
                     }
                 }
@@ -322,7 +360,7 @@ const Mutation = new GraphQLObjectType({
             login: {
                 type: AuthPayload,
                 args: {
-                    email: {
+                    username: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
                     password: {
@@ -330,18 +368,18 @@ const Mutation = new GraphQLObjectType({
                     }
                 },
                 async resolve(_, args) {
-                    const user = await db.models.users.findOne({where: {email: args.email}});
+                    const user = await db.models.users.findOne({where: {username: args.username}});
                     if (user) {
                         const isValid = await bcrypt.compare(args.password, user.password);
                         if (isValid) {
                             return {
-                                email: user.email,
+                                username: user.username,
                                 token: jwt.sign({ userId: user.id }, SECRET_KEY)
                             }
                         }
                     }
                     return {
-                        error: "Invalid email/password"
+                        error: "Invalid username/password"
                     }
                 }
             },

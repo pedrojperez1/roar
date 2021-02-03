@@ -7,10 +7,8 @@ import "./SignUpForm.css";
 
 const SignUpForm = ({setUser}) => {
     const INITIAL_STATE = {
-        firstName: '',
-        lastName: '',
-        password: '',
-        email: ''
+        username: '',
+        password: ''
     };
     const [formData, setFormData] = useState(INITIAL_STATE);
     const handleChange = (e) => {
@@ -37,29 +35,21 @@ const SignUpForm = ({setUser}) => {
                         <Form className="SignUpForm-form text-left border p-5">
                             <h1 className="mb-5 text-center">Sign up for Roar!</h1>
                             <FormGroup>
-                                <Label for="firstName">First Name</Label>
+                                <Label for="firstName">Username</Label>
                                 <Input className="form-control"
                                     type="text"
-                                    name="firstName"
+                                    name="username"
                                     onChange={handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup>
-                                <Label for="lastName">Last Name</Label>
-                                <Input className="form-control"
-                                    type="text"
-                                    name="lastName"
-                                    onChange={handleChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
+                            {/* <FormGroup>
                                 <Label for="email">Email</Label>
                                 <Input className="form-control"
                                     type="email"
                                     name="email"
                                     onChange={handleChange}
                                 />
-                            </FormGroup>
+                            </FormGroup> */}
                             <FormGroup>
                                 <Label for="password">Password</Label>
                                 <Input className="form-control"

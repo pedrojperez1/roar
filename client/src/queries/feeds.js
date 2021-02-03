@@ -29,8 +29,7 @@ query getMyFeed {
         createdAt
         type
         user {
-            firstName
-            lastName
+            username
             profileImage
         }
     }
