@@ -1,0 +1,16 @@
+name: Lint
+
+on: pull_request
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Packages
+        run: npm install --production=false
+        
+      - name: Lint
+        run: npm run lint
