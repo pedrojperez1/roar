@@ -18,7 +18,7 @@ const FeedItem = ({type, content, username, profileImage, createdAt}) => {
                 </Media>
             </Media>
         </div> :
-        <div className="FeedItem my-5">
+        <div className="FeedItem my-3">
             <p><b>{username}</b> <span className="font-italic">{content} {genTimeAgo(createdAt)}</span></p>
         </div> 
     )
