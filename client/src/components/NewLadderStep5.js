@@ -23,7 +23,7 @@ const NewLadderStep5 = () => {
                 if (Object.keys(activities).length >= 3) { // disallow enter if we don't have 3 activites yet
                     saveAndNext();
                 }
-            };
+            }
         };
         window.addEventListener("keydown", handleEnter);
         return () => {

@@ -11,8 +11,8 @@ const Feed = () => {
     if (loading) return <Loading />
     if (error) {
         return `Something went wrong! ${error.message}`
-    };
-    let feed = data.getMyFeed;
+    }
+    const feed = data.getMyFeed;
     const sortedFeed = [...feed].sort((a, b) => Number(b.createdAt) - Number(a.createdAt)); // sort feed by time posted
     return (
         <div className="Feed">
