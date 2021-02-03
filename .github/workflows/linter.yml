@@ -11,7 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+        with:
+          path: ./client
       - name: Install Packages
         run: npm install --production=false
         
