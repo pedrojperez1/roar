@@ -29,10 +29,10 @@ const Home = () => {
                             <Statistics ladders={data.getMyProfile.ladders}/>
                         </Row>
                         <Row className="my-3">
-                            <Following />
+                            <Achievements />
                         </Row>
                         <Row className="my-3">
-                            <Achievements />
+                            <Following />
                         </Row>
                     </Col>
                     <Col>

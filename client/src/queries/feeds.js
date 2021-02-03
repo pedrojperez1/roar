@@ -36,3 +36,20 @@ query getMyFeed {
 }
 
 `;
+
+export const GET_USER_FEED = gql`
+
+query getUserFeed($username: String!){
+    getUserFeed(username: $username) {
+        id
+        content
+        createdAt
+        type
+        user {
+            username
+            profileImage
+        }
+    }
+}
+
+`;
