@@ -89,6 +89,9 @@ const NavBar = () => {
                   <Link to="/home" className="text-center">
                     <DropdownItem className="py-2">My Profile</DropdownItem>
                   </Link>
+                  <Link to="/ladders" className="text-center">
+                    <DropdownItem className="py-2">My Mountains</DropdownItem>
+                  </Link>
                   <Link to="/profile" className="text-center">
                     <DropdownItem className="py-2">Settings</DropdownItem>
                   </Link>
