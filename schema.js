@@ -249,12 +249,8 @@ const Query = new GraphQLObjectType({
             users: {
                 type: new GraphQLList(User),
                 args: {
-                    id: {
-                        type: GraphQLInt
-                    },
-                    username: {
-                        type: GraphQLString
-                    }
+                    id: { type: GraphQLInt },
+                    username: { type: GraphQLString }
                 },
                 resolve(root, args) {
                     return db.models.users.findAll({where: args})
@@ -289,6 +285,19 @@ const Query = new GraphQLObjectType({
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
                     return await user.getFeedposts();
+                }
+            },
+            getUserFeed: {
+                type: new GraphQLList(FeedPost),
+                args: {
+                    username: { type: GraphQLString }
+                },
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    if (userId) {
+                        const requestedUser = await db.models.users.findOne({where: args});
+                        return requestedUser.getFeedposts();
+                    }
                 }
             },
             getMyProfile: {
@@ -452,6 +461,32 @@ const Mutation = new GraphQLObjectType({
                         content: args.content,
                         type: args.type
                     });
+                }
+            },
+            followUser: {
+                type: GraphQLString,
+                args: {
+                    username: { type: GraphQLString }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    const userToFollow = await db.models.users.findOne({where: args});
+                    const following = await user.addFollowing(userToFollow);
+                    return following ? "success" : "error"
+                }
+            },
+            unfollowUser: {
+                type: GraphQLString,
+                args: {
+                    username: { type: GraphQLString }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context);
+                    const user = await db.models.users.findByPk(userId);
+                    const userToUnfollow = await db.models.users.findOne({where: args});
+                    const following = await user.removeFollowing(userToUnfollow);
+                    return following ? "success" : "error"
                 }
             }
         }

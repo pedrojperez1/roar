@@ -1,9 +1,12 @@
 import React from "react";
+import { Row } from "reactstrap";
 
 const Following = () => {
     return (
         <div className="Following">
-            <h1>Following</h1>
+            <Row>
+                <h1>Following</h1>
+            </Row>
         </div>
     )
 };
