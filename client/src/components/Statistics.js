@@ -21,7 +21,7 @@ const Statistics = ({ ladders }) => {
 
   return (
     <div className="Statistics text-left">
-        <Row><h1>Statistics</h1></Row>
+        <Row><h1 className="font-weight-light">Statistics</h1></Row>
       <Row>
         <CardDeck>
           <Card style={{"border": "none", "fontSize": "13px"}}>

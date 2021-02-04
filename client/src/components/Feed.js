@@ -1,13 +1,14 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import FeedItem from "./FeedItem";
+import FeedPostForm from "./FeedPostForm";
 import { GET_USER_FEED } from "../queries/feeds";
 import Loading from "./Loading";
 import { Row } from "reactstrap";
 
-const Feed = ({username}) => {
+const Feed = ({username, myFeed}) => {
 
-    const {loading, error, data} = useQuery(GET_USER_FEED, {
+    const {loading, error, data, refetch} = useQuery(GET_USER_FEED, {
         variables: {username: username}
     });
     if (loading) return <Loading />
@@ -18,13 +19,15 @@ const Feed = ({username}) => {
 
     const sortedFeed = [...feed].sort((a, b) => Number(b.createdAt) - Number(a.createdAt)); // sort feed by time posted
     return (
-        <div className="Feed">
+        <div className="Feed w-100">
             <Row>
-                <h1>User Activity</h1>
+                <h1 className="font-weight-lighter">User Activity</h1>
             </Row>
-            {/* <Row>
-                <FeedPostForm refetch={refetch}/>
-            </Row> */}
+            {myFeed &&
+                <Row>
+                    <FeedPostForm refetch={refetch}/>
+                </Row>
+            }
 
             {
                 feed.length === 0 ? 

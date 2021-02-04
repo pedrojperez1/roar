@@ -70,12 +70,12 @@ const UserProfile = () => {
                             
                         </Row>
                     </Col>
-                    <Col>
+                    <Col xs={6}>
                         <Row className="mb-3">
                             <Achievements />
                         </Row>
                         <Row>
-                            <Feed username={username}/>
+                            <Feed username={username} myFeed={profile.username === myProfile.username}/>
                         </Row>
                     </Col>
                 </Row>

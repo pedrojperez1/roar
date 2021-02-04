@@ -5,7 +5,7 @@ const Achievements = () => {
     return (
         <div className="Achievements">
             <Row className="mb-3">
-                <h1>Achievements</h1>
+                <h1 className="font-weight-light">Achievements</h1>
             </Row>
             <Row>
                 <CardDeck>

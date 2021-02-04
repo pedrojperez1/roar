@@ -6,7 +6,7 @@ const Following = ({ following }) => {
     return (
         <div className="Following">
             <Row>
-                <h1>Following</h1>
+                <h1 className="font-weight-light">Following</h1>
             </Row>
             <Row>
                 <CardDeck>
