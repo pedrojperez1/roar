@@ -32,7 +32,7 @@ const Home = () => {
                             <Achievements />
                         </Row>
                         <Row className="my-3">
-                            <Following />
+                            <Following following={data.getMyProfile.following}/>
                         </Row>
                     </Col>
                     <Col>
