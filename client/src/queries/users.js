@@ -49,6 +49,7 @@ query getMyProfile {
         }
         following {
             username
+            profileImage
         }
     }
 }

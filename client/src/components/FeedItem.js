@@ -1,7 +1,6 @@
 import React from "react";
 import { Media } from "reactstrap";
 import genTimeAgo from "../helpers/genTimeAgo";
-import "./FeedItem.css";
 
 const FeedItem = ({type, content, username, profileImage, createdAt}) => {
 

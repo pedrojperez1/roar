@@ -43,6 +43,7 @@ const NavBar = () => {
         <Link to="/"><NavbarBrand>Roar</NavbarBrand></Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
+          { !currentUser &&
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink tag={Link} to="/about">Who are we?</NavLink>
@@ -51,6 +52,7 @@ const NavBar = () => {
               <NavLink tag={Link} to="/learn">What is exposure therapy?</NavLink>
             </NavItem>
           </Nav>
+          }
           { !currentUser ?
             <Nav>
               <Link to="/login"><Button color="primary">Log In</Button></Link>
@@ -87,7 +89,7 @@ const NavBar = () => {
                   <DropdownItem divider />
 
                   <Link to="/home" className="text-center">
-                    <DropdownItem className="py-2">My Profile</DropdownItem>
+                    <DropdownItem className="py-2">Home</DropdownItem>
                   </Link>
                   <Link to="/ladders" className="text-center">
                     <DropdownItem className="py-2">My Mountains</DropdownItem>
