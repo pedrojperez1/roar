@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@chakra-ui/icons": "^1.0.4",
     "@okta/jwt-verifier": "0.0.12",
     "@okta/oidc-middleware": "^1.0.0",
     "@okta/okta-sdk-nodejs": "^1.2.0",
