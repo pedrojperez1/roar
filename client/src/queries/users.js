@@ -47,6 +47,10 @@ query getMyProfile {
                 completed
             }
         }
+        following {
+            username
+            profileImage
+        }
     }
 }
 `;
@@ -69,5 +73,17 @@ query fetchProfile ($username: String!){
         id
     }
   }
+}
+`;
+
+export const FOLLOW_USER_MUTATION = gql`
+mutation followUser($username: String!) {
+    followUser (username: $username)
+}
+`;
+
+export const UNFOLLOW_USER_MUTATION = gql`
+mutation unfollowUser($username: String!) {
+    unfollowUser (username: $username)
 }
 `;

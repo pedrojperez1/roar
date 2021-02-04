@@ -21,21 +21,22 @@ const Statistics = ({ ladders }) => {
 
   return (
     <div className="Statistics text-left">
+        <Row><h1 className="font-weight-light">Statistics</h1></Row>
       <Row>
         <CardDeck>
-          <Card>
+          <Card style={{"border": "none", "fontSize": "13px"}}>
             <CardBody>
               <h3>{tasksCompleted}</h3>
               <p>Number of completed tasks</p>
             </CardBody>
           </Card>
-          <Card>
+          <Card style={{"border": "none", "fontSize": "13px"}}>
             <CardBody>
               <h3>{getNextDueDate(ladders)}</h3>
               <p>Next task due</p>
             </CardBody>
           </Card>
-          <Card>
+          <Card style={{"border": "none", "fontSize": "13px"}}>
             <CardBody>
               <h3>{ladders.length}</h3>
               <p>Number of mountains climbed</p>

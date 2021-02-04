@@ -22,17 +22,19 @@ const Home = () => {
                 <Row>
                     <Col xs={12} sm={12} md={8} className="p-2 vh-100 d-inline-block">
 
-                        <Row><h1>{data.getMyProfile.username}</h1></Row>
+                        <Row>
+                            <h1><Link to={`/u/${data.getMyProfile.username}`}>{data.getMyProfile.username}</Link></h1>
+                        </Row>
                         <Row><p>Joined {genJoinDate(data.getMyProfile.createdAt)}</p></Row>
 
                         <Row className="my-3">
                             <Statistics ladders={data.getMyProfile.ladders}/>
                         </Row>
                         <Row className="my-3">
-                            <Following />
+                            <Achievements />
                         </Row>
                         <Row className="my-3">
-                            <Achievements />
+                            <Following following={data.getMyProfile.following}/>
                         </Row>
                     </Col>
                     <Col>

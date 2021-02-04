@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { Container, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 import { ADD_FEED_POST } from "../queries/feeds";
 import "./FeedPostForm.css";
 
@@ -25,30 +25,24 @@ const FeedPostForm = ({refetch}) => {
     });
 
     return (
-        <div className="FeedPostForm">
-            <Container className="mb-5 px-0">
-                <Row className="justify-content-center">
-                    <Col>
-                        <Form className="FeedPostForm-form text-right border p-2">
-                            <FormGroup className="mb-2">
-                                <Input className="form-control"
-                                    type="textarea"
-                                    name="content"
-                                    placeholder="What's up today?"
-                                    onChange={handleChange}
-                                    value={content}
-                                />
-                            </FormGroup>
-                            {content.length > 1 &&
-                                <>
-                                <Button className="mx-1" color="primary" size="sm" onClick={addPost}>Post</Button>
-                                <Button className="mx-1" color="secondary" size="sm" onClick={() => setContent(INITIAL_STATE)}>Cancel</Button>
-                                </>
-                            }
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
+        <div className="FeedPostForm w-100">
+            <Form className="FeedPostForm-form text-right border p-2">
+                <FormGroup className="mb-2">
+                    <Input className="form-control"
+                        type="textarea"
+                        name="content"
+                        placeholder="What's up today?"
+                        onChange={handleChange}
+                        value={content}
+                    />
+                </FormGroup>
+                {content.length > 1 &&
+                    <>
+                    <Button className="mx-1" color="primary" size="sm" onClick={addPost}>Post</Button>
+                    <Button className="mx-1" color="secondary" size="sm" onClick={() => setContent(INITIAL_STATE)}>Cancel</Button>
+                    </>
+                }
+            </Form>
         </div>
     )
 };
