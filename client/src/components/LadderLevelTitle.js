@@ -1,22 +1,33 @@
-import React from "react";
-import { Col, Container, Progress, Row } from "reactstrap";
+import React from "react"
 
-const LadderLevelTitle = ({level, task, progress}) => {
-    return (
-        <Container fluid>
-            <Row>
-                <Col xs={2}>
-                    <span>Level {level}</span>
-                </Col>
-                <Col>
-                    <span className="text-muted"><b>{task}</b></span>
-                </Col>
-                <Col xs={2}>
-                    <Progress animated color="success" value={progress} />
-                </Col>
-            </Row>
-        </Container>
-    )
-};
+import { Container, Flex, Link, Text, Progress, AccordionButton } from "@chakra-ui/react"
 
-export default LadderLevelTitle;
+const LadderLevelTitle = ({ level, task, progress, isExpanded }) => {
+  return (
+    <Container p="8">
+      <Flex mb="30px" alignItems="flex-start" flexDirection="column">
+        <Flex width="100%" alignItems="center" justifyContent="space-between">
+          <Text fontSize="xl" fontWeight="bold">
+            Level {level}
+          </Text>
+
+          <AccordionButton style={{ width: "auto", backgroundColor: "transparent" }} as={Link}>
+            <>
+              <Link color="teal">{isExpanded ? "Hide Sub Tasks" : "View Sub Tasks"}</Link>
+            </>
+          </AccordionButton>
+        </Flex>
+
+        <Text fontWeight="bold" fontSize="large" color="gray.500">
+          {task}
+        </Text>
+      </Flex>
+      <Text marginBottom="10px" fontWeight="bold" textAlign="left">
+        Task Done: {progress.toFixed(2)} / 100 %
+      </Text>
+      <Progress animated colorScheme="green" value={progress} />
+    </Container>
+  )
+}
+
+export default LadderLevelTitle

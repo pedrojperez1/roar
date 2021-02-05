@@ -1,18 +1,21 @@
 import React from "react"
-import { useParams } from "react-router-dom"
-import {
-  Card,
-  CardBody,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  UncontrolledCollapse,
-} from "reactstrap"
+import { useParams, Link as ReactRouterLink } from "react-router-dom"
+// import { Card, CardBody, UncontrolledCollapse } from "reactstrap"
 import Assignments from "./Assignments"
 import Loading from "./Loading"
 import LadderLevelTitle from "./LadderLevelTitle"
 import { useQuery } from "@apollo/client"
 import { LADDER_QUERY } from "../queries/ladders"
+import {
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  Heading,
+  Container,
+  Box,
+  Flex,
+  Link,
+} from "@chakra-ui/react"
 
 const Ladder = () => {
   const { id } = useParams()
@@ -30,8 +33,8 @@ const Ladder = () => {
   const levels = Object.keys(ladder).filter(key => {
     return key.includes("level") && ladder[key]
   })
-  const assignments = ladder.assignments
 
+  const assignments = ladder.assignments
   function getLevelAssignments(levelTask) {
     return assignments.filter(a => a.task === levelTask)
   }
@@ -44,34 +47,46 @@ const Ladder = () => {
     return (progress / levelAssignments.length) * 100
   }
   return (
-    <div className="Ladder">
+    <Flex justifyContent="center" alignItems="center">
       <Container>
-        <h3 className="mb-3">{ladder.name}</h3>
-        <ListGroup>
-          {levels.map(level => (
-            <div key={level}>
-              <ListGroupItem tag="button" id={`toggler${level}`} action>
-                <LadderLevelTitle
-                  level={level[5]}
-                  task={ladder[level]}
-                  progress={getLevelProgress(ladder[level])}
-                />
-              </ListGroupItem>
-              <UncontrolledCollapse toggler={`#toggler${level}`}>
-                <Card>
-                  <CardBody>
-                    <Assignments
-                      assignments={getLevelAssignments(ladder[level])}
-                      refetch={refetch}
-                    />
-                  </CardBody>
-                </Card>
-              </UncontrolledCollapse>
-            </div>
-          ))}
-        </ListGroup>
+        <Flex mb="10" justifyContent="space-between" alignItems="center">
+          <Heading textAlign="left" size="2xl">
+            {ladder.name}
+          </Heading>
+
+          <Link as={ReactRouterLink} to="/newladder" colorScheme="telegram">
+            Add New Mountain
+          </Link>
+        </Flex>
+        {levels.map(level => (
+          <Box key={level} mb="3" boxShadow="lg">
+            <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
+              <Accordion allowToggle>
+                <AccordionItem>
+                  {({ isExpanded }) => (
+                    <>
+                      <LadderLevelTitle
+                        level={level[5]}
+                        task={ladder[level]}
+                        isExpanded={isExpanded}
+                        progress={getLevelProgress(ladder[level])}
+                      />
+
+                      <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
+                        <Assignments
+                          assignments={getLevelAssignments(ladder[level])}
+                          refetch={refetch}
+                        />
+                      </AccordionPanel>
+                    </>
+                  )}
+                </AccordionItem>
+              </Accordion>
+            </Flex>
+          </Box>
+        ))}
       </Container>
-    </div>
+    </Flex>
   )
 }
 
