@@ -1,5 +1,4 @@
 import React from "react"
-import { Container, Table } from "reactstrap"
 import MarkComplete from "./MarkComplete"
 import dayjs from "dayjs"
 import { Flex, Box, Text } from "@chakra-ui/react"

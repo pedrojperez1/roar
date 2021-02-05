@@ -1,7 +1,7 @@
 {
   "name": "roar-client",
   "version": "0.1.0",
-  "private": false,
+  "private": "true",
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@chakra-ui/react": "^1.2.1",
