@@ -21,7 +21,7 @@ import {
 const MarkComplete = ({ assignmentId, level, refetch, completed }) => {
   const [isCompleted, setIsCompleted] = useState(completed)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  console.log('level', level)
+
   const [postUpdateToFeed] = useMutation(ADD_FEED_POST, {
     variables: {
       content: `completed a level ${level} task`,
