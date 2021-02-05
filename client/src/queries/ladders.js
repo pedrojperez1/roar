@@ -48,6 +48,7 @@ query getLadder($id: Int!){
     assignments {
       id
       task
+      level
       dueDate
       completed
     }
