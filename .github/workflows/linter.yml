@@ -8,10 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          path: ./client
       - name: Install Packages
         run: cd client && npm install --production=false
 
       - name: Lint
-        run: cd client && npm run lint
+        run: cd client && npm lint
