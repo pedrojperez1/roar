@@ -18,13 +18,13 @@ import {
   Text,
 } from "@chakra-ui/react"
 
-const MarkComplete = ({ assignmentId, refetch, completed }) => {
+const MarkComplete = ({ assignmentId, level, refetch, completed }) => {
   const [isCompleted, setIsCompleted] = useState(completed)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [postUpdateToFeed] = useMutation(ADD_FEED_POST, {
     variables: {
-      content: "completed a level X task",
+      content: `completed a level ${level} task`,
       type: "system",
     },
   })

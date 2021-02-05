@@ -27,7 +27,7 @@ const Assignments = ({ assignments, refetch }) => {
             <Box color="gray.600">Due Date: {dayjs(a.dueDate).format("ddd, MMM DD, YYYY")}</Box>
           </Box>
           <Box>
-            {<MarkComplete completed={a.completed} assignmentId={a.id} refetch={refetch} />}
+            {<MarkComplete completed={a.completed} assignmentId={a.id} level={a.level} refetch={refetch} />}
           </Box>
         </Flex>
       ))}
