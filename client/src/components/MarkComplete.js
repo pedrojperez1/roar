@@ -1,47 +1,83 @@
-import React, { useState } from "react";
-import { Button, Modal, ModalBody } from "reactstrap";
-import { useMutation } from "@apollo/client";
-import { COMPLETE_ASSIGNMENT_MUTATION } from "../queries/assignments";
-import MarkCompleteModalForm from "./MarkCompleteModalForm";
-import { ADD_FEED_POST } from "../queries/feeds";
+import React, { useState } from "react"
+import { useMutation } from "@apollo/client"
+import { COMPLETE_ASSIGNMENT_MUTATION } from "../queries/assignments"
+import MarkCompleteModalForm from "./MarkCompleteModalForm"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+import { ADD_FEED_POST } from "../queries/feeds"
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  Text,
+} from "@chakra-ui/react"
 
-const MarkComplete = ({assignmentId, refetch}) => {
-    const [modal, setModal] = useState(false);
+const MarkComplete = ({ assignmentId, refetch, completed }) => {
+  const [isCompleted, setIsCompleted] = useState(completed)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const toggle = () => setModal(!modal);
+  const [postUpdateToFeed] = useMutation(ADD_FEED_POST, {
+    variables: {
+      content: "completed a level X task",
+      type: "system",
+    },
+  })
 
-    const [postUpdateToFeed] = useMutation(ADD_FEED_POST, {
-        variables: {
-            content: "completed a level X task",
-            type: "system"
-        }        
-    });
+  const [markComplete] = useMutation(COMPLETE_ASSIGNMENT_MUTATION, {
+    variables: { id: assignmentId },
+    onCompleted: () => {
+      refetch()
+      setIsCompleted(true)
+      postUpdateToFeed()
+      onClose()
+    },
+  })
 
-    const [markComplete] = useMutation(COMPLETE_ASSIGNMENT_MUTATION, {
-        variables: {id: assignmentId},
-        onCompleted: () => {
-            refetch();
-            toggle();
-            postUpdateToFeed();
-        }
-    });
+  const handleCancelOrClose = () => {
+    setIsCompleted(false)
+    onClose()
+  }
 
-    return (
-        <div className="MarkComplete">
-            <Button 
-                size="sm" 
-                onClick={toggle}
-            >Mark Complete</Button>
-            <Modal isOpen={modal} toggle={toggle}>
-                <ModalBody>
-                    <MarkCompleteModalForm />
-                <Button className="mr-1" color="primary" onClick={markComplete}>Mark Complete</Button>
-                <Button color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalBody>
+  return (
+    <div className="MarkComplete">
+      {isCompleted ? (
+        <Text fontWeight="bold">
+          <FontAwesomeIcon color="green" icon={faCheckCircle} />
+          <span style={{ marginLeft: "5px" }}>Complete</span>
+        </Text>
+      ) : (
+        <Button size="sm" colorScheme="blue" onClick={onOpen}>
+          Mark Complete
+        </Button>
+      )}
 
-            </Modal>
-      </div>
-    )
-};
+      <Modal isOpen={isOpen} onClose={handleCancelOrClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Rate your experience</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <MarkCompleteModalForm />
+          </ModalBody>
 
-export default MarkComplete;
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={markComplete}>
+              Mark Complete
+            </Button>
+            <Button variant="ghost" onClick={handleCancelOrClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </div>
+  )
+}
+
+export default MarkComplete

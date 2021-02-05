@@ -1,12 +1,21 @@
 import React from "react"
 import { useParams, Link as ReactRouterLink } from "react-router-dom"
-import { Card, CardBody, UncontrolledCollapse } from "reactstrap"
+// import { Card, CardBody, UncontrolledCollapse } from "reactstrap"
 import Assignments from "./Assignments"
 import Loading from "./Loading"
 import LadderLevelTitle from "./LadderLevelTitle"
 import { useQuery } from "@apollo/client"
 import { LADDER_QUERY } from "../queries/ladders"
-import { Heading, Container, Box, Flex, Link } from "@chakra-ui/react"
+import {
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  Heading,
+  Container,
+  Box,
+  Flex,
+  Link,
+} from "@chakra-ui/react"
 
 const Ladder = () => {
   const { id } = useParams()
@@ -50,26 +59,29 @@ const Ladder = () => {
           </Link>
         </Flex>
         {levels.map(level => (
-          <Box key={level} mb="3" boxShadow="md">
+          <Box key={level} mb="3" boxShadow="lg">
             <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
-              <Box tag="button" id={`toggler${level}`} action>
-                <LadderLevelTitle
-                  level={level[5]}
-                  task={ladder[level]}
-                  progress={getLevelProgress(ladder[level])}
-                />
-              </Box>
+              <Accordion allowToggle>
+                <AccordionItem>
+                  {({ isExpanded }) => (
+                    <>
+                      <LadderLevelTitle
+                        level={level[5]}
+                        task={ladder[level]}
+                        isExpanded={isExpanded}
+                        progress={getLevelProgress(ladder[level])}
+                      />
 
-              <UncontrolledCollapse toggler={`#toggler${level}`}>
-                <Card>
-                  <CardBody>
-                    <Assignments
-                      assignments={getLevelAssignments(ladder[level])}
-                      refetch={refetch}
-                    />
-                  </CardBody>
-                </Card>
-              </UncontrolledCollapse>
+                      <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
+                        <Assignments
+                          assignments={getLevelAssignments(ladder[level])}
+                          refetch={refetch}
+                        />
+                      </AccordionPanel>
+                    </>
+                  )}
+                </AccordionItem>
+              </Accordion>
             </Flex>
           </Box>
         ))}

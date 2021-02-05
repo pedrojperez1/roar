@@ -1,24 +1,30 @@
 import React from "react"
 
-import { Container, Flex, Link, Text, Progress } from "@chakra-ui/react"
+import { Container, Flex, Link, Text, Progress, AccordionButton } from "@chakra-ui/react"
 
-const LadderLevelTitle = ({ level, task, progress }) => {
-  console.warn(progress)
+const LadderLevelTitle = ({ level, task, progress, isExpanded }) => {
   return (
-    <Container p="16">
+    <Container p="8">
       <Flex mb="30px" alignItems="flex-start" flexDirection="column">
         <Flex width="100%" alignItems="center" justifyContent="space-between">
           <Text fontSize="xl" fontWeight="bold">
             Level {level}
           </Text>
-          <Link color="teal">View Sub Tasks</Link>
+
+          <AccordionButton style={{ width: "auto", backgroundColor: "transparent" }} as={Link}>
+            <>
+              <Link color="teal">{isExpanded ? "Hide Sub Tasks" : "View Sub Tasks"}</Link>
+            </>
+          </AccordionButton>
         </Flex>
 
         <Text fontWeight="bold" fontSize="large" color="gray.500">
           {task}
         </Text>
       </Flex>
-      <Text textAlign="left">Task Done: {progress.toFixed(2)} / 100 %</Text>
+      <Text marginBottom="10px" fontWeight="bold" textAlign="left">
+        Task Done: {progress.toFixed(2)} / 100 %
+      </Text>
       <Progress animated colorScheme="green" value={progress} />
     </Container>
   )
