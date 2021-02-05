@@ -11,7 +11,7 @@ jobs:
         with:
           path: ./client
       - name: Install Packages
-        run: cd ./client && npm install --production=false
+        run: cd client && npm install --production=false
 
       - name: Lint
-        run: cd ./client && npm run lint
+        run: cd client && npm run lint
