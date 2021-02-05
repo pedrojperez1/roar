@@ -175,6 +175,12 @@ const Assignment = new GraphQLObjectType({
                     return assignment.task;
                 }
             },
+            level: {
+                type: GraphQLInt,
+                resolve(assignment) {
+                    return assignment.level;
+                }
+            },
             dueDate: {
                 type: GraphQLString,
                 resolve(assignment) {
@@ -424,9 +430,27 @@ const Mutation = new GraphQLObjectType({
                     levels.forEach(level => {
                         if (args[level]) {
                             const firstDueDate = genDueDate(level);
-                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.format()});
-                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(2, "day").format()});
-                            newLadder.createAssignment({task: args[level], dueDate: firstDueDate.add(4, "day").format()});
+                            newLadder.createAssignment(
+                                {
+                                    task: args[level], 
+                                    level: Number(level[5]), 
+                                    dueDate: firstDueDate.format()
+                                }
+                            );
+                            newLadder.createAssignment(
+                                {
+                                    task: args[level], 
+                                    level: Number(level[5]), 
+                                    dueDate: firstDueDate.add(2, "day").format()
+                                }
+                            );
+                            newLadder.createAssignment(
+                                {
+                                    task: args[level], 
+                                    level: Number(level[5]), 
+                                    dueDate: firstDueDate.add(4, "day").format()
+                                }
+                            );
                         }
                     });
                     return newLadder
@@ -438,14 +462,10 @@ const Mutation = new GraphQLObjectType({
                     id: { type: GraphQLInt }
                 },
                 async resolve(_, args) {
-                    try {
-                        const assignment = await db.models.assignments.findByPk(args.id);
-                        assignment.completed = true;
-                        await assignment.save();
-                        return "success";
-                    } catch {
-                        return "error";
-                    }
+                    const assignment = await db.models.assignments.findByPk(args.id);
+                    assignment.completed = true;
+                    await assignment.save();
+                    return 'success';
                 }
             },
             addFeedPost: {

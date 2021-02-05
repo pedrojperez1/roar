@@ -5,6 +5,10 @@ const AssignmentModel = {
         type: Sequelize.STRING,
         allowNull: false
     },
+    level: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     dueDate: {
         type: Sequelize.STRING,
         allowNull: false
