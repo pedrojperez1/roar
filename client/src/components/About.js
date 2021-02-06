@@ -2,12 +2,13 @@ import React from "react"
 // import { Card, CardBody, CardDeck, CardImg, CardSubtitle, CardText, CardTitle, Col, Container, Fade, Jumbotron, Row } from "reactstrap"
 import lesley from "../img/IMG_3008.jpg"
 import pedro from "../img/IMG_2622.jpg"
+import manny from "../img/IMG_0001.jpeg"
 import { Container, Box, Text, Heading, Image, Flex, VStack } from "@chakra-ui/react"
 import "./About.css"
 
 const About = () => {
   return (
-    <Container width="60">
+    <Container maxW="xl">
       <div>
         <Box mb="30px">
           <Heading mb="18px" className="display-3">
@@ -38,8 +39,8 @@ const About = () => {
               their work.
             </p>
           </VStack>
-          <Flex mb="28" justifyContent="space-between">
-            <Box>
+          <Flex mb="28" justify="center" align="center" wrap="wrap">
+          <Box my="5" mx="7">
               <Image
                 objectFit="cover"
                 borderRadius="full"
@@ -50,9 +51,9 @@ const About = () => {
               <Text fontWeight="bold" fontSize="20px">
                 Lesley Norris
               </Text>
-              <Text>Clinical Psychology PhD Candidate</Text>
+              <Text>Clinical Psychologist</Text>
             </Box>
-            <Box>
+            <Box my="5" mx="7">
               <Image
                 objectFit="cover"
                 borderRadius="full"
@@ -64,6 +65,19 @@ const About = () => {
                 Pedro Pérez
               </Text>
               <Text>Lead Software Engineer</Text>
+            </Box>
+            <Box my="5" mx="7">
+              <Image
+                objectFit="cover"
+                borderRadius="full"
+                boxSize="180px"
+                src={manny}
+                alt="Lesley"
+              />
+              <Text fontWeight="bold" fontSize="20px">
+                Manny Carrera
+              </Text>
+              <Text>Lead UI/UX Engineer</Text>
             </Box>
           </Flex>
         </Box>
