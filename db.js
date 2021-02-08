@@ -1,12 +1,13 @@
 const Sequelize = require("sequelize");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt")
 const AssignmentModel = require("./models/AssignmentModel");
+const AchievementModel = require("./models/AchievementModel");
 const FeedPostModel = require("./models/FeedPostModel");
 const LadderModel = require("./models/LadderModel");
 const UserModel = require("./models/UserModel");
 const FollowsModel = require("./models/FollowsModel");
 
-const conn = process.env.NODE_ENV === 'production' ?
+const db = process.env.NODE_ENV === 'production' ?
     new Sequelize(process.env.DATABASE_URL, { // for prod env only
         dialect: 'postgres',
         protocol: 'postgres',
@@ -19,11 +20,12 @@ const conn = process.env.NODE_ENV === 'production' ?
     }) :
     new Sequelize("postgres://localhost/roar-db")
 
-const User = conn.define("users", UserModel);
-const Ladder = conn.define("ladders", LadderModel);
-const Assignment = conn.define("assignments", AssignmentModel);
-const FeedPost = conn.define("feedposts", FeedPostModel);
-const Follows = conn.define("follows", FollowsModel);
+const User = db.define("users", UserModel);
+const Ladder = db.define("ladders", LadderModel);
+const Assignment = db.define("assignments", AssignmentModel);
+const FeedPost = db.define("feedposts", FeedPostModel);
+const Follows = db.define("follows", FollowsModel);
+const Achievement = db.define("achievements", AchievementModel);
 
 // Relationships
 
@@ -43,7 +45,14 @@ Assignment.belongsTo(Ladder);
 User.belongsToMany(User, {through: Follows, as: "Following", foreignKey: "userId"});
 User.belongsToMany(User, {through: Follows, as: "Followers", foreignKey: "followingId"});
 
-conn.sync({force: true})
+// User <many to many> Achievement
+User.belongsToMany(Achievement, { through: "User_Achievements"});
+Achievement.belongsToMany(User, { through: "User_Achievements"});
+
+
+
+
+db.sync({force: true})
 .then(async () => {
     const password = await bcrypt.hash("test", 12);
     User.create({
@@ -59,8 +68,42 @@ conn.sync({force: true})
         .then(u2 => {
             u2.addFollowing(u1)
         })
+        .then(() => (
+            Achievement.bulkCreate([
+                {
+                    name: "Scout",
+                    description: "Completed first assignment!",
+                    type: "assignment",
+                    level: 1
+                },
+                {
+                    name: "Trooper",
+                    description: "Completed 5 assignments!",
+                    type: "assignment",
+                    level: 2
+                },
+                {
+                    name: "Veteran",
+                    description: "Completed 10 assignments!",
+                    type: "assignment",
+                    level: 3
+                },
+                {
+                    name: "Social Butterfly",
+                    description: "Followed a user!",
+                    type: "follow",
+                    level: 1
+                },
+                {
+                    name: "Town Crier",
+                    description: "First post to your feed!",
+                    type: "post",
+                    level: 1
+                }
+            ])
+        ))
     })
 })
 
 
-module.exports = conn;
+module.exports = db;

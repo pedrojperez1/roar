@@ -8,18 +8,22 @@ const Following = ({ following }) => {
             <Row>
                 <h1 className="font-weight-light">Following</h1>
             </Row>
-            <Row>
-                <CardDeck>
-                    {following.map(f => (
-                        <FollowingUser 
-                            key={f.username} 
-                            username={f.username} 
-                            profileImage={f.profileImage} 
-                        />
-                        )
-                    )}
-                </CardDeck>
-            </Row>
+            {
+                following.length === 0 ?
+                <p>No follows... yet.</p> :
+                <Row>
+                    <CardDeck>
+                        {following.map(f => (
+                            <FollowingUser 
+                                key={f.username} 
+                                username={f.username} 
+                                profileImage={f.profileImage} 
+                            />
+                            )
+                        )}
+                    </CardDeck>
+                </Row>
+            }
         </div>
     )
 };
