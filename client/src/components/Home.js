@@ -31,7 +31,7 @@ const Home = () => {
                             <Statistics ladders={data.getMyProfile.ladders}/>
                         </Row>
                         <Row className="my-3">
-                            <Achievements />
+                            <Achievements username={data.getMyProfile.username}/>
                         </Row>
                         <Row className="my-3">
                             <Following following={data.getMyProfile.following}/>
