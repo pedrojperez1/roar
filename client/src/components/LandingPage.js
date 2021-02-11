@@ -10,7 +10,7 @@ const LandingPage = () => {
   return (
     <Container mb="10" maxWidth="5xl">
       <Flex
-        flexDirection={{ sm: "column-reverse", md: "row" }}
+        flexDirection={["column-reverse", "row"]}
         justifyContent={{ sm: "center", md: "space-between" }}
         alignItems="center"
         mb="8"
@@ -40,8 +40,8 @@ const LandingPage = () => {
       <Flex
         mb="8"
         alignItems="center"
-        flexDirection={{ sm: "column", md: "row" }}
-        justifyContent={{ sm: "center", md: "space-between" }}
+        flexDirection={["column", "row"]}
+        justifyContent={["center", "space-between"]}
       >
         <Box
           display="flex"
