@@ -8,7 +8,7 @@ const ProfilePreviewDropdown = () => {
   const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)
   if (loading) return <Loading />
   if (error) return `Error fetching profile.`
-  console.warn(data)
+
   return (
     <div className="ProfilePreviewDropdown">
       <Container className="justify-content-center">

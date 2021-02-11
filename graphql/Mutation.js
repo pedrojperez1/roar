@@ -11,7 +11,7 @@ const FeedPost = require("./FeedPost")
 const bcrypt = require("bcrypt")
 const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("../config")
 const jwt = require("jsonwebtoken")
-const { genDueDate, getUserId } = require("../utils")
+const { genDueDate, getUserId, checkForAchievements } = require("../utils")
 
 
 const Mutation = new GraphQLObjectType({
@@ -133,6 +133,9 @@ const Mutation = new GraphQLObjectType({
                     const assignment = await db.models.assignments.findByPk(args.id);
                     assignment.completed = true;
                     await assignment.save();
+                    const ladder = await assignment.getLadder();
+                    const user = await ladder.getUser();
+                    checkForAchievements("assignment", user);
                     return 'success';
                 }
             },
@@ -145,10 +148,12 @@ const Mutation = new GraphQLObjectType({
                 async resolve(_, args, context) {
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
-                    return await user.createFeedpost({
+                    const feedpost = await user.createFeedpost({
                         content: args.content,
                         type: args.type
                     });
+                    checkForAchievements("post", user);
+                    return feedpost;
                 }
             },
             followUser: {
@@ -161,6 +166,7 @@ const Mutation = new GraphQLObjectType({
                     const user = await db.models.users.findByPk(userId);
                     const userToFollow = await db.models.users.findOne({where: args});
                     const following = await user.addFollowing(userToFollow);
+                    checkForAchievements("follow", user);
                     return following ? "success" : "error"
                 }
             },

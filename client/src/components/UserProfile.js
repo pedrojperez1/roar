@@ -72,7 +72,7 @@ const UserProfile = () => {
                     </Col>
                     <Col xs={6}>
                         <Row className="mb-3">
-                            <Achievements />
+                            <Achievements username={username}/>
                         </Row>
                         <Row>
                             <Feed username={username} myFeed={profile.username === myProfile.username}/>

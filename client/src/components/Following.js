@@ -5,14 +5,21 @@ import { Box, Flex } from "@chakra-ui/react"
 
 const Following = ({ following }) => {
   return (
-    <Box>
+    <Flex>
       <h1 className="font-weight-light">Following</h1>
-      <Flex>
-        {following.map(f => (
-          <FollowingUser key={f.username} username={f.username} profileImage={f.profileImage} />
-        ))}
-      </Flex>
-    </Box>
+
+      {following.length === 0 ? (
+        <p>No follows... yet.</p>
+      ) : (
+        <Box>
+          <Box>
+            {following.map(f => (
+              <FollowingUser key={f.username} username={f.username} profileImage={f.profileImage} />
+            ))}
+          </Box>
+        </Box>
+      )}
+    </Flex>
   )
 }
 

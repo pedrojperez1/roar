@@ -1,7 +1,18 @@
 import React from "react"
-import { Heading, Box, Flex } from "@chakra-ui/react"
 
-const Achievements = () => {
+import { useQuery } from "@apollo/client"
+import { Heading, Box, Flex } from "@chakra-ui/react"
+import { GET_USER_ACHIEVEMENTS } from "../queries/achievements"
+import Loading from "./Loading"
+
+const Achievements = ({ username }) => {
+  const { loading, error, data } = useQuery(GET_USER_ACHIEVEMENTS, {
+    // eslint-disable-next-line no-undef
+    variables: { username: username },
+  })
+  if (loading) return <Loading />
+  if (error) return "Something bad happened :("
+
   return (
     <Box>
       <Heading
@@ -13,15 +24,17 @@ const Achievements = () => {
         Achievements
       </Heading>
       <Flex justifyContent="space-between">
-        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
-          <p>Achievement 1</p>
-        </Box>
-        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
-          <p>Achievement 2</p>
-        </Box>
-        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
-          <p>Achievement 3</p>
-        </Box>
+        {data.getUserAchievements.length === 0 ? (
+          <p>No achievements... yet!</p>
+        ) : (
+          <Box>
+            {data.getUserAchievements.map(a => (
+              <Box key={a.id}>
+                <p>{a.name}</p>
+              </Box>
+            ))}
+          </Box>
+        )}
       </Flex>
     </Box>
   )

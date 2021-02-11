@@ -9,6 +9,7 @@ const User = require("./User")
 const Ladder = require("./Ladder")
 const Assignment = require("./Assignment")
 const FeedPost = require("./FeedPost")
+const Achivement = require("./Achivement")
 const { getUserId } = require("../utils")
 
 const Query = new GraphQLObjectType({
@@ -91,6 +92,21 @@ const Query = new GraphQLObjectType({
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
                     return await user.getFollowing(); 
+                }
+            },
+            getUserAchievements: {
+                type: new GraphQLList(Achivement),
+                args: { 
+                    username: { type: GraphQLString }
+                },
+                async resolve(root, args, context) {
+                    const userId = getUserId(context);
+                    if (userId) {
+                        const user = await db.models.users.findOne({where: args});
+                        return await user.getAchievements();
+                    } else {
+                        throw new Error("Not authorized.")
+                    }
                 }
             },
             fetchProfile: {

@@ -32,7 +32,7 @@ const Home = () => {
           <Flex textAlign="left" flexDirection="column">
             <Statistics ladders={data.getMyProfile.ladders} />
             <Box>
-              <Achievements />
+              <Achievements username={data.getMyProfile.username} />
             </Box>
           </Flex>
         </GridItem>
