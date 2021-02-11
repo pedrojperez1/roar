@@ -1,33 +1,30 @@
-import React from "react";
-import { CardDeck, Card, CardBody, Row } from "reactstrap";
+import React from "react"
+import { Heading, Box, Flex } from "@chakra-ui/react"
 
 const Achievements = () => {
-    return (
-        <div className="Achievements">
-            <Row className="mb-3">
-                <h1 className="font-weight-light">Achievements</h1>
-            </Row>
-            <Row>
-                <CardDeck>
-                    <Card>
-                        <CardBody>
-                            <p>Achievement 1</p>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardBody>
-                            <p>Achievement 2</p>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardBody>
-                            <p>Achievement 2</p>
-                        </CardBody>
-                    </Card>
-                </CardDeck>
-            </Row>
-        </div>
-    )
-};
+  return (
+    <Box>
+      <Heading
+        fontSize="24px"
+        style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
+        mb="6"
+        pb="10px"
+      >
+        Achievements
+      </Heading>
+      <Flex justifyContent="space-between">
+        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
+          <p>Achievement 1</p>
+        </Box>
+        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
+          <p>Achievement 2</p>
+        </Box>
+        <Box p="5" border="1px solid rgb(226, 232, 240)" borderRadius="8px">
+          <p>Achievement 3</p>
+        </Box>
+      </Flex>
+    </Box>
+  )
+}
 
-export default Achievements;
+export default Achievements

@@ -1,66 +1,102 @@
-import React from "react";
-import { Button, Col, Container, Row, Card, CardText } from "reactstrap";
-import { Link } from "react-router-dom";
-import "./Home.css";
-import { FETCH_MY_PROFILE_QUERY } from "../queries/users";
-import Statistics from "./Statistics";
-import Following from "./Following";
-import Achievements from "./Achievements";
-import { useQuery } from "@apollo/client";
-import Loading from "./Loading";
-import genJoinDate from "../helpers/genJoinDate";
+import React from "react"
+import { Link } from "react-router-dom"
+import "./Home.css"
+import { FETCH_MY_PROFILE_QUERY } from "../queries/users"
+import Statistics from "./Statistics"
+import Following from "./Following"
+import Achievements from "./Achievements"
+import { useQuery } from "@apollo/client"
+import Loading from "./Loading"
+import genJoinDate from "../helpers/genJoinDate"
+import { Container, Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
 
-const Home = () => {    
-    const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY);
-    if (loading) return <Loading />;
-    if (error) {
-        return `Something bad happened. ${error}`
-    }
-    return (
-        <div className="Home">
-            <Container className="pt-3 mb-5">
-                <Row>
-                    <Col xs={12} sm={12} md={8} className="p-2 vh-100 d-inline-block">
+const Home = () => {
+  const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)
+  if (loading) return <Loading />
+  if (error) {
+    return `Something bad happened. ${error}`
+  }
+  return (
+    <Container maxWidth="4xl" className="Home">
+      <Grid gap={4} templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}>
+        <GridItem colSpan={3}>
+          <Box mb="4" textAlign="left">
+            <Heading mb>
+              <Link to={`/u/${data.getMyProfile.username}`}>{data.getMyProfile.username}</Link>
+            </Heading>
 
-                        <Row>
-                            <h1><Link to={`/u/${data.getMyProfile.username}`}>{data.getMyProfile.username}</Link></h1>
-                        </Row>
-                        <Row><p>Joined {genJoinDate(data.getMyProfile.createdAt)}</p></Row>
+            <Box>
+              <p>Joined {genJoinDate(data.getMyProfile.createdAt)}</p>
+            </Box>
+          </Box>
+          <Flex textAlign="left" flexDirection="column">
+            <Statistics ladders={data.getMyProfile.ladders} />
+            <Box>
+              <Achievements />
+            </Box>
+          </Flex>
+        </GridItem>
+        <GridItem colSpan={2}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            p={"8"}
+            mb="4"
+            border="1px solid rgb(226, 232, 240)"
+            borderRadius="8px"
+          >
+            <Text textAlign="left" mb="3">
+              Are you ready to create a new Fear Mountain?
+            </Text>
+            <Button colorScheme="blue">
+              <Link to="/newladder">Create new Fear Mountain</Link>
+            </Button>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            p={"8"}
+            border="1px solid rgb(226, 232, 240)"
+            borderRadius="8px"
+            mb="4"
+          >
+            <Text textAlign="left" mb="3">
+              Check out how you are progressing on your Fear Ladders!
+            </Text>
+            <Button colorScheme="blue">
+              <Link to="/ladders">Go to My Ladders</Link>
+            </Button>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            p={"8"}
+            border="1px solid rgb(226, 232, 240)"
+            borderRadius="8px"
+            mb="4"
+          >
+            <Text textAlign="left" mb="3">
+              Other people are facing their fears too. Browse around and join the conversation!
+            </Text>
+            <Button colorScheme="blue">Start browsing</Button>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            p={"8"}
+            border="1px solid rgb(226, 232, 240)"
+            borderRadius="8px"
+            mb="4"
+          >
+            <Text textAlign="left" mb="3" fontWeight="bold">
+              Following
+            </Text>
+            <Following following={data.getMyProfile.following} />
+          </Box>
+        </GridItem>
+      </Grid>
+    </Container>
+  )
+}
 
-                        <Row className="my-3">
-                            <Statistics ladders={data.getMyProfile.ladders}/>
-                        </Row>
-                        <Row className="my-3">
-                            <Achievements />
-                        </Row>
-                        <Row className="my-3">
-                            <Following following={data.getMyProfile.following}/>
-                        </Row>
-                    </Col>
-                    <Col>
-                        <Row className="pt-4 px-4">
-                            <Card body className="text-center">
-                                <CardText className="lead">Are you ready to create a new Fear Mountain?</CardText>
-                                <Button color="primary"><Link to="/newladder">Create new Fear Mountain</Link></Button>
-                            </Card>
-                        </Row>
-                        <Row className="my-3 px-4">
-                            <Card body className="text-center">
-                                <CardText className="lead">Check out how you are progressing on your Fear Ladders!</CardText>
-                                <Button color="primary"><Link to="/ladders">Go to My Ladders</Link></Button>
-                            </Card>
-                        </Row>
-                        <Row className="my-3 px-4">
-                            <Card body className="text-center">
-                                <CardText className="lead">Other people are facing their fears too. Browse around and join the conversation!</CardText>
-                                <Button color="primary">Start browsing</Button>
-                            </Card>
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    )
-};
-
-export default Home;
+export default Home
