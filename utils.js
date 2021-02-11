@@ -107,9 +107,9 @@ async function checkForAchievements(type, user) {
 
     case "post":
       const posts = await user.getFeedposts();
-      
+      const userPosts = posts.filter(post => post.type === "user");
       // check if user's post count === 1, then POSTED FIRST POST
-      if (posts.length === 1) {
+      if (userPosts.length === 1) {
         const achievement = await db.models.achievements.findOne({where: {name: "Town Crier"}});
         user.addAchievement(achievement);
         achievements.push(achievement);
