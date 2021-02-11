@@ -1,5 +1,4 @@
 import React from "react"
-// import { Card, CardBody, CardDeck, CardImg, CardSubtitle, CardText, CardTitle, Col, Container, Fade, Jumbotron, Row } from "reactstrap"
 import lesley from "../img/IMG_3008.jpg"
 import pedro from "../img/IMG_2622.jpg"
 import manny from "../img/IMG_0001.jpeg"
@@ -40,7 +39,7 @@ const About = () => {
             </p>
           </VStack>
           <Flex mb="28" justify="center" align="center" wrap="wrap">
-          <Box my="5" mx="7">
+            <Box my="5" mx="7">
               <Image
                 objectFit="cover"
                 borderRadius="full"

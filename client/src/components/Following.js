@@ -1,31 +1,26 @@
-import React from "react";
-import { CardDeck, Row } from "reactstrap";
-import FollowingUser from "./FollowingUser";
+import React from "react"
+
+import FollowingUser from "./FollowingUser"
+import { Box, Flex } from "@chakra-ui/react"
 
 const Following = ({ following }) => {
-    return (
-        <div className="Following">
-            <Row>
-                <h1 className="font-weight-light">Following</h1>
-            </Row>
-            {
-                following.length === 0 ?
-                <p>No follows... yet.</p> :
-                <Row>
-                    <CardDeck>
-                        {following.map(f => (
-                            <FollowingUser 
-                                key={f.username} 
-                                username={f.username} 
-                                profileImage={f.profileImage} 
-                            />
-                            )
-                        )}
-                    </CardDeck>
-                </Row>
-            }
-        </div>
-    )
-};
+  return (
+    <Flex>
+      <h1 className="font-weight-light">Following</h1>
 
-export default Following;
+      {following.length === 0 ? (
+        <p>No follows... yet.</p>
+      ) : (
+        <Box>
+          <Box>
+            {following.map(f => (
+              <FollowingUser key={f.username} username={f.username} profileImage={f.profileImage} />
+            ))}
+          </Box>
+        </Box>
+      )}
+    </Flex>
+  )
+}
+
+export default Following

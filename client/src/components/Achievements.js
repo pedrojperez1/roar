@@ -1,39 +1,43 @@
-import { useQuery } from "@apollo/client";
-import React from "react";
-import { CardDeck, Card, CardBody, Row } from "reactstrap";
-import { GET_USER_ACHIEVEMENTS } from "../queries/achievements";
-import Loading from "./Loading";
+import React from "react"
 
-const Achievements = ({username}) => {
-    const {loading, error, data} = useQuery(GET_USER_ACHIEVEMENTS, {
-        variables: {username: username}
-    });
-    if (loading) return <Loading />
-    if (error) return "Something bad happened :("
-    return (
-        <div className="Achievements">
-            <Row className="mb-3">
-                <h1 className="font-weight-light">Achievements</h1>
-            </Row>
-            {
-                data.getUserAchievements.length === 0 ?
-                <p>No achievements... yet!</p> :
-                <Row>
-                    <CardDeck>
-                        {
-                            data.getUserAchievements.map(a => (
-                                <Card key={a.id}>
-                                    <CardBody>
-                                        <p>{a.name}</p>
-                                    </CardBody>
-                                </Card>
-                            ))
-                        }
-                    </CardDeck>
-                </Row>
-            }
-        </div>
-    )
-};
+import { useQuery } from "@apollo/client"
+import { Heading, Box, Flex } from "@chakra-ui/react"
+import { GET_USER_ACHIEVEMENTS } from "../queries/achievements"
+import Loading from "./Loading"
 
-export default Achievements;
+const Achievements = ({ username }) => {
+  const { loading, error, data } = useQuery(GET_USER_ACHIEVEMENTS, {
+    // eslint-disable-next-line no-undef
+    variables: { username: username },
+  })
+  if (loading) return <Loading />
+  if (error) return "Something bad happened :("
+
+  return (
+    <Box>
+      <Heading
+        fontSize="24px"
+        style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
+        mb="6"
+        pb="10px"
+      >
+        Achievements
+      </Heading>
+      <Flex justifyContent="space-between">
+        {data.getUserAchievements.length === 0 ? (
+          <p>No achievements... yet!</p>
+        ) : (
+          <Box>
+            {data.getUserAchievements.map(a => (
+              <Box key={a.id}>
+                <p>{a.name}</p>
+              </Box>
+            ))}
+          </Box>
+        )}
+      </Flex>
+    </Box>
+  )
+}
+
+export default Achievements

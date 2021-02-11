@@ -1,6 +1,7 @@
 import React from "react"
 import dayjs from "dayjs"
-import { Card, CardBody, CardDeck, Row } from "reactstrap"
+import { Card, CardBody, CardDeck } from "reactstrap"
+import { Flex, Box, Heading } from "@chakra-ui/react"
 
 const Statistics = ({ ladders }) => {
   const tasksCompleted = ladders.reduce(
@@ -20,31 +21,39 @@ const Statistics = ({ ladders }) => {
   }
 
   return (
-    <div className="Statistics text-left">
-        <Row><h1 className="font-weight-light">Statistics</h1></Row>
-      <Row>
+    <Box>
+      <Heading
+        fontSize="24px"
+        pb="10px"
+        style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
+        mb="6"
+      >
+        Statistics
+      </Heading>
+
+      <Flex>
         <CardDeck>
-          <Card style={{"border": "none", "fontSize": "13px"}}>
+          <Card style={{ border: "none", fontSize: "13px" }}>
             <CardBody>
               <h3>{tasksCompleted}</h3>
               <p>Number of completed tasks</p>
             </CardBody>
           </Card>
-          <Card style={{"border": "none", "fontSize": "13px"}}>
+          <Card style={{ border: "none", fontSize: "13px" }}>
             <CardBody>
               <h3>{getNextDueDate(ladders)}</h3>
               <p>Next task due</p>
             </CardBody>
           </Card>
-          <Card style={{"border": "none", "fontSize": "13px"}}>
+          <Card style={{ border: "none", fontSize: "13px" }}>
             <CardBody>
               <h3>{ladders.length}</h3>
               <p>Number of mountains climbed</p>
             </CardBody>
           </Card>
         </CardDeck>
-      </Row>
-    </div>
+      </Flex>
+    </Box>
   )
 }
 
