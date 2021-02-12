@@ -16,8 +16,7 @@ import NewLadderStep0 from "./NewLadderStep0";
 import NewLadderStep2 from "./NewLadderStep2";
 import NewLadderStep3 from "./NewLadderStep3";
 import NewLadderStep4 from "./NewLadderStep4";
-import NewLadderStep5 from "./NewLadderStep5";
-import NewLadderStep6 from "./NewLadderStep6";
+// import NewLadderStep5 from "./NewLadderStep5";
 import UserProfile from "./UserProfile";
 
 const Routes = () => {
@@ -69,12 +68,9 @@ const Routes = () => {
             <Route exact path="/newladder/4">
                 { !currentUser ? <Redirect to="/login" /> : <NewLadderStep4 /> }
             </Route>
-            <Route exact path="/newladder/5">
+            {/* <Route exact path="/newladder/5">
                 { !currentUser ? <Redirect to="/login" /> : <NewLadderStep5 /> }
-            </Route>
-            <Route exact path="/newladder/6">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep6 /> }
-            </Route>
+            </Route> */}
             <Route exact path="/u/:username">
                 { !currentUser ? <Redirect to="/login" /> : <UserProfile /> }
             </Route>

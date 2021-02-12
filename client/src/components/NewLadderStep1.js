@@ -1,48 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Container, Fade } from "reactstrap";
+import { Button, Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
+import NewLadderContext from "../helpers/NewLadderContext";
 
 const NewLadderStep1 = () => {
+    const [ladderName, setLadderName] = useState('');
+    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
     const history = useHistory();
     
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-            if (e.key === "1") {
-                history.push("/newladder/2")
-            }
-            if (e.key === "2") {
-                history.push("/learn")
-            }
-        };
-        window.addEventListener("keydown", handleKeyPress);
-        return () => {
-            window.removeEventListener("keydown", handleKeyPress);
-        }
-    }, [history]);
+    const saveAndNext = useCallback(() => {
+        setNewLadderData({...newLadderData, name: ladderName});
+        history.push("/newladder/2");
+    }, [newLadderData, setNewLadderData, ladderName, history]);
 
-    const nextButtonOrText = () => {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            return (
-                <>
-                    <Button onClick={() => history.push("/newladder/2")}>Yes</Button>
-                    <Button onClick={() => history.push("/learn")}>No</Button>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <kbd>1</kbd> Yes <kbd>2</kbd> No
-                </>
-            )
-        }
-    }
+    // useEffect(() => {
+    //     const handleEnter = (e) => {
+    //         if (e.key === "Enter") {
+    //             e.preventDefault();
+    //             saveAndNext();
+    //         }
+    //     };
+    //     window.addEventListener("keydown", handleEnter);
+    //     return () => {
+    //         window.removeEventListener("keydown", handleEnter)
+    //     }
+    // }, [saveAndNext]);
+
+    // const nextButtonOrText = () => {
+    //     if (/Mobi|Android/i.test(navigator.userAgent)) {
+    //         return (
+    //             <Button onClick={saveAndNext}>Continue</Button>
+    //         )
+    //     } else {
+    //         return (
+    //             <>
+    //                 Press <kbd>Enter</kbd> to continue
+    //             </>
+    //         )
+    //     }
+    // }
 
     return (
         <Fade>
             <div className="NewLadderStep1">
                 <Container>
-                    <blockquote className="blockquote text-left">Have you ever created a fear ladder before?</blockquote>
-                    <p className="lead text-left mt-5">{nextButtonOrText()}</p>
+                    <div className="text-left">
+                        <blockquote className="blockquote">Let's give your fear ladder a name!</blockquote>
+                        <blockquote className="blockquote">In a few words, tell us what fear you want to work on.</blockquote>
+                        <p className="lead"><u><b>Example:</b></u> My fear of dogs</p>
+                        <Col xs="6" className="pl-0">
+                            <Form>
+                                <FormGroup>
+                                    <Input onChange={(e) => setLadderName(e.target.value)} type="text" value={ladderName} />
+                                </FormGroup>
+                            </Form>
+                        </Col>
+                        { ladderName.length > 4 && 
+                        <p className="lead mt-5"><Button onClick={saveAndNext}>Continue</Button></p>
+                        }
+                        
+                    </div>
                 </Container>
             </div>
         </Fade>

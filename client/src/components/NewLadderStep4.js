@@ -1,68 +1,90 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import { Button, Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
-import NewLadderContext from "../helpers/NewLadderContext";
+import { useMutation } from "@apollo/client"
+import React, { useEffect, useContext, useState, useCallback } from "react"
+import { useHistory } from "react-router-dom"
+import { Button, Container, Fade } from "reactstrap"
+import NewLadderContext from "../helpers/NewLadderContext"
+import ActivitySummary from "./ActivitySummary"
+import { ADD_LADDER_MUTATION } from "../queries/ladders"
 
-const NewLadderStep4 = () => {
-    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
-    const [level8, setLevel8] = useState(newLadderData.level8 || '');
-    const history = useHistory();
-    
-    const saveAndNext = useCallback(() => {
-        setNewLadderData({...newLadderData, level8});
-        history.push("/newladder/5");
-    }, [newLadderData, setNewLadderData, level8, history]);
-    
-    useEffect(() => {
-        const handleEnter = (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                saveAndNext();
-            }
-        };
-        window.addEventListener("keydown", handleEnter);
-        return () => {
-            window.removeEventListener("keydown", handleEnter)
-        }
-    }, [saveAndNext]);
+const NewLadderStep5 = () => {
+  const { newLadderData, setNewLadderData } = useContext(NewLadderContext)
+  const [newLadderFormatted, setNewLadderFormatted] = useState({})
 
-    const nextButtonOrText = () => {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            return (
-                <Button onClick={saveAndNext}>Continue</Button>
-            )
-        } else {
-            return (
-                <>
-                    Press <kbd>Enter</kbd> to continue
-                </>
-            )
-        }
-    };
+  const history = useHistory()
+  const [addLadder] = useMutation(ADD_LADDER_MUTATION, {
+    variables: { ...newLadderFormatted },
+    onCompleted: ({ addLadder }) => {
+      history.push(`/ladders/${addLadder.id}`)
+      setNewLadderData({})
+    },
+  })
+  const saveAndNext = useCallback(() => {
+    setNewLadderFormatted(formatNewLadderData(newLadderData))
+    addLadder()
+  }, [newLadderData, addLadder])
 
-    return (
-        <Fade>
-            <div className="NewLadderStep4">
-                <Container>
-                    <div className="text-left">
-                        <blockquote className="blockquote">What is the one activity that you would like to be able to do but cannot because of this fear? We'll call this your <b>Goal Activity</b>.</blockquote>
-                        <p className="lead"><u><b>Example:</b></u> My fear of dogs will not allow me to live with a dog, so my Goal Activity is: <i>Living with a dog</i>.</p>
-                        <Col xs="6" className="pl-0">
-                            <Form>
-                                <FormGroup>
-                                    <Input onChange={(e) => setLevel8(e.target.value)} type="text" value={level8}/>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                        { level8.length > 4 && 
-                        <p className="lead mt-5">{nextButtonOrText()}</p>
-                        }
-                        
-                    </div>
-                </Container>
-            </div>
-        </Fade>
-    )
-};
+  // useEffect(() => {
+  //   const handleEnter = e => {
+  //     if (e.key === "Enter") {
+  //       e.preventDefault()
+  //       saveAndNext()
+  //     }
 
-export default NewLadderStep4;
+  //     if (e.key === "b") {
+  //       e.preventDefault()
+  //       history.push("/newladder/4")
+  //     }
+  //   }
+  //   window.addEventListener("keydown", handleEnter)
+  //   return () => {
+  //     window.removeEventListener("keydown", handleEnter)
+  //   }
+  // }, [history, saveAndNext])
+
+  const formatNewLadderData = newLadder => {
+    const formatted = {}
+    formatted.name = newLadder.name
+    const levels = Object.keys(newLadder.activities)
+    levels.sort((a, b) => newLadder.activities[a] - newLadder.activities[b])
+    levels.forEach((level, idx) => (formatted[`level${idx + 1}`] = level))
+    formatted[`level${levels.length + 1}`] = newLadder.level8
+    return formatted
+  }
+
+  // const nextButtonOrText = () => {
+  //   if (/Mobi|Android/i.test(navigator.userAgent)) {
+  //     return (
+  //       <>
+  //         <Button onClick={saveAndNext}>Continue</Button>
+  //         <Button onClick={() => history.push("/newladder/4")}>Back</Button>
+  //       </>
+  //     )
+  //   } else {
+  //     return (
+  //       <>
+  //         Press <kbd>Enter</kbd> to finish or <kbd>B</kbd> to go back
+  //       </>
+  //     )
+  //   }
+  // }
+
+  return (
+    <Fade>
+      <div className="NewLadderStep5">
+        <Container>
+          <div className="text-left">
+            <blockquote className="blockquote">Nice work! You're almost done!</blockquote>
+            <blockquote className="blockquote">
+              Look over your fear ladder below and make sure everything looks right. You can go back
+              and make any changes now or you can always edit your ladder later on.
+            </blockquote>
+            <ActivitySummary newLadderData={newLadderData} />
+            <p className="lead mt-5"><Button onClick={saveAndNext}>Continue</Button></p>
+          </div>
+        </Container>
+      </div>
+    </Fade>
+  )
+}
+
+export default NewLadderStep5
