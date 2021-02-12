@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import "./Home.css"
 import { FETCH_MY_PROFILE_QUERY } from "../queries/users"
 import Statistics from "./Statistics"
 import Following from "./Following"
@@ -17,7 +16,7 @@ const Home = () => {
     return `Something bad happened. ${error}`
   }
   return (
-    <Container maxWidth="4xl" className="Home">
+    <Container maxWidth="4xl">
       <Grid gap={4} templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}>
         <GridItem colSpan={3}>
           <Box mb="4" textAlign="left">
