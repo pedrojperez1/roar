@@ -1,9 +1,9 @@
 import React from "react"
-import { Row, Col } from "reactstrap"
+
 import { Link } from "react-router-dom"
 import { Container, Image, Flex, Box, Heading, Button, Text } from "@chakra-ui/react"
 import hero from "../img/hero.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import LandingPageCard from "./LandingPageCard"
 import { faPencilAlt, faTasks, faAward } from "@fortawesome/free-solid-svg-icons"
 
 const LandingPage = () => {
@@ -43,68 +43,24 @@ const LandingPage = () => {
         flexDirection={["column", "row"]}
         justifyContent={["center", "space-between"]}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="275px"
-          border="1px solid rgb(226, 232, 240)"
-          borderRadius="8px"
-          p="8"
-          mb="4"
-        >
-          <Box mb="4" width="100px" borderRadius="full" backgroundColor="#f6f4ff" p="5">
-            <FontAwesomeIcon color="#5A43F5" size="4x" icon={faPencilAlt} />
-          </Box>
-          <Text mb="4" fontWeight="bold">
-            Build your plan
-          </Text>
-          <Text>
-            Either on your own or with the help of a professional, build a custom plan to conquer
-            your fears
-          </Text>
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="275px"
-          border="1px solid rgb(226, 232, 240)"
-          borderRadius="8px"
-          p="8"
-          mb="4"
-        >
-          <Box mb="4" width="100px" borderRadius="full" backgroundColor="#f6f4ff" p="5">
-            <FontAwesomeIcon color="#5A43F5" size="4x" icon={faTasks} />
-          </Box>
-          <Text mb="4" fontWeight="bold">
-            Complete assignments
-          </Text>
-          <Text>
-            Work through your fears and complete assignments and win achievements along the way
-          </Text>
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="275px"
-          border="1px solid rgb(226, 232, 240)"
-          borderRadius="8px"
-          p="8"
-          mb="4"
-        >
-          <Box mb="4" width="100px" borderRadius="full" backgroundColor="#f6f4ff" p="5">
-            <FontAwesomeIcon color="#5A43F5" size="4x" icon={faAward} />
-          </Box>
-          <Text mb="4" fontWeight="bold">
-            Conquer Your Fear
-          </Text>
-          <Text>
-            The ultimate goal is for your to conquer your fear after all your tasks and to feel
-            success
-          </Text>
-        </Box>
+        <LandingPageCard
+          cardIcon={faPencilAlt}
+          cardTitle={"Build your plan"}
+          cardText="Either on your own or with the help of a professional, build a custom plan to conquer
+            your fears"
+        />
+        <LandingPageCard
+          cardIcon={faTasks}
+          cardTitle={"Complete assignments"}
+          cardText="Work through your fears and complete assignments and win achievements along the way"
+        />
+
+        <LandingPageCard
+          cardIcon={faAward}
+          cardTitle={"Conquer Your Fear"}
+          cardText="The ultimate goal is for your to conquer your fear after all your tasks and to feel
+          success"
+        />
       </Flex>
 
       <Button
