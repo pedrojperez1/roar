@@ -1,101 +1,92 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Col, Container, Fade, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
+import { 
+    Container, 
+    Fade, 
+    Input, 
+    Text, 
+    Button, 
+    Stack, 
+    Flex, 
+    Spacer, 
+    NumberInput, 
+    NumberInputField, 
+    NumberInputStepper, 
+    NumberIncrementStepper, 
+    NumberDecrementStepper, 
+    HStack } from "@chakra-ui/react";
+import { AddIcon } from '@chakra-ui/icons'
 import NewLadderContext from "../helpers/NewLadderContext";
-import { AiOutlinePlus } from "react-icons/ai"
 import ActivityItem from "./ActivityItem";
 
-const NewLadderStep3 = () => {
-    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
-    const [activity, setActivity] = useState('');
-    const [activities, setActivities] = useState(newLadderData.activities || {});
-    const history = useHistory();
+const NewLadderStep3 = ({setStep}) => {
+    const {newLadderData, setNewLadderData} = useContext(NewLadderContext)
+    const [task, setTask] = useState('')
+    const [level, setLevel] = useState('')
+    const [activities, setActivities] = useState(newLadderData.activities || [])
+    const history = useHistory()
     
     const saveAndNext = useCallback(() => {
-        setNewLadderData({...newLadderData, activities});
-        history.push("/newladder/4");
-    }, [newLadderData, setNewLadderData, activities, history]);
-
-    // useEffect(() => {
-    //     const handleEnter = (e) => {
-    //         if (e.key === "Enter") {
-    //             e.preventDefault();
-    //             if (Object.keys(activities).length >= 3) { // disallow enter if we don't have 3 activites yet
-    //                 saveAndNext();
-    //             }
-    //         }
-    //     };
-    //     window.addEventListener("keydown", handleEnter);
-    //     return () => {
-    //         window.removeEventListener("keydown", handleEnter)
-    //     }
-    // }, [activities, saveAndNext]);
+        setNewLadderData({...newLadderData, activities: activities})
+        setStep(4)
+    }, [newLadderData, setNewLadderData, activities, history])
 
     const handleAddActivity = (e) => {
         e.preventDefault();
-        setActivities({ ...activities, [activity]: {anxiety: 50} });
-        setActivity('');
+        setActivities([...activities, {task: task, level: level}])
+        setTask('')
+        setLevel('')
     };
 
-    const handleChangeAnxiety = (task, newAnxiety) => {
-        setActivities({ ...activities, [task]: {anxiety: newAnxiety} });
-    };
-
-    // const nextButtonOrText = () => {
-    //     if (/Mobi|Android/i.test(navigator.userAgent)) {
-    //         return (
-    //             <Button onClick={saveAndNext}>Continue</Button>
-    //         )
-    //     } else {
-    //         return (
-    //             <>
-    //                 Press <kbd>Enter</kbd> to continue
-    //             </>
-    //         )
-    //     }
-    // };
+    const removeActivity = taskToRemove => {
+        setActivities(activities.filter(activity => activity.task !== taskToRemove))
+    }
 
     return (
-        <Fade>
-            <div className="NewLadderStep3">
-                <Container>
-                    <div className="text-left">
-                        <blockquote className="blockquote">Now comes the fun part!</blockquote>
-                        <blockquote className="blockquote">
-                            Think of 3-7 activities that are similar to your <b>Goal Activity</b>, but are not as terrifying. 
-                            Think of these as stepping stones toward your <b>Goal Activity</b>. You can use the <kbd>+</kbd> button 
-                            to add to your list. Use the slider to indicate how anxious you would feel performing the activity.
-                        </blockquote>
-                        <p className="lead"><u><b>Example:</b></u> If my <b>Goal Activity</b> is living with a dog, similar activities are watching videos of dogs, petting a dog, or walking by the dog park.</p>
-                        <Row>
-                            <Col xs="6" className="mb-3">
-                                <InputGroup>
-                                    <InputGroupAddon addonType="append">
-                                        <Button onClick={handleAddActivity}><AiOutlinePlus /></Button>
-                                    </InputGroupAddon>
-                                    <Input onChange={(e) => setActivity(e.target.value)} type="text" value={activity}/>
-                                </InputGroup>
-                                
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs="12" md="10" lg="8" xl="8">
-                                {Object.keys(activities).map(key => (
+        <div className="NewLadderStep3">
+            <Container maxW="xl">
+                <Fade in={true}>
+                    <Stack spacing={3}>
+                        <Text fontSize="xl">Now comes the fun part!</Text>
+                        <Text fontSize="xl">
+                            Think of some activities that cause you anxiety, but not as much as <b>{newLadderData.summit}</b>. 
+                            Type them one at a time into the text box below and use the number toggle to tell us how afraid you would 
+                            be of performing that activity, on a scale of 0-8, where 0 is "not at all" and 8 is "VERY much". Then use 
+                            the <kbd>+</kbd> button to add to your list. 
+                        </Text>
+                        <Text fontSize="xl">We will call these activities your <b>Base Camps</b>. Soon you will master these on your way to the summit!</Text>
+                        <HStack spacing={2}>
+                            <Input onChange={(e) => setTask(e.target.value)} value={task} variant="flushed" size="lg" placeholder="Type here..."/>
+                            <NumberInput min={0} max={8} onChange={(e) => setLevel(Number(e))} value={level} size="lg">
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                </NumberInputStepper>
+                            </NumberInput>
+                            <Button onClick={handleAddActivity}><AddIcon /></Button>
+                        </HStack>
+                        <Stack spacing={5}>
+                            {
+                                activities.map(activity => (
                                     <ActivityItem
-                                        key={key}
-                                        task={key} 
-                                        anxiety={activities[key].anxiety}
-                                        handleChangeAnxiety={handleChangeAnxiety}
+                                        key={activity.task}
+                                        task={activity.task}
+                                        level={activity.level}
+                                        removeActivity={removeActivity}
                                     />
-                                ))}
-                            </Col>
-                        </Row>
-                        {Object.keys(activities).length > 2 && 
-                        <p className="lead mt-5"><Button onClick={saveAndNext}>Continue</Button></p>}
-                    </div>
-                </Container>
-            </div>
-        </Fade>
+                                ))
+                            }
+                        </Stack>
+                    </Stack>
+                    <Flex mt={8}>
+                        <Button onClick={() => setStep(2)}>Back</Button>
+                        <Spacer />
+                        { activities.length > 2 && <Button colorScheme="blue" onClick={saveAndNext}>Next</Button> }
+                    </Flex>
+                </Fade>
+            </Container>
+        </div>
     )
 };
 

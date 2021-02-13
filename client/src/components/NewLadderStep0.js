@@ -1,49 +1,28 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Box, Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
+import NewLadderContext from "../helpers/NewLadderContext";
 
-const NewLadderStep0 = () => {
-    const history = useHistory();
-    
-    // useEffect(() => {
-    //     const handleKeyPress = (e) => {
-    //         console.log(e.key);
-    //         history.push("/newladder/1")
-    //     };
-    //     window.addEventListener('keydown', handleKeyPress);
-    //     return () => {
-    //         window.removeEventListener("keydown", handleKeyPress)
-    //     }
-    // }, [history])
-    // const nextButtonOrText = () => {
-    //     if (/Mobi|Android/i.test(navigator.userAgent)) {
-    //         return (
-    //              <Button onClick={() => history.push("/newladder/1")}>Continue</Button>
-    //         )
-    //     } else {
-    //         return (
-    //             <>
-    //                 Press <kbd>Enter</kbd> to continue
-    //             </>
-    //         )
-    //     }
-    // }
+const NewLadderStep0 = ({setStep}) => {
+    const { setNewLadderData } = useContext(NewLadderContext)
+    useEffect(() => {
+        setNewLadderData({}) // reset ladder state
+    }, [])
     return (
         <div className="NewLadderStep0 mt-5">
-            <Fade in={true}>
-                <Container maxW="xl">
+            <Container maxW="xl">
+                <Fade in={true}>
                     <Stack spacing={3}>
                         <Text fontSize="xl">We will help you create your new Fear Mountain step by step. Make sure you carefully read the instructions so you get the most out of this exercise.</Text>
                         <Text fontSize="xl">If you have never climbed a Fear Mountain before, we recommend you learn more about exposure therapy and CBT <Link to="/learn">here</Link>.</Text>
                         <Text fontSize="xl">Now, let's get started!</Text>
                     </Stack>
-                    <Flex>
+                    <Flex mt={8}>
                         <Spacer />
-                        <Button onClick={() => history.push("/newladder/1")}>Next</Button>
+                        <Button colorScheme="blue" onClick={() => setStep(1)}>Next</Button>
                     </Flex>
-                        
-                </Container>
-            </Fade>
+                </Fade>
+            </Container>
         </div>
     )
 

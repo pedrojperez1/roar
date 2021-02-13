@@ -26,31 +26,11 @@ function getUserId(req, authToken) {
   throw new Error('Not authenticated')
 }
 
-function genDueDate(levelCode) {
-    switch (levelCode) {
-        case "level1":
-            return dayjs()
-        case "level2":
-            return dayjs().add(1, "week")
-        case "level3":
-            return dayjs().add(2, "week")
-        case "level4":
-            return dayjs().add(3, "week")
-        case "level5":
-            return dayjs().add(4, "week")
-        case "level6":
-            return dayjs().add(5, "week")
-        case "level7":
-            return dayjs().add(6, "week")
-        case "level8":
-            return dayjs().add(7, "week")
-        default:
-            throw new Error('Invalid level code provided to function.')
-    }
+function genDueDate(activityIdx) {
+    return dayjs().add(activityIdx, "week")
 };
 
 async function checkForAchievements(type, user) {
-  console.log("Checking for achievements of type:", type, "for user:", user.username)
   const achievements = [];
 
   switch (type) {
@@ -65,7 +45,6 @@ async function checkForAchievements(type, user) {
         user.addAchievement(achievement);
         achievements.push(achievement);
       }
-      console.log("achievements:", achievements)
 
       // check if user's completed assignments array length === 5, then COMPLETED FIVE ASSIGNMENTS
       if (completed.length === 5) {

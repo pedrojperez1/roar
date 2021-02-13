@@ -18,6 +18,7 @@ import NewLadderStep3 from "./NewLadderStep3";
 import NewLadderStep4 from "./NewLadderStep4";
 // import NewLadderStep5 from "./NewLadderStep5";
 import UserProfile from "./UserProfile";
+import NewMountainForm from "./NewMountainForm";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -47,10 +48,13 @@ const Routes = () => {
             <Route exact path="/profile">
             { !currentUser ? <Redirect to="/login" /> : <Settings /> }
             </Route>
-            <Route exact path="/ladders">
+            <Route exact path="/mountains">
                 <LadderList />
             </Route>
-            <Route exact path="/ladders/:id">
+            <Route exact path="/mountains/new">
+                { !currentUser ? <Redirect to="/login" /> : <NewMountainForm /> }
+            </Route>
+            <Route exact path="/mountains/:id">
                 <Ladder />
             </Route>
             <Route exact path="/newladder">
