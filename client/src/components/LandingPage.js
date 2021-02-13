@@ -16,14 +16,12 @@ const LandingPage = () => {
         mb="8"
       >
         <Box maxWidth="350px" textAlign="left">
-          <Heading mb="5" className="display-2">
-            Making personal growth accessible
-          </Heading>
+          <Heading mb="5">Making personal growth accessible</Heading>
           <Text mb="5" color="color.gray500">
             Roar is a tool to help you overcome your fears in a safe and supervised environment.
           </Text>
           <p className="lead">
-            <Button backgroundColor={"#5A43F5"} _hover={{ bg: "#4431C4" }} color="#fff">
+            <Button colorScheme="purple">
               <Link style={{ color: "#fff", textDecoration: "none" }} to="/learn">
                 Learn More
               </Link>
@@ -63,14 +61,7 @@ const LandingPage = () => {
         />
       </Flex>
 
-      <Button
-        borderColor="#5A43F5"
-        color="#5A43F5"
-        variant="outline"
-        _hover={{ bg: "#EBE8FF" }}
-        block
-        size="lg"
-      >
+      <Button variant="outline" colorScheme="purple" size="lg">
         <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/signup">
           Get Started
         </Link>
