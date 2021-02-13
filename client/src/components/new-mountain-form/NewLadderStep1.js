@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from "react";
 import { Container, Fade, FormControl, Input, Text, Button, Stack, Flex, Spacer } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import NewLadderContext from "../helpers/NewLadderContext";
+import NewLadderContext from "../../helpers/NewLadderContext";
 
 
 const NewLadderStep1 = ({setStep}) => {

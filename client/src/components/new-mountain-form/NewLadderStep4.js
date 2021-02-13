@@ -1,9 +1,9 @@
 import { useMutation } from "@apollo/client"
 import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import NewLadderContext from "../helpers/NewLadderContext"
-import ActivitySummary from "./ActivitySummary"
-import { ADD_LADDER_MUTATION } from "../queries/ladders"
+import NewLadderContext from "../../helpers/NewLadderContext"
+import ActivitySummary from "../ActivitySummary"
+import { ADD_LADDER_MUTATION } from "../../queries/ladders"
 import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react"
 
 const NewLadderStep4 = ({setStep}) => {
