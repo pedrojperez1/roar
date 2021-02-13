@@ -1,5 +1,4 @@
 import React from "react"
-import { Row, Col } from "reactstrap"
 import { Link } from "react-router-dom"
 import { Container, Image, Flex, Box, Heading, Button, Text } from "@chakra-ui/react"
 import hero from "../img/hero.png"

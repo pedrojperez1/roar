@@ -4,6 +4,7 @@
   "private": "true",
   "dependencies": {
     "@apollo/client": "^3.3.6",
+    "@chakra-ui/icons": "^1.0.5",
     "@chakra-ui/react": "^1.2.1",
     "@dnd-kit/core": "^1.0.1",
     "@dnd-kit/sortable": "^1.0.1",

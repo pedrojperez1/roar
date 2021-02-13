@@ -1,60 +1,42 @@
-import React, { useContext } from "react";
-import { Col, Container, ListGroupItem, Row } from "reactstrap";
-import NewLadderContext from "../helpers/NewLadderContext";
+import { Box, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
+import React from "react";
 import ActivityItem from "./ActivityItem";
 
-const ActivitySummary = () => {
-    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
+const ActivitySummary = ({newLadderData}) => {
     const activities = newLadderData.activities;
-    const sortedActivities = [...Object.keys(activities)].sort((a, b) => activities[a].anxiety - activities[b].anxiety);
-
-    const handleChangeAnxiety = (task, newAnxiety) => {
-        if (task === newLadderData.level8) {
-            setNewLadderData({
-                ...newLadderData,
-                intensity: newAnxiety
-            });
-        } else {
-            setNewLadderData({
-                ...newLadderData,
-                activities: {
-                    ...newLadderData.activities,
-                    [task]: {anxiety: newAnxiety}
-                }
-            });
-        }
-    };
+    const sortedActivities = [...activities].sort((a, b) => a.level - b.level);
 
     return (
         <div className="ActivitySummary">
-            <Container className="border my-5 w-75 text-center">
-                <Row className="my-3 align-items-center">
-                    <Col xs="3">
-                        <h4>Activities</h4>
-                    </Col>
-                    <Col>
-                    { sortedActivities.map(key => (
-                        <ActivityItem
-                            key={key}
-                            task={key} 
-                            anxiety={activities[key].anxiety}
-                            handleChangeAnxiety={handleChangeAnxiety}
-                            disabled={true}
-                        />
-                    ))}
-                    </Col>
-                </Row>
-                <Row className="my-3 align-items-center">
-                    <Col xs="3">
-                        <h4>Goal Activity</h4>
-                    </Col>
-                    <Col>
-                        <ListGroupItem className="text-center">
-                            <b>{newLadderData.level8}</b>
-                        </ListGroupItem>
-                    </Col>
-                </Row>
-            </Container>
+            <Stack spacing={10}>
+                <Flex>
+                    <Box>
+                        <Text>Summit</Text>
+                    </Box>
+                    <Spacer />
+                    <Box w="75%">
+                        <Text>{newLadderData.summit}</Text>
+                    </Box>
+                </Flex>
+                <Flex>
+                    <Box>
+                        <Text>Base Camps</Text>
+                    </Box>
+                    <Spacer />
+                    <Box w="75%">
+                        <Stack spacing={3}>
+                            { sortedActivities.map(activity => (
+                                <ActivityItem
+                                    key={activity.task}
+                                    task={activity.task} 
+                                    level={activity.level}
+                                />
+                            ))}
+                        </Stack>
+                    </Box>
+                </Flex>
+            </Stack>
+
         </div>
     )
 };

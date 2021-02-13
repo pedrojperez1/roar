@@ -1,51 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useContext, useState, useCallback } from "react";
+import { Container, Fade, FormControl, Input, Text, Button, Stack, Flex, Spacer } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import { Button, Container, Fade } from "reactstrap";
+import NewLadderContext from "../helpers/NewLadderContext";
 
-const NewLadderStep1 = () => {
+
+const NewLadderStep1 = ({setStep}) => {
+    const [ladderName, setLadderName] = useState('');
+    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
     const history = useHistory();
     
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-            if (e.key === "1") {
-                history.push("/newladder/2")
-            }
-            if (e.key === "2") {
-                history.push("/learn")
-            }
-        };
-        window.addEventListener("keydown", handleKeyPress);
-        return () => {
-            window.removeEventListener("keydown", handleKeyPress);
-        }
-    }, [history]);
-
-    const nextButtonOrText = () => {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            return (
-                <>
-                    <Button onClick={() => history.push("/newladder/2")}>Yes</Button>
-                    <Button onClick={() => history.push("/learn")}>No</Button>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <kbd>1</kbd> Yes <kbd>2</kbd> No
-                </>
-            )
-        }
-    }
+    const saveAndNext = useCallback(() => {
+        setNewLadderData({...newLadderData, name: ladderName});
+        setStep(2);
+    }, [newLadderData, setNewLadderData, ladderName, history]);
 
     return (
-        <Fade>
-            <div className="NewLadderStep1">
-                <Container>
-                    <blockquote className="blockquote text-left">Have you ever created a fear ladder before?</blockquote>
-                    <p className="lead text-left mt-5">{nextButtonOrText()}</p>
-                </Container>
-            </div>
-        </Fade>
+        <div className="NewLadderStep1">
+            <Container maxW="xl">
+                <Fade in={true}>
+                <Stack spacing={3}>
+                    <Text fontSize="xl">Let's give your Fear Mountain a name!</Text>
+                    <Text fontSize="xl">It can be as fun or as boring as you want, but it should be related to the fear you want to conquer.</Text>
+                    <Text fontSize="xl">For example, if I want to work on my fear of dogs, I might write: <i>Who let the dogs out?</i></Text>
+                    <FormControl id="ladderName">
+                        <Input onChange={(e) => setLadderName(e.target.value)} value={ladderName} variant="flushed" size="lg" placeholder="Type here..."/>
+                    </FormControl>
+                </Stack> 
+                <Flex mt={8}>
+                    <Button onClick={() => setStep(0)}>Back</Button>
+                    <Spacer />
+                    { ladderName.length > 4 && <Button colorScheme="blue" onClick={saveAndNext}>Next</Button> }
+                </Flex>
+                </Fade>
+            </Container>
+        </div>
     )
 };
 

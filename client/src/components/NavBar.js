@@ -69,8 +69,8 @@ const NavBar = () => {
                   </NavbarBrand>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link to="/newladder">
-                    <DropdownItem>New Fear Ladder</DropdownItem>
+                  <Link to="/mountains/new">
+                    <DropdownItem>New Fear Mountain</DropdownItem>
                   </Link>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -91,7 +91,7 @@ const NavBar = () => {
                   <Link to="/home" className="text-center">
                     <DropdownItem className="py-2">Home</DropdownItem>
                   </Link>
-                  <Link to="/ladders" className="text-center">
+                  <Link to="/mountains" className="text-center">
                     <DropdownItem className="py-2">My Mountains</DropdownItem>
                   </Link>
                   <Link to="/profile" className="text-center">

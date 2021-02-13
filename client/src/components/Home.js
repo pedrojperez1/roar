@@ -48,7 +48,7 @@ const Home = () => {
               Are you ready to create a new Fear Mountain?
             </Text>
             <Button colorScheme="blue">
-              <Link to="/newladder">Create new Fear Mountain</Link>
+              <Link to="/mountains/new">Create new Fear Mountain</Link>
             </Button>
           </Box>
           <Box

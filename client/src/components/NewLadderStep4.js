@@ -1,68 +1,43 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import { Button, Col, Container, Fade, Form, FormGroup, Input } from "reactstrap";
-import NewLadderContext from "../helpers/NewLadderContext";
+import { useMutation } from "@apollo/client"
+import React, { useContext } from "react"
+import { useHistory } from "react-router-dom"
+import NewLadderContext from "../helpers/NewLadderContext"
+import ActivitySummary from "./ActivitySummary"
+import { ADD_LADDER_MUTATION } from "../queries/ladders"
+import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react"
 
-const NewLadderStep4 = () => {
-    const {newLadderData, setNewLadderData} = useContext(NewLadderContext);
-    const [level8, setLevel8] = useState(newLadderData.level8 || '');
-    const history = useHistory();
-    
-    const saveAndNext = useCallback(() => {
-        setNewLadderData({...newLadderData, level8});
-        history.push("/newladder/5");
-    }, [newLadderData, setNewLadderData, level8, history]);
-    
-    useEffect(() => {
-        const handleEnter = (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                saveAndNext();
-            }
-        };
-        window.addEventListener("keydown", handleEnter);
-        return () => {
-            window.removeEventListener("keydown", handleEnter)
-        }
-    }, [saveAndNext]);
+const NewLadderStep4 = ({setStep}) => {
+  const { newLadderData } = useContext(NewLadderContext)
 
-    const nextButtonOrText = () => {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            return (
-                <Button onClick={saveAndNext}>Continue</Button>
-            )
-        } else {
-            return (
-                <>
-                    Press <kbd>Enter</kbd> to continue
-                </>
-            )
-        }
-    };
+  const history = useHistory()
+  const [addLadder] = useMutation(ADD_LADDER_MUTATION, {
+    variables: { ...newLadderData },
+    onCompleted: ({ addLadder }) => {
+      history.push(`/mountains/${addLadder.id}`)
+    },
+  })
 
-    return (
-        <Fade>
-            <div className="NewLadderStep4">
-                <Container>
-                    <div className="text-left">
-                        <blockquote className="blockquote">What is the one activity that you would like to be able to do but cannot because of this fear? We'll call this your <b>Goal Activity</b>.</blockquote>
-                        <p className="lead"><u><b>Example:</b></u> My fear of dogs will not allow me to live with a dog, so my Goal Activity is: <i>Living with a dog</i>.</p>
-                        <Col xs="6" className="pl-0">
-                            <Form>
-                                <FormGroup>
-                                    <Input onChange={(e) => setLevel8(e.target.value)} type="text" value={level8}/>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                        { level8.length > 4 && 
-                        <p className="lead mt-5">{nextButtonOrText()}</p>
-                        }
-                        
-                    </div>
-                </Container>
-            </div>
+  return (
+    <div className="NewLadderStep4">
+      <Container maxW="xl">
+        <Fade in={true}>
+          <Stack spacing={3}>
+            <Text fontSize="xl">Aaaand you're (almost) done!</Text>
+            <Text fontSize="xl">
+              Look over your Fear Mountain below and make sure everything looks right. You can go back
+              and make any changes now or you can edit your mountain later on.
+            </Text>
+            <ActivitySummary newLadderData={newLadderData} />
+          </Stack>
+          <Flex mt={8}>
+            <Button onClick={() => setStep(3)}>Back</Button>
+            <Spacer />
+            <Button colorScheme="blue" onClick={addLadder}>Finish</Button>
+          </Flex>
         </Fade>
-    )
-};
+      </Container>
+    </div>
+  )
+}
 
-export default NewLadderStep4;
+export default NewLadderStep4
