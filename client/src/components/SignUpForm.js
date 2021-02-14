@@ -1,68 +1,140 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
-import { Container, Row, Col, Form, FormGroup, Input, Button, Label } from "reactstrap"
+import React from "react"
+import { Formik, Form, Field } from "formik"
+import {
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Button,
+  Flex, 
+  Box, 
+  Heading,
+  InputGroup,
+  Stack,
+  Spacer
+} from "@chakra-ui/react"
+import { useMutation } from "@apollo/client"
 import { SIGNUP_MUTATION } from "../queries/users"
-import { useApolloClient, useMutation } from "@apollo/client"
-import "./SignUpForm.css"
+import { useHistory } from "react-router-dom"
 
-const SignUpForm = ({ setUser }) => {
-  const INITIAL_STATE = {
-    username: "",
-    password: "",
+const SignUpForm = ({setUser, setAlert}) => {
+    const validateUsername = (value) => {
+      let error
+      if (!value) {
+        error = "Username is required"
+      }
+      return error
+    }
+    const validatePassword = (value) => {
+      let error
+      if (!value) {
+        error = "Password is required"
+      } else if (value.length < 8) {
+        error = "Password must be 8 characters long."
+      } else if (!/\d/.test(value)) {
+        error = "Password must contain a number."
+      }
+      return error
+    }
+
+    const validateRetype = (value) => {
+      let error
+      if (!value) {
+        error = "Please confirm your password."
+      }
+      return error
+    }
+    const history = useHistory()
+    const [signup] = useMutation(SIGNUP_MUTATION)
+  
+    return (
+      <Flex width="full" align="center" justifyContent="center">
+        <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
+          <Box textAlign="center">
+            <Heading>Sign Up</Heading>
+          </Box>
+          <Box my={4} textAlign="left">
+            <Formik
+              initialValues={{ username: "", password: "", retype: "" }}
+              onSubmit={async (values, actions) => {
+                if (values.password !== values.retype) {
+                  actions.setFieldError("retype", "Your passwords do not match.")
+                  actions.setSubmitting(false)
+                } else {
+                  try {
+                    const data = await signup({
+                      variables: {
+                        username: values.username, 
+                        password: values.password
+                      }
+                    })
+                    console.log(data)
+                    if (data.data.addUser.token) {
+                      setUser(data.data.addUser.token)
+                      history.push("/home")
+                    } 
+                    
+                  } catch (e) {
+                    if (e.toString().includes("Error: Validation error")) {
+                      actions.setFieldError("username", "Username is taken.")
+                    } else {
+                      setAlert("Something went wrong. Please try again.")
+                    }
+                  }
+                }
+                
+              }}
+            >
+              {(props) => (
+                <Form>
+                  <Stack spacing={4}>
+                  <Field name="username" validate={validateUsername}>
+                    {({ field, form }) => (
+                      <FormControl isInvalid={form.errors.username && form.touched.username}>
+                        <Input {...field} id="username" variant="flushed" placeholder="Username"/>
+                        <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="password" validate={validatePassword}>
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.password && form.touched.password}>
+                        <InputGroup>
+                          <Input {...field} id="password" type="password" variant="flushed" placeholder="Password"/>
+                        </InputGroup>
+                        <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="retype" validate={validateRetype}>
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.retype && form.touched.retype}>
+                        <InputGroup>
+                          <Input {...field} id="retype" type="password" variant="flushed" placeholder="Re-type password"/>>
+                        </InputGroup>
+                        <FormErrorMessage>{form.errors.retype}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Spacer />
+                  <Button
+                    mt={4}
+                    width="full"
+                    variant="outline"
+                    colorScheme="teal"
+                    isLoading={props.isSubmitting}
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Box>
+      </Flex>
+      
+    )
   }
-  const [formData, setFormData] = useState(INITIAL_STATE)
-  const handleChange = e => {
-    e.preventDefault()
-    const { name, value } = e.target
-    setFormData(oldFormData => ({ ...oldFormData, [name]: value }))
-  }
-
-  const client = useApolloClient()
-  const history = useHistory()
-  const [signup] = useMutation(SIGNUP_MUTATION, {
-    variables: { ...formData },
-    onCompleted: ({ addUser }) => {
-      setUser(addUser.token)
-      client.resetStore().then(() => history.push("/home"))
-    },
-  })
-
-  return (
-    <div className="SignUpForm">
-      <Container className="mt-5">
-        <Row className="justify-content-center">
-          <Col xs={10} md={8} lg={6} xl={5}>
-            <Form className="SignUpForm-form text-left border p-5">
-              <h1 className="mb-5 text-center">Sign up for Roar!</h1>
-              <FormGroup>
-                <Label for="firstName">Username</Label>
-                <Input
-                  className="form-control"
-                  type="text"
-                  name="username"
-                  onChange={handleChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="password">Password</Label>
-                <Input
-                  className="form-control"
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                />
-              </FormGroup>
-              <div className="text-center">
-                <Button className="mt-4 mb-5" color="primary" size="lg" onClick={signup}>
-                  Sign Up
-                </Button>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  )
-}
 
 export default SignUpForm
