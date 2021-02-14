@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Logo from "./Logo"
 import MenuToggle from "./MenuToggle"
 import MenuItem from "./MenuItem"
@@ -12,6 +12,22 @@ import { Stack, Box, Button } from "@chakra-ui/react"
 
 const NavBar = props => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const [scrollY, setScrollY] = useState(0)
+
+  const logit = () => {
+    setScrollY(window.pageYOffset)
+  }
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", logit)
+    }
+    watchScroll()
+    return () => {
+      window.removeEventListener("scroll", logit)
+    }
+  })
 
   const toggle = () => setIsOpen(!isOpen)
 
@@ -28,7 +44,16 @@ const NavBar = props => {
   }
 
   return (
-    <NavBarContainer {...props}>
+    <NavBarContainer
+      boxShadow={{
+        base: isOpen
+          ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
+          : scrollY > 40
+          ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
+          : undefined,
+      }}
+      {...props}
+    >
       <Logo color={["white", "white", "primary.500", "primary.500"]} />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       {!currentUser ? (
@@ -51,10 +76,14 @@ const NavBar = props => {
             </MenuItem>
             <Box>
               <Button colorScheme="purple">
-                <Link to="/signup">Sign Up</Link>
+                <Link style={{ color: "#fff", textDecoration: "none" }} to="/signup">
+                  Sign Up
+                </Link>
               </Button>
-              <Button ml="2" variant="outline" colorScheme="purple">
-                <Link to="/login">Log In</Link>
+              <Button ml="2" variant="outline" colorScheme={"purple"}>
+                <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/login">
+                  Log In
+                </Link>
               </Button>
             </Box>
           </Stack>
@@ -70,13 +99,21 @@ const NavBar = props => {
           <Box>
             <MdAccountCircle />
           </Box>
-          <MenuItem to="/home">Home</MenuItem>
-          <MenuItem to="/ladders">My Mountains</MenuItem>
-          <MenuItem to="/profile">Profile</MenuItem>
+          <MenuItem color="gray.600" to="/home">
+            Home
+          </MenuItem>
+          <MenuItem color="gray.600" to="/ladders">
+            My Mountains
+          </MenuItem>
+          <MenuItem color="gray.600" to="/profile">
+            Profile
+          </MenuItem>
           <Box>
-            <ProfilePreviewDropdown />
-            <Button onClick={handleLogOut}>
-              <Link to="/logout">Logout</Link>
+            {/* <ProfilePreviewDropdown /> */}
+            <Button colorScheme="purple" onClick={handleLogOut}>
+              <Link style={{ color: "#fff", textDecoration: "none" }} to="/logout">
+                Logout
+              </Link>
             </Button>
           </Box>
         </Stack>

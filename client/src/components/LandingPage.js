@@ -4,11 +4,12 @@ import { Link } from "react-router-dom"
 import { Container, Image, Flex, Box, Heading, Button, Text } from "@chakra-ui/react"
 import hero from "../img/hero.png"
 import LandingPageCard from "./LandingPageCard"
+import Layout from "./layout"
 import { faPencilAlt, faTasks, faAward } from "@fortawesome/free-solid-svg-icons"
 
 const LandingPage = () => {
   return (
-    <Container mb="10" maxWidth="5xl">
+    <Layout mb="10" maxWidth="5xl">
       <Flex
         flexDirection={["column-reverse", "row"]}
         justifyContent={{ sm: "center", md: "space-between" }}
@@ -66,7 +67,7 @@ const LandingPage = () => {
           Get Started
         </Link>
       </Button>
-    </Container>
+    </Layout>
   )
 }
 

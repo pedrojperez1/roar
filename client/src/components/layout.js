@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 
 const Layout = ({ children, width, ...props }) => {
   return (
-    <Container maxWidth={width || "4xl"} {...props}>
+    <Container p="8" pt="108px" maxWidth={width || "5xl"} {...props}>
       <motion.div
         initial="pageInitial"
         animate="pageAnimate"

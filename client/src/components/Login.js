@@ -1,12 +1,12 @@
-import React from "react";
-import LoginForm from "./LoginForm";
+import React from "react"
+import LoginForm from "./LoginForm"
+import Layout from "./layout"
+const Login = ({ setUser }) => {
+  return (
+    <Layout>
+      <LoginForm setUser={setUser} />
+    </Layout>
+  )
+}
 
-const Login = ({setUser}) => {
-    return (
-        <div className="Login">
-            <LoginForm setUser={setUser}/>
-        </div>
-    )
-};
-
-export default Login;
+export default Login

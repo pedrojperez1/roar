@@ -6,7 +6,9 @@ const Logo = ({ ...props }) => {
   return (
     <Box {...props}>
       <Text color="purple.600" fontSize="lg" fontWeight="bold">
-        <Link to="/">Roar</Link>
+        <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/">
+          Roar
+        </Link>
       </Text>
     </Box>
   )

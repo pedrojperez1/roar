@@ -9,7 +9,7 @@ const LandingPageCard = ({ cardTitle, cardIcon, cardText }) => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width="275px"
+      maxWidth={["100%", "200px", "200px", "275px"]}
       border="1px solid rgb(226, 232, 240)"
       borderRadius="8px"
       p="8"

@@ -1,12 +1,13 @@
-import React from "react";
-import SignUpForm from "./SignUpForm";
+import React from "react"
+import SignUpForm from "./SignUpForm"
+import Layout from "./layout"
 
-const SignUp = ({setUser}) => {
-    return (
-        <div className="SignUp">
-            <SignUpForm setUser={setUser}/>
-        </div>
-    )
-};
+const SignUp = ({ setUser }) => {
+  return (
+    <Layout>
+      <SignUpForm setUser={setUser} />
+    </Layout>
+  )
+}
 
-export default SignUp;
+export default SignUp

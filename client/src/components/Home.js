@@ -7,6 +7,7 @@ import Achievements from "./Achievements"
 import { useQuery } from "@apollo/client"
 import Loading from "./Loading"
 import genJoinDate from "../helpers/genJoinDate"
+import Layout from "./layout"
 import { Container, Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
 
 const Home = () => {
@@ -16,7 +17,7 @@ const Home = () => {
     return `Something bad happened. ${error}`
   }
   return (
-    <Container maxWidth="4xl">
+    <Layout maxWidth="5xl">
       <Grid gap={4} templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}>
         <GridItem colSpan={3}>
           <Box mb="4" textAlign="left">
@@ -94,7 +95,7 @@ const Home = () => {
           </Box>
         </GridItem>
       </Grid>
-    </Container>
+    </Layout>
   )
 }
 
