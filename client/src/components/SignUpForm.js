@@ -43,14 +43,6 @@ const SignUpForm = ({ setUser }) => {
                   onChange={handleChange}
                 />
               </FormGroup>
-              {/* <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input className="form-control"
-                                    type="email"
-                                    name="email"
-                                    onChange={handleChange}
-                                />
-                            </FormGroup> */}
               <FormGroup>
                 <Label for="password">Password</Label>
                 <Input

@@ -54,7 +54,7 @@ const Ladder = () => {
             {ladder.name}
           </Heading>
 
-          <Link as={ReactRouterLink} to="/newladder" colorScheme="telegram">
+          <Link as={ReactRouterLink} to="/mountains/new" colorScheme="telegram">
             Add New Mountain
           </Link>
         </Flex>

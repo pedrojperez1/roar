@@ -1,10 +1,11 @@
 import React from "react";
 import SignUpForm from "./SignUpForm";
+import SignUpFormik from "./SignUpFormik";
 
 const SignUp = ({setUser}) => {
     return (
         <div className="SignUp">
-            <SignUpForm setUser={setUser}/>
+            <SignUpFormik setUser={setUser}/>
         </div>
     )
 };

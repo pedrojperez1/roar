@@ -10,11 +10,13 @@ import genJoinDate from "../helpers/genJoinDate"
 import { Container, Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
 
 const Home = () => {
+
   const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)
   if (loading) return <Loading />
   if (error) {
     return `Something bad happened. ${error}`
   }
+  
   return (
     <Container maxWidth="4xl">
       <Grid gap={4} templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}>
@@ -60,10 +62,10 @@ const Home = () => {
             mb="4"
           >
             <Text textAlign="left" mb="3">
-              Check out how you are progressing on your Fear Ladders!
+              Check out how you are progressing on your Fear Mountains!
             </Text>
             <Button colorScheme="blue">
-              <Link to="/ladders">Go to My Ladders</Link>
+              <Link to="/mountains">Go to My Mountains</Link>
             </Button>
           </Box>
           <Box
