@@ -89,34 +89,39 @@ const NavBar = props => {
           </Stack>
         </Box>
       ) : (
-        <Stack
-          spacing={8}
-          align="center"
-          justify={["center", "space-between", "flex-end", "flex-end"]}
-          direction={["column", "row", "row", "row"]}
-          pt={[4, 4, 0, 0]}
+        <Box
+          display={{ base: isOpen ? "block" : "none", md: "block" }}
+          flexBasis={{ base: "100%", md: "auto" }}
         >
-          <Box>
-            <MdAccountCircle />
-          </Box>
-          <MenuItem color="gray.600" to="/home">
-            Home
-          </MenuItem>
-          <MenuItem color="gray.600" to="/ladders">
-            My Mountains
-          </MenuItem>
-          <MenuItem color="gray.600" to="/profile">
-            Profile
-          </MenuItem>
-          <Box>
-            {/* <ProfilePreviewDropdown /> */}
-            <Button colorScheme="purple" onClick={handleLogOut}>
-              <Link style={{ color: "#fff", textDecoration: "none" }} to="/logout">
-                Logout
-              </Link>
-            </Button>
-          </Box>
-        </Stack>
+          <Stack
+            spacing={8}
+            align="center"
+            justify={["center", "space-between", "flex-end", "flex-end"]}
+            direction={["column", "row", "row", "row"]}
+            pt={[4, 4, 0, 0]}
+          >
+            <Box>
+              <MdAccountCircle />
+            </Box>
+            <MenuItem color="gray.600" to="/home">
+              Home
+            </MenuItem>
+            <MenuItem color="gray.600" to="/ladders">
+              My Mountains
+            </MenuItem>
+            <MenuItem color="gray.600" to="/profile">
+              Profile
+            </MenuItem>
+            <Box>
+              {/* <ProfilePreviewDropdown /> */}
+              <Button colorScheme="purple" onClick={handleLogOut} variant="outline">
+                <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/logout">
+                  Logout
+                </Link>
+              </Button>
+            </Box>
+          </Stack>
+        </Box>
       )}
     </NavBarContainer>
   )
