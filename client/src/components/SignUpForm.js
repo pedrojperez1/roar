@@ -109,7 +109,7 @@ const SignUpForm = ({setUser, setAlert}) => {
                     {({field, form}) => (
                       <FormControl isInvalid={form.errors.retype && form.touched.retype}>
                         <InputGroup>
-                          <Input {...field} id="retype" type="password" variant="flushed" placeholder="Re-type password"/>>
+                          <Input {...field} id="retype" type="password" variant="flushed" placeholder="Re-type password"/>
                         </InputGroup>
                         <FormErrorMessage>{form.errors.retype}</FormErrorMessage>
                       </FormControl>
