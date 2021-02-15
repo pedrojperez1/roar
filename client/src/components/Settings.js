@@ -4,7 +4,6 @@ import { Button, Container, Row } from "reactstrap"
 import { FETCH_MY_PROFILE_QUERY } from "../queries/users"
 import Loading from "./Loading"
 import Layout from "./layout"
-import "./Settings.css"
 
 const Settings = () => {
   const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)

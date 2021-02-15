@@ -100,13 +100,10 @@ const NavBar = props => {
             direction={["column", "row", "row", "row"]}
             pt={[4, 4, 0, 0]}
           >
-            <Box>
-              <MdAccountCircle />
-            </Box>
             <MenuItem color="gray.600" to="/home">
               Home
             </MenuItem>
-            <MenuItem color="gray.600" to="/ladders">
+            <MenuItem color="gray.600" to="/mountains">
               My Mountains
             </MenuItem>
             <MenuItem color="gray.600" to="/profile">
