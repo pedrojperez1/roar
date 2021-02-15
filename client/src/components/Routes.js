@@ -11,14 +11,8 @@ import Settings from "./Settings";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
-import NewLadderStep1 from "./NewLadderStep1";
-import NewLadderStep0 from "./NewLadderStep0";
-import NewLadderStep2 from "./NewLadderStep2";
-import NewLadderStep3 from "./NewLadderStep3";
-import NewLadderStep4 from "./NewLadderStep4";
-import NewLadderStep5 from "./NewLadderStep5";
-import NewLadderStep6 from "./NewLadderStep6";
 import UserProfile from "./UserProfile";
+import NewMountainForm from "./new-mountain-form/NewMountainForm";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -48,32 +42,14 @@ const Routes = () => {
             <Route exact path="/profile">
             { !currentUser ? <Redirect to="/login" /> : <Settings /> }
             </Route>
-            <Route exact path="/ladders">
+            <Route exact path="/mountains">
                 <LadderList />
             </Route>
-            <Route exact path="/ladders/:id">
+            <Route exact path="/mountains/new">
+                { !currentUser ? <Redirect to="/login" /> : <NewMountainForm /> }
+            </Route>
+            <Route exact path="/mountains/:id">
                 <Ladder />
-            </Route>
-            <Route exact path="/newladder">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep0 /> }
-            </Route>
-            <Route exact path="/newladder/1">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep1 /> }
-            </Route>
-            <Route exact path="/newladder/2">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep2 /> }
-            </Route>
-            <Route exact path="/newladder/3">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep3 /> }
-            </Route>
-            <Route exact path="/newladder/4">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep4 /> }
-            </Route>
-            <Route exact path="/newladder/5">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep5 /> }
-            </Route>
-            <Route exact path="/newladder/6">
-                { !currentUser ? <Redirect to="/login" /> : <NewLadderStep6 /> }
             </Route>
             <Route exact path="/u/:username">
                 { !currentUser ? <Redirect to="/login" /> : <UserProfile /> }

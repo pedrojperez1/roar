@@ -7,10 +7,10 @@ import NewLadderContext from "../helpers/NewLadderContext"
 import { ChakraProvider } from "@chakra-ui/react"
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem("ROAR_CURRENT_USER"))
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("ROAR_CURRENT_USER"))
   const [newLadderData, setNewLadderData] = useState({})
   const setUser = token => {
-    localStorage.setItem("ROAR_CURRENT_USER", token)
+    sessionStorage.setItem("ROAR_CURRENT_USER", token)
     setCurrentUser(token)
   }
   return (

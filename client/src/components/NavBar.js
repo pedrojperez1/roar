@@ -7,7 +7,7 @@ import { Link, useHistory } from "react-router-dom"
 import { MdAccountCircle } from "react-icons/md"
 import { useApolloClient } from "@apollo/client"
 import CurrentUserContext from "../helpers/CurrentUserContext"
-import ProfilePreviewDropdown from "./ProfilePreviewDropdown"
+// import ProfilePreviewDropdown from "./ProfilePreviewDropdown"
 import { Stack, Box, Button } from "@chakra-ui/react"
 
 const NavBar = props => {

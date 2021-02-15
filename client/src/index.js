@@ -19,7 +19,7 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("ROAR_CURRENT_USER")
+  const token = sessionStorage.getItem("ROAR_CURRENT_USER")
   const newHeaders = {
     headers: {
       ...headers,

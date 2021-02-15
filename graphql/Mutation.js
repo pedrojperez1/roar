@@ -2,12 +2,14 @@ const {
     GraphQLObjectType,
     GraphQLInt,
     GraphQLString,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLList
 } = require("graphql")
 const db = require("../db")
 const Ladder = require("./Ladder")
 const AuthPayload = require("./AuthPayload")
 const FeedPost = require("./FeedPost")
+const Activity = require("./Activity")
 const bcrypt = require("bcrypt")
 const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("../config")
 const jwt = require("jsonwebtoken")
@@ -71,55 +73,40 @@ const Mutation = new GraphQLObjectType({
                 type: Ladder,
                 args: {
                     name: { type: new GraphQLNonNull(GraphQLString) },
-                    level1: { type: GraphQLString },
-                    level2: { type: GraphQLString },
-                    level3: { type: GraphQLString },
-                    level4: { type: GraphQLString },
-                    level5: { type: GraphQLString },
-                    level6: { type: GraphQLString },
-                    level7: { type: GraphQLString },
-                    level8: { type: GraphQLString }
+                    activities: { type: new GraphQLNonNull(GraphQLList(Activity)) },
+                    summit: { type: GraphQLNonNull(GraphQLString) }
                 },
                 async resolve(_, args, context) {
-                    const userId = getUserId(context);
-                    const user = await db.models.users.findByPk(userId);
-                    const newLadder = await user.createLadder({
-                        name: args.name,
-                        level1: args.level1,
-                        level2: args.level2,
-                        level3: args.level3,
-                        level4: args.level4,
-                        level5: args.level5,
-                        level6: args.level6,
-                        level7: args.level7,
-                        level8: args.level8
-                    });
-                    const levels = Object.keys(args).filter(k => k.includes("level"));
-                    levels.forEach(level => {
-                        if (args[level]) {
-                            const firstDueDate = genDueDate(level);
-                            newLadder.createAssignment(
-                                {
-                                    task: args[level], 
-                                    level: Number(level[5]), 
-                                    dueDate: firstDueDate.format()
-                                }
-                            );
-                            newLadder.createAssignment(
-                                {
-                                    task: args[level], 
-                                    level: Number(level[5]), 
-                                    dueDate: firstDueDate.add(2, "day").format()
-                                }
-                            );
-                            newLadder.createAssignment(
-                                {
-                                    task: args[level], 
-                                    level: Number(level[5]), 
-                                    dueDate: firstDueDate.add(4, "day").format()
-                                }
-                            );
-                        }
+                    const ladderData = {}
+                    ladderData.name = args.name
+                    args.activities.forEach(a => ladderData[`level${a.level}`] = a.task)
+                    const userId = getUserId(context); // get user
+                    const user = await db.models.users.findByPk(userId)
+                    const newLadder = await user.createLadder(ladderData) // create ladder for user
+                    args.activities.forEach((activity, idx) => { // create 3 assignments per activity
+                        const firstDueDate = genDueDate(idx)
+                        newLadder.createAssignment(
+                            {
+                                task: activity.task, 
+                                level: activity.level, 
+                                dueDate: firstDueDate.format()
+                            }
+                        );
+                        newLadder.createAssignment(
+                            {
+                                task: activity.task, 
+                                level: activity.level,
+                                dueDate: firstDueDate.add(2, "day").format()
+                            }
+                        );
+                        newLadder.createAssignment(
+                            {
+                                task: activity.task, 
+                                level: activity.level, 
+                                dueDate: firstDueDate.add(4, "day").format()
+                            }
+                        );
+                        
                     });
                     return newLadder
                 }
