@@ -16,8 +16,8 @@ import {
     NumberDecrementStepper, 
     HStack } from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons'
-import NewLadderContext from "../helpers/NewLadderContext";
-import ActivityItem from "./ActivityItem";
+import NewLadderContext from "../../helpers/NewLadderContext";
+import ActivityItem from "../ActivityItem";
 
 const NewLadderStep3 = ({setStep}) => {
     const {newLadderData, setNewLadderData} = useContext(NewLadderContext)

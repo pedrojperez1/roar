@@ -11,7 +11,7 @@ const UserModel = {
     username: {
         type: Sequelize.STRING,
         allowNull: false,
-        uniqueL: true
+        unique: true
     },
     password: {
         type: Sequelize.STRING,
