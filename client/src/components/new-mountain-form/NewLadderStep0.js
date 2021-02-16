@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import NewLadderContext from "../../helpers/NewLadderContext";
-import Layout from "../layout";
 
 const NewLadderStep0 = ({setStep}) => {
     const { setNewLadderData } = useContext(NewLadderContext)
