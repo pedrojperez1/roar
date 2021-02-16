@@ -1,115 +1,127 @@
-import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button
-} from 'reactstrap';
-import { MdAccountCircle, MdEdit } from "react-icons/md";
-import { useApolloClient } from "@apollo/client";
-import "./NavBar.css";
-import CurrentUserContext from "../helpers/CurrentUserContext";
-import ProfilePreviewDropdown from "./ProfilePreviewDropdown";
+import React, { useState, useContext, useEffect } from "react"
+import Logo from "./Logo"
+import MenuToggle from "./MenuToggle"
+import MenuItem from "./MenuItem"
+import NavBarContainer from "./NavBarContainer"
+import { Link, useHistory } from "react-router-dom"
+import { MdAccountCircle } from "react-icons/md"
+import { useApolloClient } from "@apollo/client"
+import CurrentUserContext from "../helpers/CurrentUserContext"
+// import ProfilePreviewDropdown from "./ProfilePreviewDropdown"
+import { Stack, Box, Button } from "@chakra-ui/react"
 
-const NavBar = () => {
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+const NavBar = props => {
+  const [isOpen, setIsOpen] = useState(false)
 
-  const {currentUser, setUser} = useContext(CurrentUserContext);
+  const [scrollY, setScrollY] = useState(0)
 
-  const client = useApolloClient();
-  const history = useHistory();
-  const handleLogOut = (e) => {
-    e.preventDefault();
-    setUser('');
+  const logit = () => {
+    setScrollY(window.pageYOffset)
+  }
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", logit)
+    }
+    watchScroll()
+    return () => {
+      window.removeEventListener("scroll", logit)
+    }
+  })
+
+  const toggle = () => setIsOpen(!isOpen)
+
+  const { currentUser, setUser } = useContext(CurrentUserContext)
+
+  const client = useApolloClient()
+  const history = useHistory()
+  const handleLogOut = e => {
+    e.preventDefault()
+    setUser("")
     // clear Apollo store
-    client.clearStore();
-    history.push("/");
-  };
+    client.clearStore()
+    history.push("/")
+  }
 
   return (
-    <div>
-      <Navbar light expand="md" className="navbar navbar-dark bg-dark sticky-top mb-5">
-        <Link to="/"><NavbarBrand>Roar</NavbarBrand></Link>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          { !currentUser &&
-          <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink tag={Link} to="/about">Who are we?</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={Link} to="/learn">What is exposure therapy?</NavLink>
-            </NavItem>
-          </Nav>
-          }
-          { !currentUser ?
-            <Nav>
-              <Link to="/login"><Button color="primary">Log In</Button></Link>
-              <NavItem>
-                <NavLink tag={Link} to="/signup">Sign Up</NavLink>
-              </NavItem>
-            </Nav> :
-            <Nav className="ml-auto" navbar>
-              {/* New stuff drowndown */}
-              <UncontrolledDropdown nav inNavbar className="mr-3">
-                <DropdownToggle nav caret>
-                  <NavbarBrand className="newIcon">
-                    <MdEdit />
-                  </NavbarBrand>
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <Link to="/mountains/new">
-                    <DropdownItem>New Fear Mountain</DropdownItem>
-                  </Link>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-              {/* Profile dropdown */}
-              <UncontrolledDropdown nav inNavbar className="mr-3">
-                <DropdownToggle nav caret>
-                  <NavbarBrand className="profileIcon">
-                    <MdAccountCircle />
-                  </NavbarBrand>
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem header>
-                    <ProfilePreviewDropdown />
-                  </DropdownItem>
-
-                  <DropdownItem divider />
-
-                  <Link to="/home" className="text-center">
-                    <DropdownItem className="py-2">Home</DropdownItem>
-                  </Link>
-                  <Link to="/mountains" className="text-center">
-                    <DropdownItem className="py-2">My Mountains</DropdownItem>
-                  </Link>
-                  <Link to="/profile" className="text-center">
-                    <DropdownItem className="py-2">Settings</DropdownItem>
-                  </Link>
-                  
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <Button color="danger" size="sm" onClick={handleLogOut} block>Log Out</Button>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          }
-        </Collapse>
-      </Navbar>
-    </div>
-  );
+    <NavBarContainer
+      boxShadow={{
+        base: isOpen
+          ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
+          : scrollY > 40
+          ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
+          : undefined,
+      }}
+      {...props}
+    >
+      <Logo color={["white", "white", "primary.500", "primary.500"]} />
+      <MenuToggle toggle={toggle} isOpen={isOpen} />
+      {!currentUser ? (
+        <Box
+          display={{ base: isOpen ? "block" : "none", md: "block" }}
+          flexBasis={{ base: "100%", md: "auto" }}
+        >
+          <Stack
+            spacing={8}
+            align="center"
+            justify={["center", "space-between", "flex-end", "flex-end"]}
+            direction={["column", "row", "row", "row"]}
+            pt={[4, 4, 0, 0]}
+          >
+            <MenuItem color="gray.600" to="/about">
+              Who are we?
+            </MenuItem>
+            <MenuItem color="gray.600" to="/learn">
+              What is exposure therapy?
+            </MenuItem>
+            <Box>
+              <Button colorScheme="purple">
+                <Link style={{ color: "#fff", textDecoration: "none" }} to="/signup">
+                  Sign Up
+                </Link>
+              </Button>
+              <Button ml="2" variant="outline" colorScheme={"purple"}>
+                <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/login">
+                  Log In
+                </Link>
+              </Button>
+            </Box>
+          </Stack>
+        </Box>
+      ) : (
+        <Box
+          display={{ base: isOpen ? "block" : "none", md: "block" }}
+          flexBasis={{ base: "100%", md: "auto" }}
+        >
+          <Stack
+            spacing={8}
+            align="center"
+            justify={["center", "space-between", "flex-end", "flex-end"]}
+            direction={["column", "row", "row", "row"]}
+            pt={[4, 4, 0, 0]}
+          >
+            <MenuItem color="gray.600" to="/home">
+              Home
+            </MenuItem>
+            <MenuItem color="gray.600" to="/mountains">
+              My Mountains
+            </MenuItem>
+            <MenuItem color="gray.600" to="/profile">
+              Profile
+            </MenuItem>
+            <Box>
+              {/* <ProfilePreviewDropdown /> */}
+              <Button colorScheme="purple" onClick={handleLogOut} variant="outline">
+                <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/logout">
+                  Logout
+                </Link>
+              </Button>
+            </Box>
+          </Stack>
+        </Box>
+      )}
+    </NavBarContainer>
+  )
 }
 
-export default NavBar;
+export default NavBar

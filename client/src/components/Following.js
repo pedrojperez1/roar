@@ -6,8 +6,6 @@ import { Box, Flex } from "@chakra-ui/react"
 const Following = ({ following }) => {
   return (
     <Flex>
-      <h1 className="font-weight-light">Following</h1>
-
       {following.length === 0 ? (
         <p>No follows... yet.</p>
       ) : (

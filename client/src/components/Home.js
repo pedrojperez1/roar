@@ -7,18 +7,18 @@ import Achievements from "./Achievements"
 import { useQuery } from "@apollo/client"
 import Loading from "./Loading"
 import genJoinDate from "../helpers/genJoinDate"
+import Layout from "./layout"
 import { Container, Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
 
 const Home = () => {
-
   const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)
   if (loading) return <Loading />
   if (error) {
     return `Something bad happened. ${error}`
   }
-  
+
   return (
-    <Container maxWidth="4xl">
+    <Layout maxWidth="5xl">
       <Grid gap={4} templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}>
         <GridItem colSpan={3}>
           <Box mb="4" textAlign="left">
@@ -49,8 +49,10 @@ const Home = () => {
             <Text textAlign="left" mb="3">
               Are you ready to create a new Fear Mountain?
             </Text>
-            <Button colorScheme="blue">
-              <Link to="/mountains/new">Create new Fear Mountain</Link>
+            <Button colorScheme="purple">
+              <Link style={{ color: "#fff", textDecoration: "none" }} to="/mountains/new">
+                Create new Fear Mountain
+              </Link>
             </Button>
           </Box>
           <Box
@@ -64,8 +66,10 @@ const Home = () => {
             <Text textAlign="left" mb="3">
               Check out how you are progressing on your Fear Mountains!
             </Text>
-            <Button colorScheme="blue">
-              <Link to="/mountains">Go to My Mountains</Link>
+            <Button colorScheme="purple">
+              <Link style={{ color: "#fff", textDecoration: "none" }} to="/mountains">
+                Go to My Mountains
+              </Link>
             </Button>
           </Box>
           <Box
@@ -79,7 +83,7 @@ const Home = () => {
             <Text textAlign="left" mb="3">
               Other people are facing their fears too. Browse around and join the conversation!
             </Text>
-            <Button colorScheme="blue">Start browsing</Button>
+            <Button colorScheme="purple">Start browsing</Button>
           </Box>
           <Box
             display="flex"
@@ -96,7 +100,7 @@ const Home = () => {
           </Box>
         </GridItem>
       </Grid>
-    </Container>
+    </Layout>
   )
 }
 

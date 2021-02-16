@@ -1,31 +1,27 @@
-import React, { useState } from "react";
-import { 
-    Box,
-    Stack,
-    Alert,
-    AlertIcon,
-    CloseButton,
-    Spacer
-} from "@chakra-ui/react";
-import LoginForm from "./LoginForm";
+import React, { useState } from "react"
+import { Box, Stack, Alert, AlertIcon, CloseButton, Spacer } from "@chakra-ui/react"
+import LoginForm from "./LoginForm"
+import Layout from "./layout"
 
-const Login = ({setUser}) => {
-    const [alert, setAlert] = useState('')
-    return (
-        <div className="Login">
-            <Stack spacing={4}>
-                {alert && 
-                    <Alert status="error">
-                        <AlertIcon />
-                        <Box flex="1" textAlign="center">{alert}</Box>
-                        <CloseButton position="absolute" right="8px" top="8px" onClick={() => setAlert('')}/>
-                    </Alert> 
-                }
-                <Spacer />
-                <LoginForm setUser={setUser} setAlert={setAlert}/>
-            </Stack>
-        </div>
-    )
-};
+const Login = ({ setUser }) => {
+  const [alert, setAlert] = useState("")
+  return (
+    <Layout>
+      <Stack spacing={4}>
+        {alert && (
+          <Alert status="error">
+            <AlertIcon />
+            <Box flex="1" textAlign="center">
+              {alert}
+            </Box>
+            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setAlert("")} />
+          </Alert>
+        )}
+        <Spacer />
+        <LoginForm setUser={setUser} setAlert={setAlert} />
+      </Stack>
+    </Layout>
+  )
+}
 
-export default Login;
+export default Login
