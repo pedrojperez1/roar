@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/client"
 import Loading from "./Loading"
 import genJoinDate from "../helpers/genJoinDate"
 import Layout from "./layout"
-import { Container, Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
+import { Heading, Grid, Box, GridItem, Button, Text, Flex } from "@chakra-ui/react"
 
 const Home = () => {
   const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)

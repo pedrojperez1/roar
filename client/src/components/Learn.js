@@ -1,20 +1,22 @@
+import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react"
 import React from "react"
 import { Link } from "react-router-dom"
-import { Button, Container, Jumbotron } from "reactstrap"
 import Layout from "./layout"
 
 const Learn = () => {
   return (
-    <Layout>
-      <div className="Learn mb-5">
-        <Jumbotron fluid>
-          <h1 className="display-3">What is exposure therapy?</h1>
-          <p className="lead">
-            Exposure therapy is a tool used in cognitive behavioral therapy which has been shown to
-            help treat anxiety.
-          </p>
-        </Jumbotron>
-        <Container>
+    <Layout width="2xl">
+      <Box mb="30px">
+        <Heading mb="18px" className="display-3">
+          What is exposure therapy?
+        </Heading>
+        <Text color="gray.600" fontSize="24px">
+          Exposure therapy is a tool used in cognitive behavioral therapy which has been shown to
+          help treat anxiety.
+        </Text>
+      </Box>
+      <Box>
+        <VStack>
           <p className="text-left lead">
             To understand exposure therapy, you first have to understand how anxiety works. When
             we’re in an anxiety-provoking situation, we feel anxious in our bodies, our thoughts
@@ -47,11 +49,13 @@ const Learn = () => {
             not taking the next step until you’ve gotten used to the temperature of the water.
           </p>
           <p className="mt-5 h4">Interested? Start by building you own fear ladder.</p>
-          <Button className="mt-3" color="primary">
-            <Link to="/newladder/2">Get Started</Link>
+          <Button variant="outline" colorScheme="purple" size="lg">
+            <Link style={{textDecoration: "none" }} to="/mountains/new">
+              Get Started
+            </Link>
           </Button>
-        </Container>
-      </div>
+        </VStack>
+      </Box>
     </Layout>
   )
 }
