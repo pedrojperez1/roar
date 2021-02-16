@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Image, Flex, Box, Heading, Button, Text } from "@chakra-ui/react"
+import { Image, Flex, Box, Heading, Button, Text, Center } from "@chakra-ui/react"
 import hero from "../img/hero.png"
 import LandingPageCard from "./LandingPageCard"
 import Layout from "./layout"
@@ -60,12 +60,13 @@ const LandingPage = () => {
           success"
         />
       </Flex>
-
-      <Button variant="outline" colorScheme="purple" size="lg">
-        <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/signup">
-          Get Started
-        </Link>
-      </Button>
+      <Center>
+        <Button variant="outline" colorScheme="purple" size="lg">
+          <Link style={{ color: "#5A43F5", textDecoration: "none" }} to="/signup">
+            Get Started
+          </Link>
+        </Button>
+      </Center>
     </Layout>
   )
 }
