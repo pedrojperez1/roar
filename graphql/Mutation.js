@@ -3,7 +3,8 @@ const {
     GraphQLInt,
     GraphQLString,
     GraphQLNonNull,
-    GraphQLList
+    GraphQLList,
+    GraphQLBoolean
 } = require("graphql")
 const db = require("../db")
 const Ladder = require("./Ladder")
@@ -14,6 +15,7 @@ const bcrypt = require("bcrypt")
 const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("../config")
 const jwt = require("jsonwebtoken")
 const { genDueDate, getUserId, checkForAchievements } = require("../utils")
+const User = require("./User")
 
 
 const Mutation = new GraphQLObjectType({
@@ -146,7 +148,7 @@ const Mutation = new GraphQLObjectType({
             followUser: {
                 type: GraphQLString,
                 args: {
-                    username: { type: GraphQLString }
+                    username: { type: new GraphQLNonNull(GraphQLString) }
                 },
                 async resolve(_, args, context) {
                     const userId = getUserId(context);
@@ -160,7 +162,7 @@ const Mutation = new GraphQLObjectType({
             unfollowUser: {
                 type: GraphQLString,
                 args: {
-                    username: { type: GraphQLString }
+                    username: { type: new GraphQLNonNull(GraphQLString) }
                 },
                 async resolve(_, args, context) {
                     const userId = getUserId(context);
@@ -168,6 +170,36 @@ const Mutation = new GraphQLObjectType({
                     const userToUnfollow = await db.models.users.findOne({where: args});
                     const following = await user.removeFollowing(userToUnfollow);
                     return following ? "success" : "error"
+                }
+            },
+            changeSettings: {
+                type: User,
+                args: {
+                    isPublic: { type: GraphQLBoolean },
+                    emailNotifications: { type: GraphQLBoolean },
+                    email: { type: GraphQLString },
+                    profileImage: { type: GraphQLString }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context)
+                    const user = await db.models.users.findByPk(userId)
+                    user.isPublic = args.isPublic
+                    user.emailNotifications = args.emailNotifications
+                    user.email = args.email
+                    user.profileImage = args.profileImage
+                    user.save()
+                    return user
+                }
+            },
+            changeAvatar: {
+                type: User,
+                args: { profileImage: { type: GraphQLString } },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context)
+                    const user = await db.models.users.findByPk(userId)
+                    user.profileImage = args.profileImage
+                    user.save()
+                    return user
                 }
             }
         }

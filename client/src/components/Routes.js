@@ -39,7 +39,7 @@ const Routes = () => {
             <Route exact path="/home">
             { !currentUser ? <Redirect to="/login" /> : <Home /> }
             </Route>
-            <Route exact path="/profile">
+            <Route exact path="/settings">
             { !currentUser ? <Redirect to="/login" /> : <Settings /> }
             </Route>
             <Route exact path="/mountains">
