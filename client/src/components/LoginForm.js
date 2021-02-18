@@ -27,7 +27,7 @@ const LoginFormik = ({ setUser, setAlert }) => {
 
   return (
     <Flex width="full" align="center" justifyContent="center">
-      <Box p={8} maxWidth="700px" borderWidth={1} borderRadius={8} boxShadow="lg">
+      <Box minWidth="300px" p={8} maxWidth="700px" borderWidth={1} borderRadius={8} boxShadow="lg">
         <Box textAlign="center">
           <Heading>Log In</Heading>
         </Box>

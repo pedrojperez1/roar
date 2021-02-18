@@ -4,6 +4,7 @@ import Layout from "./layout"
 import lesley from "../img/IMG_3008.jpg"
 import pedro from "../img/IMG_2622.jpg"
 import manny from "../img/IMG_0001.jpeg"
+import whoWeAre from "../img/who-we-are.png"
 import { Box, Text, Heading, Image, Flex, VStack } from "@chakra-ui/react"
 
 const About = () => {
@@ -17,6 +18,9 @@ const About = () => {
           We are an interdisciplinary team of psychologists and technologists working together to
           help people conquer their fears.
         </Text>
+        <Box display="flex" alignItems="center">
+          <Image maxWidth="600px" width="100%" src={whoWeAre} />
+        </Box>
       </Box>
       <Box>
         <VStack mb="16" spacing="4">

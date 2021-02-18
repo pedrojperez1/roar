@@ -13,7 +13,7 @@ const LadderLevelTitle = ({ level, task, progress, isExpanded }) => {
 
           <AccordionButton style={{ width: "auto", backgroundColor: "transparent" }} as={Link}>
             <>
-              <Link color="teal">{isExpanded ? "Hide Sub Tasks" : "View Sub Tasks"}</Link>
+              <Link color="purple.500">{isExpanded ? "Hide Sub Tasks" : "View Sub Tasks"}</Link>
             </>
           </AccordionButton>
         </Flex>

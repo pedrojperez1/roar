@@ -3,20 +3,20 @@ import { useQuery } from "@apollo/client"
 import { GET_LADDERS_BY_USERID } from "../queries/ladders"
 import Loading from "./Loading"
 import Layout from "./layout"
-import { 
-  Box, 
-  Container, 
-  Text, 
-  Link, 
-  Stack, 
-  LinkBox, 
-  LinkOverlay, 
-  CircularProgress, 
-  CircularProgressLabel, 
-  Flex, 
+import {
+  Box,
+  Container,
+  Text,
+  Link,
+  Stack,
+  LinkBox,
+  LinkOverlay,
+  CircularProgress,
+  CircularProgressLabel,
+  Flex,
+  Heading,
 } from "@chakra-ui/react"
 import genTimeAgo from "../helpers/genTimeAgo"
-
 
 const LadderList = () => {
   const { loading, error, data } = useQuery(GET_LADDERS_BY_USERID)
@@ -36,37 +36,42 @@ const LadderList = () => {
   }
 
   return (
-    <Layout>
-      <Container maxW="xl">
-        <Stack>
-          <Text fontSize="3xl" mb={4}>My Mountains</Text>
-          {currentUserLadders.length === 0 ? (
-            <Text>
-              You have not created any fear ladders yet. Create one <Link colo="teal.500" href="/mountains/new">here</Link>!
-            </Text>
-          ) : (
-            <Stack spacing={3}>
-              {currentUserLadders.map(ladder => (
-                <LinkBox key={ladder.id}>
-                  <Flex>
-                      <Box mr={5}>
-                        <Text fontSize="xl" fontWeight="bold">{ladder.name}</Text>
-                        <Text fontSize="sm">Created {genTimeAgo(ladder.createdAt)}</Text>
-                      </Box>
-                      <LinkOverlay href={`/mountains/${ladder.id}`} color="green.400">
-                        <CircularProgress value={genLadderCompletedPct(ladder)} color="green.400">
-                          <CircularProgressLabel>{`${genLadderCompletedPct(ladder)}%`}</CircularProgressLabel>
-                        </CircularProgress>
-                      </LinkOverlay>
-                      
-                  </Flex>
-                </LinkBox>
-              ))}
-            </Stack>
-          )}
-        </Stack>
-      </Container>
-    </Layout>
+    <Container pl="0" pr="0" maxWidth="100%">
+      <Stack>
+        <Heading mb="4"> My Mountains</Heading>
+        {currentUserLadders.length === 0 ? (
+          <Text>
+            You have not created any fear ladders yet. Create one{" "}
+            <Link colo="teal.500" href="/mountains/new">
+              here
+            </Link>
+            !
+          </Text>
+        ) : (
+          <Stack spacing={3}>
+            {currentUserLadders.map(ladder => (
+              <LinkBox key={ladder.id}>
+                <Flex>
+                  <Box mr={5}>
+                    <Text fontSize="xl" fontWeight="bold">
+                      {ladder.name}
+                    </Text>
+                    <Text fontSize="sm">Created {genTimeAgo(ladder.createdAt)}</Text>
+                  </Box>
+                  <LinkOverlay href={`/mountains/${ladder.id}`} color="green.400">
+                    <CircularProgress value={genLadderCompletedPct(ladder)} color="green.400">
+                      <CircularProgressLabel>{`${genLadderCompletedPct(
+                        ladder
+                      )}%`}</CircularProgressLabel>
+                    </CircularProgress>
+                  </LinkOverlay>
+                </Flex>
+              </LinkBox>
+            ))}
+          </Stack>
+        )}
+      </Stack>
+    </Container>
   )
 }
 
