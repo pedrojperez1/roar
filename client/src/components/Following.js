@@ -1,7 +1,5 @@
 import React from "react"
-
-import FollowingUser from "./FollowingUser"
-import { Avatar, AvatarGroup, Box, Flex, LinkBox, LinkOverlay } from "@chakra-ui/react"
+import { Avatar, AvatarGroup, Flex, LinkBox, LinkOverlay } from "@chakra-ui/react"
 
 const Following = ({ following }) => {
   return (
@@ -18,13 +16,6 @@ const Following = ({ following }) => {
             </LinkBox>
           ))}
         </AvatarGroup>
-        // <Box>
-        //   <Box>
-        //     {following.map(f => (
-        //       <FollowingUser key={f.username} username={f.username} profileImage={f.profileImage} />
-        //     ))}
-        //   </Box>
-        // </Box>
       )}
     </Flex>
   )

@@ -105,8 +105,8 @@ const NavBar = props => {
             <MenuItem color="gray.600" to="/mountains">
               My Mountains
             </MenuItem>
-            <MenuItem color="gray.600" to="/profile">
-              Profile
+            <MenuItem color="gray.600" to="/settings">
+              Settings
             </MenuItem>
             <Box>
               {/* <ProfilePreviewDropdown /> */}
