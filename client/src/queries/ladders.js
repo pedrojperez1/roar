@@ -49,6 +49,11 @@ query {
     getMyLadders {
         id
         name
+        createdAt
+        assignments {
+          id
+          completed
+        }
     }
 }
 `;
