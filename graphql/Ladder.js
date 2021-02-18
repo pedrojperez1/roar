@@ -71,6 +71,12 @@ const Ladder = new GraphQLObjectType({
                     return ladder.level8
                 }
             },
+            createdAt: {
+                type: GraphQLString,
+                resolve(ladder) {
+                    return ladder.createdAt
+                }
+            },
             assignments: {
                 type: new GraphQLList(Assignment),
                 resolve(ladder) {

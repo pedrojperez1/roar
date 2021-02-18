@@ -1,6 +1,5 @@
 import React from "react"
 import dayjs from "dayjs"
-import { Card, CardBody, CardDeck } from "reactstrap"
 import { Flex, Box, Heading } from "@chakra-ui/react"
 
 const Statistics = ({ ladders }) => {
@@ -21,7 +20,7 @@ const Statistics = ({ ladders }) => {
   }
 
   return (
-    <Box>
+    <Box mb="8">
       <Heading
         fontSize="24px"
         pb="10px"
@@ -31,27 +30,46 @@ const Statistics = ({ ladders }) => {
         Statistics
       </Heading>
 
-      <Flex>
-        <CardDeck>
-          <Card style={{ border: "none", fontSize: "13px" }}>
-            <CardBody>
-              <h3>{tasksCompleted}</h3>
-              <p>Number of completed tasks</p>
-            </CardBody>
-          </Card>
-          <Card style={{ border: "none", fontSize: "13px" }}>
-            <CardBody>
-              <h3>{getNextDueDate(ladders)}</h3>
-              <p>Next task due</p>
-            </CardBody>
-          </Card>
-          <Card style={{ border: "none", fontSize: "13px" }}>
-            <CardBody>
-              <h3>{ladders.length}</h3>
-              <p>Number of mountains climbed</p>
-            </CardBody>
-          </Card>
-        </CardDeck>
+      <Flex flexDirection={["column", "row"]}>
+        <Box
+          maxW={["100%", "170px"]}
+          p="4"
+          flexDirection="column"
+          borderRadius="xl"
+          color="white"
+          bgColor="pink.500"
+          mr="5"
+          mb="5"
+        >
+          <p>Completed tasks</p>
+          <Heading fontSize="2xl">{tasksCompleted}</Heading>
+        </Box>
+        <Box
+          maxW={["100%", "170px"]}
+          p="4"
+          flexDirection="column"
+          borderRadius="xl"
+          color="white"
+          bgColor="cyan.500"
+          mr="5"
+          mb="5"
+        >
+          <p>Next task due</p>
+          <Heading fontSize="2xl">{getNextDueDate(ladders)}</Heading>
+        </Box>
+        <Box
+          maxW={["100%", "170px"]}
+          p="4"
+          flexDirection="column"
+          borderRadius="xl"
+          color="white"
+          bgColor="orange.500"
+          mr="5"
+          mb="5"
+        >
+          <p>Mountains climbed</p>
+          <Heading fontSize="2xl">{ladders.length}</Heading>
+        </Box>
       </Flex>
     </Box>
   )

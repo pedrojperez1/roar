@@ -39,6 +39,9 @@ query getMyProfile {
         username
         profileImage
         createdAt
+        isPublic
+        emailNotifications
+        email
         ladders {
             id
             assignments {
@@ -85,5 +88,48 @@ mutation followUser($username: String!) {
 export const UNFOLLOW_USER_MUTATION = gql`
 mutation unfollowUser($username: String!) {
     unfollowUser (username: $username)
+}
+`;
+
+export const CHANGE_SETTINGS_MUTATION = gql`
+mutation changeSettings(
+    $isPublic: Boolean!
+    $emailNotifications: Boolean!
+    $email: String
+) {
+    changeSettings(
+        isPublic: $isPublic
+        emailNotifications: $emailNotifications
+        email: $email
+    ) {
+        id
+        username
+        profileImage
+        createdAt
+        isPublic
+        emailNotifications
+        ladders {
+            id
+            assignments {
+                id
+                dueDate
+                completed
+            }
+        }
+        following {
+            username
+            profileImage
+        }
+    }
+}
+`;
+
+export const CHANGE_AVATAR_MUTATION = gql`
+mutation changeAvatar($profileImage: String!) {
+    changeAvatar(profileImage: $profileImage) {
+        id
+        username
+        profileImage
+    }
 }
 `;

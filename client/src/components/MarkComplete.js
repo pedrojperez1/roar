@@ -52,7 +52,7 @@ const MarkComplete = ({ assignmentId, level, refetch, completed }) => {
           <span style={{ marginLeft: "5px" }}>Complete</span>
         </Text>
       ) : (
-        <Button size="sm" colorScheme="blue" onClick={onOpen}>
+        <Button variant="outline" size="sm" colorScheme="purple" onClick={onOpen}>
           Mark Complete
         </Button>
       )}
@@ -67,10 +67,10 @@ const MarkComplete = ({ assignmentId, level, refetch, completed }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={markComplete}>
+            <Button colorScheme="purple" onClick={markComplete}>
               Mark Complete
             </Button>
-            <Button variant="ghost" onClick={handleCancelOrClose}>
+            <Button ml="2" variant="ghost" onClick={handleCancelOrClose}>
               Cancel
             </Button>
           </ModalFooter>

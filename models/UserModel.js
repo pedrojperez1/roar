@@ -1,13 +1,6 @@
 const Sequelize = require("sequelize");
 
 const UserModel = {
-    // firstName: {
-    //     type: Sequelize.STRING,
-    //     allowNull: false
-    // },
-    // lastName: {
-    //     type: Sequelize.STRING
-    // },
     username: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -24,6 +17,14 @@ const UserModel = {
         validate: {
             isEmail: true
         }
+    },
+    emailNotifications: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    isPublic: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     },
     profileImage: {
         type: Sequelize.STRING,

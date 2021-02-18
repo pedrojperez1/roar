@@ -2,7 +2,8 @@ const {
     GraphQLObjectType,
     GraphQLInt,
     GraphQLString,
-    GraphQLList
+    GraphQLList,
+    GraphQLBoolean
 } = require("graphql")
 const Ladder = require("./Ladder")
 
@@ -13,50 +14,68 @@ const User = new GraphQLObjectType({
         return {
             id: {
                 type: GraphQLInt,
-                resolve(person) {
-                    return person.id;
+                resolve(user) {
+                    return user.id;
                 }
             },
             username: {
                 type: GraphQLString,
-                resolve(person) {
-                    return person.username;
+                resolve(user) {
+                    return user.username;
                 }
             },
             password: {
                 type: GraphQLString,
-                resolve(person) {
-                    return person.password;
+                resolve(user) {
+                    return user.password;
                 }
             },
             profileImage: {
                 type: GraphQLString,
-                resolve(person) {
-                    return person.profileImage;
+                resolve(user) {
+                    return user.profileImage;
+                }
+            },
+            emailNotifications: {
+                type: GraphQLBoolean,
+                resolve(user) {
+                    return user.emailNotifications
+                }
+            },
+            email: {
+                type: GraphQLString,
+                resolve(user) {
+                    return user.email
+                }
+            },
+            isPublic: {
+                type: GraphQLBoolean,
+                resolve(user) {
+                    return user.isPublic
                 }
             },
             createdAt: {
                 type: GraphQLString,
-                resolve(person) {
-                    return person.createdAt;
+                resolve(user) {
+                    return user.createdAt;
                 }
             },
             ladders: {
                 type: new GraphQLList(Ladder),
-                resolve(person) {
-                    return person.getLadders();
+                resolve(user) {
+                    return user.getLadders();
                 }
             },
             following: {
                 type: new GraphQLList(User),
-                resolve(person) {
-                    return person.getFollowing();
+                resolve(user) {
+                    return user.getFollowing();
                 }
             },
             followers: {
                 type: new GraphQLList(User),
-                resolve(person) {
-                    return person.getFollowers();
+                resolve(user) {
+                    return user.getFollowers();
                 }
             }
         }

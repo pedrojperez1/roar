@@ -30,19 +30,30 @@ const Home = () => {
 
   return (
     <Layout maxWidth="5xl">
-      <Tabs>
-        <TabList>
+      <Tabs colorScheme="purple" p="0">
+        <TabList mb="8">
           <Tab>Home</Tab>
           <Tab>My Mountains</Tab>
           <Tab>Following</Tab>
         </TabList>
 
-        <TabPanels>
-          <TabPanel>
-            <Box display="flex" justifyContent="space-between" mb="4" textAlign="left">
+        <TabPanels p="0">
+          <TabPanel p="0">
+            <Box
+              display="flex"
+              flexDirection={["column", "row"]}
+              justifyContent="space-between"
+              mb="8"
+              textAlign="left"
+            >
               <Box>
-                <Heading mb>
-                  <Link to={`/u/${data.getMyProfile.username}`}>{data.getMyProfile.username}</Link>
+                <Heading>
+                  <Link
+                    style={{ textDecoration: "none", color: "#805AD5" }}
+                    to={`/u/${data.getMyProfile.username}`}
+                  >
+                    {data.getMyProfile.username}
+                  </Link>
                 </Heading>
                 <Box>
                   <p>Joined {genJoinDate(data.getMyProfile.createdAt)}</p>
@@ -61,10 +72,10 @@ const Home = () => {
               </Box>
             </Flex>
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0">
             <LadderList />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0">
             <Following following={data.getMyProfile.following} />
           </TabPanel>
         </TabPanels>

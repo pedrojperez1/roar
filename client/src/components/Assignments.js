@@ -16,7 +16,7 @@ const Assignments = ({ assignments, refetch }) => {
           alignItems="center"
           padding="10px"
           borderRadius="4px"
-          backgroundColor={"#EDF2F7"}
+          backgroundColor={"gray.100"}
           mb="2"
           key={a.id}
         >
@@ -27,7 +27,14 @@ const Assignments = ({ assignments, refetch }) => {
             <Box color="gray.600">Due Date: {dayjs(a.dueDate).format("ddd, MMM DD, YYYY")}</Box>
           </Box>
           <Box>
-            {<MarkComplete completed={a.completed} assignmentId={a.id} level={a.level} refetch={refetch} />}
+            {
+              <MarkComplete
+                completed={a.completed}
+                assignmentId={a.id}
+                level={a.level}
+                refetch={refetch}
+              />
+            }
           </Box>
         </Flex>
       ))}

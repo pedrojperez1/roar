@@ -1,7 +1,8 @@
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Heading, Text, VStack, Image } from "@chakra-ui/react"
 import React from "react"
 import { Link } from "react-router-dom"
 import Layout from "./layout"
+import exposureImage from "../img/exposure-therapy.png"
 
 const Learn = () => {
   return (
@@ -14,6 +15,9 @@ const Learn = () => {
           Exposure therapy is a tool used in cognitive behavioral therapy which has been shown to
           help treat anxiety.
         </Text>
+        <Box display="flex" alignItems="center">
+          <Image width="100%" maxWidth="100%" src={exposureImage} />
+        </Box>
       </Box>
       <Box>
         <VStack>
@@ -50,7 +54,7 @@ const Learn = () => {
           </p>
           <p className="mt-5 h4">Interested? Start by building you own fear ladder.</p>
           <Button variant="outline" colorScheme="purple" size="lg">
-            <Link style={{textDecoration: "none" }} to="/mountains/new">
+            <Link style={{ textDecoration: "none" }} to="/mountains/new">
               Get Started
             </Link>
           </Button>

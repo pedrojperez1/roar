@@ -1,6 +1,5 @@
 import React from "react"
 import { useParams, Link as ReactRouterLink } from "react-router-dom"
-// import { Card, CardBody, UncontrolledCollapse } from "reactstrap"
 import Assignments from "./Assignments"
 import Loading from "./Loading"
 import LadderLevelTitle from "./LadderLevelTitle"
@@ -15,7 +14,9 @@ import {
   Box,
   Flex,
   Link,
+  Button,
 } from "@chakra-ui/react"
+import Layout from "./layout"
 
 const Ladder = () => {
   const { id } = useParams()
@@ -47,46 +48,54 @@ const Ladder = () => {
     return (progress / levelAssignments.length) * 100
   }
   return (
-    <Flex justifyContent="center" alignItems="center">
-      <Container>
-        <Flex mb="10" justifyContent="space-between" alignItems="center">
-          <Heading textAlign="left" size="2xl">
-            {ladder.name}
-          </Heading>
-
-          <Link as={ReactRouterLink} to="/mountains/new" colorScheme="telegram">
-            Add New Mountain
-          </Link>
-        </Flex>
-        {levels.map(level => (
-          <Box key={level} mb="3" boxShadow="lg">
-            <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
-              <Accordion allowToggle>
-                <AccordionItem>
-                  {({ isExpanded }) => (
-                    <>
-                      <LadderLevelTitle
-                        level={level[5]}
-                        task={ladder[level]}
-                        isExpanded={isExpanded}
-                        progress={getLevelProgress(ladder[level])}
-                      />
-
-                      <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
-                        <Assignments
-                          assignments={getLevelAssignments(ladder[level])}
-                          refetch={refetch}
+    <Layout>
+      <Flex justifyContent="center" alignItems="center">
+        <Container>
+          <Flex mb="10" justifyContent="space-between" alignItems="center">
+            <Heading textAlign="left" size="2xl">
+              {ladder.name}
+            </Heading>
+            <Button colorScheme="purple">
+              <Link
+                style={{ textDecoration: "none", color: "#fff" }}
+                as={ReactRouterLink}
+                to="/mountains/new"
+                colorScheme="telegram"
+              >
+                Add New Mountain
+              </Link>
+            </Button>
+          </Flex>
+          {levels.map(level => (
+            <Box key={level} mb="3" boxShadow="lg">
+              <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
+                <Accordion allowToggle>
+                  <AccordionItem>
+                    {({ isExpanded }) => (
+                      <>
+                        <LadderLevelTitle
+                          level={level[5]}
+                          task={ladder[level]}
+                          isExpanded={isExpanded}
+                          progress={getLevelProgress(ladder[level])}
                         />
-                      </AccordionPanel>
-                    </>
-                  )}
-                </AccordionItem>
-              </Accordion>
-            </Flex>
-          </Box>
-        ))}
-      </Container>
-    </Flex>
+
+                        <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
+                          <Assignments
+                            assignments={getLevelAssignments(ladder[level])}
+                            refetch={refetch}
+                          />
+                        </AccordionPanel>
+                      </>
+                    )}
+                  </AccordionItem>
+                </Accordion>
+              </Flex>
+            </Box>
+          ))}
+        </Container>
+      </Flex>
+    </Layout>
   )
 }
 
