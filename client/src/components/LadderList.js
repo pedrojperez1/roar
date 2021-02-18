@@ -16,24 +16,22 @@ const LadderList = () => {
   const currentUserLadders = data.getMyLadders
 
   return (
-    <Layout>
-      <Container>
-        <h3 className="my-5">My Ladders</h3>
-        {currentUserLadders.length === 0 ? (
-          <p>
-            You have not created any fear ladders yet. Create one <Link to="/newladder">here</Link>!
-          </p>
-        ) : (
-          <ListGroup>
-            {currentUserLadders.map(ladder => (
-              <ListGroupItem key={ladder.id} tag={Link} to={`/ladders/${ladder.id}`}>
-                {ladder.name}
-              </ListGroupItem>
-            ))}
-          </ListGroup>
-        )}
-      </Container>
-    </Layout>
+    <Container>
+      <h3 className="my-5">My Mountains</h3>
+      {currentUserLadders.length === 0 ? (
+        <p>
+          You have not created any fear ladders yet. Create one <Link to="/newladder">here</Link>!
+        </p>
+      ) : (
+        <ListGroup>
+          {currentUserLadders.map(ladder => (
+            <ListGroupItem key={ladder.id} tag={Link} to={`/ladders/${ladder.id}`}>
+              {ladder.name}
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      )}
+    </Container>
   )
 }
 
