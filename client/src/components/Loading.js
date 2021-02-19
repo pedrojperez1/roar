@@ -1,10 +1,12 @@
 import React from "react";
-import { Spinner } from "reactstrap";
+import { Center, Spinner } from "@chakra-ui/react";
 
 const Loading = () => {
     return (
         <div className="Loading">
-            <Spinner color="primary"/>
+            <Center>
+                <Spinner size="xl"/>
+            </Center>
         </div>
     )
 };

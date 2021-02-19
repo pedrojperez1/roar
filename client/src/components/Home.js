@@ -2,9 +2,9 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { FETCH_MY_PROFILE_QUERY } from "../queries/users"
 import Statistics from "./Statistics"
-import Following from "./Following"
 import Achievements from "./Achievements"
 import { useQuery } from "@apollo/client"
+import FollowingTab from "./FollowingTab"
 import Loading from "./Loading"
 import genJoinDate from "../helpers/genJoinDate"
 import Layout from "./layout"
@@ -76,7 +76,7 @@ const Home = () => {
             <LadderList />
           </TabPanel>
           <TabPanel p="0">
-            <Following following={data.getMyProfile.following} />
+            <FollowingTab />
           </TabPanel>
         </TabPanels>
       </Tabs>

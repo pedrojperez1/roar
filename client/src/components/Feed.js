@@ -4,10 +4,10 @@ import FeedItem from "./FeedItem";
 import FeedPostForm from "./FeedPostForm";
 import { GET_USER_FEED } from "../queries/feeds";
 import Loading from "./Loading";
-import { Row } from "reactstrap";
+import { Button, Flex, Heading, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react";
 
 const Feed = ({username, myFeed}) => {
-
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const {loading, error, data, refetch} = useQuery(GET_USER_FEED, {
         variables: {username: username}
     });
@@ -19,31 +19,55 @@ const Feed = ({username, myFeed}) => {
 
     const sortedFeed = [...feed].sort((a, b) => Number(b.createdAt) - Number(a.createdAt)); // sort feed by time posted
     return (
-        <div className="Feed w-100">
-            <Row>
-                <h1 className="font-weight-lighter">User Activity</h1>
-            </Row>
-            {myFeed &&
-                <Row>
-                    <FeedPostForm refetch={refetch}/>
-                </Row>
-            }
+        <div className="Feed">
+            <FeedPostForm
+                isOpen={isOpen}
+                onClose={onClose}
+                refetch={refetch}
+                initCharLength={0}
+            />
+            <Stack>
+                <Heading
+                    fontSize="24px"
+                    style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
+                    mb="6"
+                    pb="10px"
+                >
+                    <Flex>
+                        <Text>Recent Activity</Text>
+                        <Spacer />
+                        { 
+                            myFeed && 
+                            <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={onOpen}
+                            >
+                                Post Update
+                            </Button> }
+                    </Flex>
+                </Heading>
+                <Stack>
+                    {
+                        feed.length === 0 ? 
+                        <Text>No activity... yet!</Text> : 
+                        sortedFeed.map(post => (
+                            <FeedItem
+                                key={post.id}
+                                type={post.type}
+                                content={post.content}
+                                username={post.user.username}
+                                profileImage={post.user.profileImage}
+                                createdAt={post.createdAt}
+                            />
+                        ))
+                    }
+                </Stack>
+            </Stack>
+            
+            
 
-            {
-                feed.length === 0 ? 
-                <p>No posts yet!</p> : 
-                sortedFeed.map(post => (
-                    <Row key={post.id}>
-                        <FeedItem 
-                            type={post.type}
-                            content={post.content}
-                            username={post.user.username}
-                            profileImage={post.user.profileImage}
-                            createdAt={post.createdAt}
-                        />
-                    </Row>
-                ))
-            }
+            
         </div>
     )
 };

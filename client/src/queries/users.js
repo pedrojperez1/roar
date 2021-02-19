@@ -133,3 +133,21 @@ mutation changeAvatar($profileImage: String!) {
     }
 }
 `;
+
+export const RECOMMENDED_USERS_QUERY = gql`
+query recommendedUsers {
+    recommendedUsers {
+        username
+        profileImage
+    }
+}
+`;
+
+export const WHO_AM_I_FOLLOWING_QUERY = gql`
+query getMyFollowing {
+    getMyFollowing {
+        username
+        profileImage
+    }
+}
+`;

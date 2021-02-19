@@ -33,7 +33,6 @@ const Settings = () => {
   if (loading) return <Loading />
   if (error) return "Something went wrong :("
   const profile = data.getMyProfile
-  console.log("profile:", profile)
   const validateEmail = value => {
     let error
     if (!value) {

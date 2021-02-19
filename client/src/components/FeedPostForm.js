@@ -1,48 +1,89 @@
-import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { Form, FormGroup, Input, Button } from "reactstrap";
+import { useMutation } from "@apollo/client";
 import { ADD_FEED_POST } from "../queries/feeds";
-import "./FeedPostForm.css";
+import { 
+    Button, 
+    Flex, 
+    FormControl, 
+    FormErrorMessage, 
+    Modal, 
+    ModalBody, 
+    ModalContent, 
+    ModalFooter, 
+    ModalHeader, 
+    ModalOverlay, 
+    Spacer, 
+    Text, 
+    Textarea 
+} from "@chakra-ui/react";
+import { Formik, Form, Field } from "formik";
 
-const FeedPostForm = ({refetch}) => {
-    const INITIAL_STATE = '';
-    const [content, setContent] = useState(INITIAL_STATE);
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        setContent(e.target.value);
+const FeedPostForm = ({isOpen, onClose, refetch}) => {
+    const [charLength, setCharLength] = useState(0)
+    const handleChange = e => {
+        e.preventDefault()
+        setCharLength(e.target.value.length)
+    }
+    const handleClose = () => {
+        setCharLength(0)
+        onClose()
+    }
+    const validateContent = value => {
+        let error
+        if (value.length < 1) {
+            error = "Cannot submit empty post."
+        } else if (value.length > 200) {
+            error = "Too many characters. Max 200 characters."
+        }
+        return error
     }
 
-    const [addPost] = useMutation(ADD_FEED_POST, {
-        variables: {
-            content: content,
-            type: "user"
-        },
-        onCompleted: () => {
-            setContent(INITIAL_STATE);
-            refetch();
-        }
-    });
+    const [addPost] = useMutation(ADD_FEED_POST)
 
     return (
-        <div className="FeedPostForm w-100">
-            <Form className="FeedPostForm-form text-right border p-2">
-                <FormGroup className="mb-2">
-                    <Input className="form-control"
-                        type="textarea"
-                        name="content"
-                        placeholder="What's up today?"
-                        onChange={handleChange}
-                        value={content}
-                    />
-                </FormGroup>
-                {content.length > 1 &&
-                    <>
-                    <Button className="mx-1" color="primary" size="sm" onClick={addPost}>Post</Button>
-                    <Button className="mx-1" color="secondary" size="sm" onClick={() => setContent(INITIAL_STATE)}>Cancel</Button>
-                    </>
-                }
-            </Form>
+        <div className="FeedPostForm">
+            <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+                <ModalOverlay />
+                <ModalContent>
+                <ModalHeader>Post an update</ModalHeader>
+                    <ModalBody>
+                        <Formik
+                            initialValues={{ content: ''}}
+                            onSubmit={(values, actions) => {
+                                addPost({
+                                    variables: { content: values.content, type: "user"}
+                                }).then(() => {
+                                    refetch()
+                                    actions.setSubmitting(false)
+                                    setCharLength(0)
+                                    onClose()
+                                })
+                            }}
+                        >
+                        {props => (
+                            <Form onChange={handleChange}>
+                            <Field name="content" validate={validateContent}>
+                                {({field, form}) => (
+                                <FormControl>
+                                    <Textarea {...field} id="content" placeholder="What's up today?"/>
+                                    <FormErrorMessage>{form.errors.content}</FormErrorMessage>
+                                </FormControl>
+                                )}
+                            </Field>
+                            <Flex>
+                                <Spacer />
+                                <Text fontSize="sm" fontWeight="light">{charLength} / 200 characters</Text>
+                            </Flex>
+                            <ModalFooter>
+                                <Button colorScheme="purple" mr={3} isLoading={props.isSubmitting} type="submit">Post</Button>
+                                <Button variant="ghost" onClick={handleClose}>Cancel</Button>
+                            </ModalFooter>
+                            </Form>
+                        )}
+                        </Formik>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </div>
     )
 };
