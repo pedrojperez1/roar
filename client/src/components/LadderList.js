@@ -2,7 +2,6 @@ import React from "react"
 import { useQuery } from "@apollo/client"
 import { GET_LADDERS_BY_USERID } from "../queries/ladders"
 import Loading from "./Loading"
-import Layout from "./layout"
 import {
   Box,
   Container,
@@ -22,16 +21,13 @@ const LadderList = () => {
   const { loading, error, data } = useQuery(GET_LADDERS_BY_USERID)
   if (loading) return <Loading />
   if (error) {
-    console.log("error", error)
     return `Something went wrong! ${error.message}`
   }
   const currentUserLadders = data.getMyLadders
 
   const genLadderCompletedPct = ladder => {
-    console.log(ladder)
     const numerator = ladder.assignments.filter(a => a.completed).length
     const denominator = ladder.assignments.length
-    console.log("numerator", numerator, "denominator", denominator)
     return denominator === 0 ? 0 : Math.round((numerator / denominator) * 100)
   }
 
@@ -41,8 +37,8 @@ const LadderList = () => {
         <Heading mb="4"> My Mountains</Heading>
         {currentUserLadders.length === 0 ? (
           <Text>
-            You have not created any fear ladders yet. Create one{" "}
-            <Link colo="teal.500" href="/mountains/new">
+            You have not created any Fear Mountains yet. Create one{" "}
+            <Link color="teal.500" href="/mountains/new">
               here
             </Link>
             !

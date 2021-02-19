@@ -11,8 +11,8 @@ import Settings from "./Settings";
 import Ladder from "./Ladder";
 import LadderList from "./LadderList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
-import UserProfile from "./UserProfile";
 import NewMountainForm from "./new-mountain-form/NewMountainForm";
+import UserProfilePage from "./UserProfilePage";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -52,7 +52,7 @@ const Routes = () => {
                 <Ladder />
             </Route>
             <Route exact path="/u/:username">
-                { !currentUser ? <Redirect to="/login" /> : <UserProfile /> }
+                { !currentUser ? <Redirect to="/login" /> : <UserProfilePage /> }
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

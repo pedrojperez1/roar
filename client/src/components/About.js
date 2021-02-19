@@ -1,5 +1,4 @@
 import React from "react"
-
 import Layout from "./layout"
 import lesley from "../img/IMG_3008.jpg"
 import pedro from "../img/IMG_2622.jpg"

@@ -1,17 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React from "react";
-import { useParams } from "react-router-dom";
-import { Button, Col, Container, Row } from "reactstrap";
 import { FETCH_MY_PROFILE_QUERY, FETCH_PROFILE, FOLLOW_USER_MUTATION, UNFOLLOW_USER_MUTATION } from "../queries/users";
 import Loading from "./Loading";
 import {MdHistory, MdPeopleOutline} from "react-icons/md";
 import Achievements from "./Achievements";
 import Feed from "./Feed";
 import dayjs from "dayjs";
-import Layout from "./layout";
+import { Avatar, Box, Button, Center, Heading, HStack, Stack, Text } from "@chakra-ui/react";
 
-const UserProfile = () => {
-    const {username} = useParams();
+const UserProfile = ({username, refetchFollows}) => {
     const {loading, error, data, refetch} = useQuery(FETCH_PROFILE, {
         variables: {username: username}
     });
@@ -20,15 +17,17 @@ const UserProfile = () => {
     const [follow] = useMutation(FOLLOW_USER_MUTATION, {
         variables: { username: username },
         onCompleted: () => {
-            refetch();
-            refetchMe();
+            refetch()
+            refetchMe()
+            refetchFollows()
         }
     });
     const [unfollow] = useMutation(UNFOLLOW_USER_MUTATION, {
         variables: { username: username },
         onCompleted: () => {
-            refetch();
-            refetchMe();
+            refetch()
+            refetchMe()
+            refetchFollows()
         }
     });
     
@@ -42,47 +41,47 @@ const UserProfile = () => {
 
     return (
         <div className="UserProfile">
-            <Layout>
-                <Container>
-                    <Row>
-                        <Col xs={12} sm={11} md={5} lg={4} xl={3}>
-                            <Row>
-                                <img className="rounded-circle" src={profile.profileImage} alt="profile" style={{width: "150px"}}/>
-                            </Row>
-                            <Row>
-                                <p className="blockquote font-weight-bold mt-2">{profile.username}</p>
-                            </Row>
-                            <Row>
-                                <p>
-                                    <span className="mr-2"><MdPeopleOutline /></span>
-                                    <b>{profile.followers.length}</b> followers  |  <b>{profile.following.length}</b> following
-                                </p>
-                            </Row>
-                            <Row><p><span className="mr-2"><MdHistory /></span>Joined {dayjs.unix(profile.createdAt / 1000).format("MMM YYYY")}</p></Row>
-                            <Row>
-                                {
-                                    profile.username !== myProfile.username ?
-                                    (
-                                        myFollowing.includes(profile.username) ?
-                                        <Button outline size="sm" onClick={unfollow}>Unfollow</Button> :
-                                        <Button outline size="sm" onClick={follow}>Follow</Button>
-                                    ) :
-                                    <Button outline size="sm">Edit Profile</Button>
-                                }
-                                
-                            </Row>
-                        </Col>
-                        <Col xs={6}>
-                            <Row className="mb-3">
-                                <Achievements username={username}/>
-                            </Row>
-                            <Row>
-                                <Feed username={username} myFeed={profile.username === myProfile.username}/>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Container>
-            </Layout>
+            <Stack spacing={10}>
+                <Box>
+                    <Center>
+                        <Avatar size="2xl" src={profile.profileImage} />
+                    </Center>
+                    <Center>
+                        <Heading>{profile.username}</Heading>
+                    </Center>
+                    <Center>
+                        <HStack>
+                            <MdHistory />
+                            <Text>Joined {dayjs.unix(profile.createdAt / 1000).format("MMM YYYY")}</Text>
+                        </HStack>
+                    </Center>
+                    <Center>
+                        <HStack>
+                            <MdPeopleOutline />
+                            <Text><b>{profile.followers.length}</b> followers</Text>
+                            <Text> | </Text>
+                            <Text><b>{profile.following.length}</b> following</Text>
+                        </HStack>
+                    </Center>
+                    <Center mt={1}>
+                        {
+                            profile.username !== myProfile.username ?
+                            (
+                                myFollowing.includes(profile.username) ?
+                                <Button variant="outline" size="sm" onClick={unfollow}>Unfollow</Button> :
+                                <Button variant="outline" size="sm" onClick={follow}>Follow</Button>
+                            ) :
+                            <Button outline size="sm">Edit Profile</Button>
+                        }
+                    </Center>
+                </Box>
+                <Box>
+                    <Achievements username={profile.username} />
+                </Box>
+                <Box>
+                    <Feed username={username} myFeed={profile.username === myProfile.username}/>
+                </Box>
+            </Stack>
         </div>
     )
 };

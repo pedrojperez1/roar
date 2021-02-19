@@ -11,6 +11,7 @@ const Assignment = require("./Assignment")
 const FeedPost = require("./FeedPost")
 const Achivement = require("./Achivement")
 const { getUserId } = require("../utils")
+const { Op, QueryTypes } = require("sequelize")
 
 const Query = new GraphQLObjectType({
     name: "Query",
@@ -118,6 +119,32 @@ const Query = new GraphQLObjectType({
                     const userId = getUserId(context);
                     if (userId) {
                         return db.models.users.findOne({where: args})
+                    }
+                }
+            },
+            recommendedUsers: {
+                type: new GraphQLList(User),
+                async resolve(root, args, context) {
+                    const userId = getUserId(context)
+                    const following = await db.query(`
+                        SELECT "users"."username"
+                        FROM "follows"
+                        JOIN "users"
+                        ON "follows"."followingId" = "users"."id"
+                        WHERE "follows"."userId" = :userId
+                    `, {
+                        replacements: { userId },
+                        type: QueryTypes.SELECT
+                    })
+                    if (userId) {
+                        return db.models.users.findAll({
+                            where: {
+                                id: { [Op.ne]: userId },
+                                isPublic: true,
+                                username: { [Op.notIn]: following.map(f => f.username)}
+                            },
+                            limit: 3
+                        })
                     }
                 }
             }
