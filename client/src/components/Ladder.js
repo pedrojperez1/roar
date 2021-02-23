@@ -78,6 +78,8 @@ const Ladder = () => {
                           task={ladder[level]}
                           isExpanded={isExpanded}
                           progress={getLevelProgress(ladder[level])}
+                          ladderId={id}
+                          refetch={refetch}
                         />
 
                         <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>

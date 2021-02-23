@@ -1,8 +1,9 @@
 import React from "react"
 
 import { Container, Flex, Link, Text, Progress, AccordionButton } from "@chakra-ui/react"
+import EditableLevel from "./EditableLevel"
 
-const LadderLevelTitle = ({ level, task, progress, isExpanded }) => {
+const LadderLevelTitle = ({ level, task, progress, isExpanded, ladderId, refetch }) => {
   return (
     <Container p="8">
       <Flex mb="30px" alignItems="flex-start" flexDirection="column">
@@ -18,9 +19,7 @@ const LadderLevelTitle = ({ level, task, progress, isExpanded }) => {
           </AccordionButton>
         </Flex>
 
-        <Text fontWeight="bold" fontSize="large" color="gray.500">
-          {task}
-        </Text>
+        <EditableLevel task={task} ladderId={ladderId} level={level} refetch={refetch}/>
       </Flex>
       <Text marginBottom="10px" fontWeight="bold" textAlign="left">
         Task Done: {progress.toFixed(2)} / 100 %

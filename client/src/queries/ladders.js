@@ -57,3 +57,20 @@ query {
     }
 }
 `;
+
+export const EDIT_LEVEL_MUTATION = gql`
+mutation editLevel(
+  $ladderId: Int!
+  $level: Int!
+  $newLevelName: String!
+) {
+  editLevel(
+    ladderId: $ladderId
+    level: $level
+    newLevelName: $newLevelName
+  ) {
+    id
+  }
+
+}
+`;
