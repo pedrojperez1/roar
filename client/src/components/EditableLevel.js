@@ -17,7 +17,7 @@ const EditableLevel = ({task, ladderId, level, refetch}) => {
   function EditableControls({ isEditing, onSubmit, onCancel, onEdit }) {
     const submitAction = () => {
       onSubmit()
-      editLevel().then(() => refetch())
+      if (input) editLevel().then(() => refetch())
     }
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm">

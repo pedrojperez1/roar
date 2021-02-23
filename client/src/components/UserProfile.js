@@ -19,7 +19,7 @@ const UserProfile = ({username, refetchFollows}) => {
         onCompleted: () => {
             refetch()
             refetchMe()
-            refetchFollows()
+            if (profile.username === myProfile.username) refetchFollows()
         }
     });
     const [unfollow] = useMutation(UNFOLLOW_USER_MUTATION, {
