@@ -1,9 +1,10 @@
 import React from "react"
 
 import { useQuery } from "@apollo/client"
-import { Heading, Box, Flex } from "@chakra-ui/react"
+import { Heading, Box, Flex, HStack } from "@chakra-ui/react"
 import { GET_USER_ACHIEVEMENTS } from "../queries/achievements"
 import Loading from "./Loading"
+import AchievementItem from "./AchievementItem"
 
 const Achievements = ({ username }) => {
   const { loading, error, data } = useQuery(GET_USER_ACHIEVEMENTS, {
@@ -27,13 +28,17 @@ const Achievements = ({ username }) => {
         {data.getUserAchievements.length === 0 ? (
           <p>No achievements... yet!</p>
         ) : (
-          <Box>
+          <HStack flexWrap="wrap">
             {data.getUserAchievements.map(a => (
-              <Box key={a.id}>
-                <p>{a.name}</p>
-              </Box>
+              <AchievementItem
+                key={a.id}
+                name={a.name}
+                description={a.description}
+                type={a.type}
+                level={a.level}
+              />
             ))}
-          </Box>
+          </HStack>
         )}
       </Flex>
     </Box>

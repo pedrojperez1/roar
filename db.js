@@ -72,24 +72,24 @@ db.sync({force: true})
             Achievement.bulkCreate([
                 {
                     name: "Scout",
-                    description: "Completed first assignment!",
+                    description: "Completed first task!",
                     type: "assignment",
                     level: 1
                 },
                 {
                     name: "Trooper",
-                    description: "Completed 5 assignments!",
+                    description: "Completed 5 tasks!",
                     type: "assignment",
                     level: 2
                 },
                 {
                     name: "Veteran",
-                    description: "Completed 10 assignments!",
+                    description: "Completed 10 tasks!",
                     type: "assignment",
                     level: 3
                 },
                 {
-                    name: "Social Butterfly",
+                    name: "Socialite",
                     description: "Followed a user!",
                     type: "follow",
                     level: 1

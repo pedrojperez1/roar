@@ -78,7 +78,7 @@ async function checkForAchievements(type, user) {
       
       // check if user's following === 1, then FOLLOWED FIRST USER
       if (following.length === 1) {
-        const achievement = await db.models.achievements.findOne({where: {name: "Social Butterfly"}});
+        const achievement = await db.models.achievements.findOne({where: {name: "Socialite"}});
         user.addAchievement(achievement);
         achievements.push(achievement);
       }
