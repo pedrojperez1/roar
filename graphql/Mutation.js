@@ -4,7 +4,8 @@ const {
     GraphQLString,
     GraphQLNonNull,
     GraphQLList,
-    GraphQLBoolean
+    GraphQLBoolean,
+    GraphQLScalarType
 } = require("graphql")
 const db = require("../db")
 const Ladder = require("./Ladder")
@@ -200,6 +201,28 @@ const Mutation = new GraphQLObjectType({
                     user.profileImage = args.profileImage
                     user.save()
                     return user
+                }
+            },
+            editLevel: {
+                type: Ladder,
+                args: { 
+                    ladderId: { type: GraphQLInt},
+                    level: { type: GraphQLInt },
+                    newLevelName: { type: GraphQLString }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context)
+                    if (userId) {
+                        const ladder = await db.models.ladders.findByPk(Number(args.ladderId))
+                        let assignments = await ladder.getAssignments({where: {level: args.level}})
+                        for (let a of assignments) {
+                            a.task = args.newLevelName
+                            a.save()
+                        }
+                        ladder[`level${args.level}`] = args.newLevelName
+                        ladder.save()
+                        return ladder
+                    }
                 }
             }
         }
