@@ -37,9 +37,9 @@ const LadderList = () => {
         <Heading mb="4"> My Mountains</Heading>
         {currentUserLadders.length === 0 ? (
           <Text>
-            You have not created any Fear Mountains yet. Create one{" "}
-            <Link color="teal.500" href="/mountains/new">
-              here
+            You have not created any Fear Mountains yet.{" "}
+            <Link color="purple" href="/mountains/new">
+              Create one!
             </Link>
             !
           </Text>

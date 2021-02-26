@@ -6,7 +6,7 @@ import ActivitySummary from "../ActivitySummary"
 import { ADD_LADDER_MUTATION } from "../../queries/ladders"
 import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react"
 
-const NewLadderStep4 = ({setStep}) => {
+const NewLadderStep4 = ({ setStep }) => {
   const { newLadderData } = useContext(NewLadderContext)
 
   const history = useHistory()
@@ -24,15 +24,19 @@ const NewLadderStep4 = ({setStep}) => {
           <Stack spacing={3}>
             <Text fontSize="xl">Aaaand you're (almost) done!</Text>
             <Text fontSize="xl">
-              Look over your Fear Mountain below and make sure everything looks right. You can go back
-              and make any changes now or you can edit your mountain later on.
+              Look over your Fear Mountain below and make sure everything looks right. You can go
+              back and make any changes now or you can edit your mountain later on.
             </Text>
             <ActivitySummary newLadderData={newLadderData} />
           </Stack>
           <Flex mt={8}>
-            <Button onClick={() => setStep(3)}>Back</Button>
+            <Button variant="outline" colorScheme="purple" onClick={() => setStep(3)}>
+              Back
+            </Button>
             <Spacer />
-            <Button colorScheme="blue" onClick={addLadder}>Finish</Button>
+            <Button colorScheme="purple" onClick={addLadder}>
+              Finish
+            </Button>
           </Flex>
         </Fade>
       </Container>

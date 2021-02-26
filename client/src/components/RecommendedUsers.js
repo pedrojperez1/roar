@@ -1,12 +1,19 @@
 import React from "react"
-import { Text } from "@chakra-ui/react"
+import { Heading } from "@chakra-ui/react"
 import UserList from "./UserList"
 
-const RecommendedUsers = ({users, refetch}) => {
-
+const RecommendedUsers = ({ users, refetch }) => {
   return (
     <div className="RecommendedUsers">
-      <Text fontSize="xl" mt={10} mb={5}>Recommended Users</Text>
+      <Heading
+        fontSize="24px"
+        mt={10}
+        mb={5}
+        pb="10px"
+        style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
+      >
+        Recommended Users
+      </Heading>
       <UserList users={users} refetch={refetch} type="recommended" />
     </div>
   )
