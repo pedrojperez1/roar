@@ -32,49 +32,41 @@ const Statistics = ({ ladders }) => {
 
       <Flex flexDirection={["column", "row"]}>
         <Box
-          maxW={["100%", "170px"]}
+          maxW={["100%", "172px"]}
           p="4"
           flexDirection="column"
           borderRadius="xl"
-          // color="white"
-          // bgColor="pink.500"
-          boxShadow="lg"
-          bgColor="gray.50"
           mr="5"
           mb="5"
+          border="1px solid rgb(226, 232, 240)"
         >
-          <p>Completed tasks</p>
           <Heading fontSize="2xl">{tasksCompleted}</Heading>
+          <p>Completed tasks</p>
         </Box>
         <Box
-          maxW={["100%", "170px"]}
+          maxW={["100%", "172px"]}
           p="4"
           flexDirection="column"
           borderRadius="xl"
-          // color="white"
-          // bgColor="cyan.500"
-          boxShadow="lg"
-          bgColor="gray.50"
+          border="1px solid rgb(226, 232, 240)"
           mr="5"
           mb="5"
+          justifyContent="center"
         >
-          <p>Next task due</p>
           <Heading fontSize="2xl">{getNextDueDate(ladders)}</Heading>
+          <p>Next task due</p>
         </Box>
         <Box
-          maxW={["100%", "170px"]}
+          maxW={["100%", "172px"]}
           p="4"
           flexDirection="column"
           borderRadius="xl"
-          // color="white"
-          // bgColor="orange.500"
-          boxShadow="lg"
-          bgColor="gray.50"
+          border="1px solid rgb(226, 232, 240)"
           mr="5"
           mb="5"
         >
-          <p>Mountains climbed</p>
           <Heading fontSize="2xl">{ladders.length}</Heading>
+          <p>Mountains climbed</p>
         </Box>
       </Flex>
     </Box>

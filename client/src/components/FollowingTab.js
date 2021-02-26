@@ -10,8 +10,12 @@ import { useQuery } from "@apollo/client"
 
 const FollowingTab = () => {
   const [selectedUser, setSelectedUser] = useState()
-  const { loading: loadingF, error: errorF, data: dataF, refetch: refetchF } = useQuery(WHO_AM_I_FOLLOWING_QUERY)
-  const { loading: loadingR, error: errorR, data: dataR, refetch: refetchR } = useQuery(RECOMMENDED_USERS_QUERY)
+  const { loading: loadingF, error: errorF, data: dataF, refetch: refetchF } = useQuery(
+    WHO_AM_I_FOLLOWING_QUERY
+  )
+  const { loading: loadingR, error: errorR, data: dataR, refetch: refetchR } = useQuery(
+    RECOMMENDED_USERS_QUERY
+  )
   const refetch = () => {
     refetchR()
     refetchF()
@@ -21,19 +25,29 @@ const FollowingTab = () => {
     return "Something went wrong. :("
   }
   return (
-    <Flex>
-      <Box w="30%" py={3} pr={10}>
-        {
-          loadingF ? <Loading /> : <FollowingUsers users={dataF.getMyFollowing} refetch={refetch} setSelectedUser={setSelectedUser}/>
-        }
-        {
-          loadingR ? <Loading /> : <RecommendedUsers users={dataR.recommendedUsers} refetch={refetch} />
-        }
+    <Flex flexDirection={["column", "row"]}>
+      <Box w={["100%", "30%"]} py={3} pr={["0", "10"]}>
+        {loadingF ? (
+          <Loading />
+        ) : (
+          <FollowingUsers
+            users={dataF.getMyFollowing}
+            refetch={refetch}
+            setSelectedUser={setSelectedUser}
+          />
+        )}
+        {loadingR ? (
+          <Loading />
+        ) : (
+          <RecommendedUsers users={dataR.recommendedUsers} refetch={refetch} />
+        )}
       </Box>
-      <Box w="70%" py={3} pl={10}>
-        {
-          selectedUser ? <UserProfile username={selectedUser} refetchFollows={refetch} /> : <UserProfilePlaceholder />
-        }
+      <Box w={["100%", "70%"]} py={3} pl={10}>
+        {selectedUser ? (
+          <UserProfile username={selectedUser} refetchFollows={refetch} />
+        ) : (
+          <UserProfilePlaceholder />
+        )}
       </Box>
     </Flex>
   )
