@@ -29,6 +29,10 @@ const UserModel = {
     profileImage: {
         type: Sequelize.STRING,
         defaultValue: "https://sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
+    },
+    isNew: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
     }
 }
 

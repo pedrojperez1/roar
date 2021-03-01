@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require("./config")
 const dayjs = require("dayjs")
-const db = require("./db")
+const db = require("./db/db")
 function getTokenPayload(token) {
   return jwt.verify(token, SECRET_KEY)
 }

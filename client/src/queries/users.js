@@ -42,6 +42,7 @@ query getMyProfile {
         isPublic
         emailNotifications
         email
+        isNew
         ladders {
             id
             assignments {
@@ -149,5 +150,11 @@ query getMyFollowing {
         username
         profileImage
     }
+}
+`;
+
+export const SET_ISNEW_FALSE_MUTATION = gql`
+mutation setIsNewFalse {
+    setIsNewFalse
 }
 `;
