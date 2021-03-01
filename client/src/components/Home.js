@@ -19,16 +19,21 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  useDisclosure,
 } from "@chakra-ui/react"
+import WelcomeModal from "./WelcomeModal"
 
 const Home = () => {
-  const { loading, error, data } = useQuery(FETCH_MY_PROFILE_QUERY)
+  const { onClose } = useDisclosure()
+  const { loading, error, data, refetch } = useQuery(FETCH_MY_PROFILE_QUERY)
   if (loading) return <Loading />
   if (error) {
     return `Something bad happened. ${error}`
   }
-
+  console.log(data.getMyProfile)
   return (
+    <>
+    <WelcomeModal isOpen={data.getMyProfile.isNew} onClose={onClose} refetch={refetch}/>
     <Layout maxWidth="5xl">
       <Tabs colorScheme="purple" p="0">
         <TabList mb="8">
@@ -81,6 +86,7 @@ const Home = () => {
         </TabPanels>
       </Tabs>
     </Layout>
+    </>
   )
 }
 

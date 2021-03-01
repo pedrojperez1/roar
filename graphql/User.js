@@ -54,6 +54,12 @@ const User = new GraphQLObjectType({
                     return user.isPublic
                 }
             },
+            isNew: {
+                type: GraphQLBoolean,
+                resolve(user) {
+                    return user.isNew
+                }
+            },
             createdAt: {
                 type: GraphQLString,
                 resolve(user) {

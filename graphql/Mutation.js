@@ -4,10 +4,9 @@ const {
     GraphQLString,
     GraphQLNonNull,
     GraphQLList,
-    GraphQLBoolean,
-    GraphQLScalarType
+    GraphQLBoolean
 } = require("graphql")
-const db = require("../db")
+const db = require("../db/db")
 const Ladder = require("./Ladder")
 const AuthPayload = require("./AuthPayload")
 const FeedPost = require("./FeedPost")
@@ -119,14 +118,17 @@ const Mutation = new GraphQLObjectType({
                 args: {
                     id: { type: GraphQLInt }
                 },
-                async resolve(_, args) {
-                    const assignment = await db.models.assignments.findByPk(args.id);
-                    assignment.completed = true;
-                    await assignment.save();
-                    const ladder = await assignment.getLadder();
-                    const user = await ladder.getUser();
-                    checkForAchievements("assignment", user);
-                    return 'success';
+                async resolve(_, args, context) {
+                    const userId = getUserId(context)
+                    if (userId) {
+                        const assignment = await db.models.assignments.findByPk(args.id);
+                        assignment.completed = true;
+                        await assignment.save();
+                        const ladder = await assignment.getLadder();
+                        const user = await ladder.getUser();
+                        checkForAchievements("assignment", user);
+                        return 'success';
+                    }
                 }
             },
             addFeedPost: {
@@ -224,7 +226,19 @@ const Mutation = new GraphQLObjectType({
                         return ladder
                     }
                 }
-            }
+            },
+            setIsNewFalse: {
+                type: GraphQLString,
+                async resolve(_, args, context) {
+                    const userId = getUserId(context)
+                    if (userId) {
+                        const user = await db.models.users.findByPk(userId)
+                        user.isNew = false
+                        user.save()
+                        return 'success'
+                    }
+                }
+            },
         }
     }
 })

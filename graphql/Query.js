@@ -4,7 +4,7 @@ const {
     GraphQLString,
     GraphQLList
 } = require("graphql")
-const db = require("../db")
+const db = require("../db/db")
 const User = require("./User")
 const Ladder = require("./Ladder")
 const Assignment = require("./Assignment")
