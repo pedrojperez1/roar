@@ -81,7 +81,7 @@ const Mutation = new GraphQLObjectType({
                 async resolve(_, args, context) {
                     const ladderData = {}
                     ladderData.name = args.name
-                    args.activities.forEach(a => ladderData[`level${a.level}`] = a.task)
+                    args.activities.forEach((a, idx) => ladderData[`level${idx + 1}`] = a.task)
                     const userId = getUserId(context); // get user
                     const user = await db.models.users.findByPk(userId)
                     const newLadder = await user.createLadder(ladderData) // create ladder for user
@@ -90,21 +90,21 @@ const Mutation = new GraphQLObjectType({
                         newLadder.createAssignment(
                             {
                                 task: activity.task, 
-                                level: activity.level, 
+                                level: idx + 1, 
                                 dueDate: firstDueDate.format()
                             }
                         );
                         newLadder.createAssignment(
                             {
                                 task: activity.task, 
-                                level: activity.level,
+                                level: idx + 1,
                                 dueDate: firstDueDate.add(2, "day").format()
                             }
                         );
                         newLadder.createAssignment(
                             {
                                 task: activity.task, 
-                                level: activity.level, 
+                                level: idx + 1, 
                                 dueDate: firstDueDate.add(4, "day").format()
                             }
                         );

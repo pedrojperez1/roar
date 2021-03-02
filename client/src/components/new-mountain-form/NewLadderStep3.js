@@ -9,21 +9,15 @@ import {
   Stack,
   Flex,
   Spacer,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   HStack,
 } from "@chakra-ui/react"
 import { AddIcon } from "@chakra-ui/icons"
 import NewLadderContext from "../../helpers/NewLadderContext"
-import ActivityItem from "../ActivityItem"
+import ActivityItem from "./ActivityItem"
 
 const NewLadderStep3 = ({ setStep }) => {
   const { newLadderData, setNewLadderData } = useContext(NewLadderContext)
   const [task, setTask] = useState("")
-  const [level, setLevel] = useState("")
   const [activities, setActivities] = useState(newLadderData.activities || [])
   const history = useHistory()
 
@@ -34,9 +28,8 @@ const NewLadderStep3 = ({ setStep }) => {
 
   const handleAddActivity = e => {
     e.preventDefault()
-    setActivities([...activities, { task: task, level: level }])
+    setActivities([...activities, { task: task }])
     setTask("")
-    setLevel("")
   }
 
   const removeActivity = taskToRemove => {
@@ -50,17 +43,14 @@ const NewLadderStep3 = ({ setStep }) => {
           <Stack spacing={3}>
             <Text fontSize="xl">Now comes the fun part!</Text>
             <Text fontSize="xl">
-              Think of some activities that cause you anxiety, but not as much as{" "}
-              <b>{newLadderData.summit}</b>. Type them one at a time into the text box below and use
-              the number toggle to tell us how afraid you would be of performing that activity, on a
-              scale of 0-8, where 0 is "not at all" and 8 is "VERY much". Then use the <kbd>+</kbd>{" "}
-              button to add to your list.
+              Think of some activities that cause you anxiety, but not as much as your Summit activity{" "}
+              (<b>{newLadderData.summit}</b>).
             </Text>
             <Text fontSize="xl">
-              We will call these activities your <b>Base Camps</b>. Soon you will master these on
-              your way to the summit!
+              Type them one at a time into the text box below use the <kbd>+</kbd>{" "}
+              button to add them to your list.
             </Text>
-            <HStack spacing={2}>
+            <HStack spacing={2} mb={5}>
               <Input
                 onChange={e => setTask(e.target.value)}
                 value={task}
@@ -68,33 +58,19 @@ const NewLadderStep3 = ({ setStep }) => {
                 size="lg"
                 placeholder="Type here..."
               />
-              <NumberInput
-                min={0}
-                max={8}
-                onChange={e => setLevel(Number(e))}
-                value={level}
-                size="lg"
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
               <Button onClick={handleAddActivity}>
                 <AddIcon />
               </Button>
             </HStack>
-            <Stack spacing={5}>
+            <Flex flexWrap="wrap">
               {activities.map(activity => (
                 <ActivityItem
                   key={activity.task}
                   task={activity.task}
-                  level={activity.level}
                   removeActivity={removeActivity}
                 />
               ))}
-            </Stack>
+            </Flex>
           </Stack>
           <Flex mt={8}>
             <Button variant="outline" colorScheme="purple" onClick={() => setStep(2)}>
