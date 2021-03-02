@@ -1,15 +1,27 @@
-import { useMutation } from "@apollo/client"
 import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
+import {
+  Container,
+  Fade,
+  Text,
+  Button,
+  Stack,
+  Flex,
+  Spacer,
+  Center,
+  Heading,
+} from "@chakra-ui/react"
 import NewLadderContext from "../../helpers/NewLadderContext"
-import ActivitySummary from "../ActivitySummary"
+import arrayMove from "array-move"
+import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons"
+import SortableActivities from "./SortableActivities"
+import { useMutation } from "@apollo/client"
 import { ADD_LADDER_MUTATION } from "../../queries/ladders"
-import { Button, Container, Fade, Flex, Spacer, Stack, Text } from "@chakra-ui/react"
 
 const NewLadderStep4 = ({ setStep }) => {
-  const { newLadderData } = useContext(NewLadderContext)
-
+  const { newLadderData, setNewLadderData } = useContext(NewLadderContext)
   const history = useHistory()
+
   const [addLadder] = useMutation(ADD_LADDER_MUTATION, {
     variables: { ...newLadderData },
     onCompleted: ({ addLadder }) => {
@@ -17,17 +29,37 @@ const NewLadderStep4 = ({ setStep }) => {
     },
   })
 
+  const onSortEnd = ({oldIndex, newIndex}) => {
+    setNewLadderData({ 
+      ...newLadderData, 
+      activities: arrayMove(newLadderData.activities, oldIndex, newIndex) 
+    })
+  };
+
   return (
-    <div className="NewLadderStep4">
+    <div className="NewLadderStep3">
       <Container maxW="xl">
         <Fade in={true}>
           <Stack spacing={3}>
-            <Text fontSize="xl">Aaaand you're (almost) done!</Text>
-            <Text fontSize="xl">
-              Look over your Fear Mountain below and make sure everything looks right. You can go
-              back and make any changes now or you can edit your mountain later on.
-            </Text>
-            <ActivitySummary newLadderData={newLadderData} />
+            <Text mb={5} fontSize="xl">Now sort these activities by how worried you would be performing them.</Text>
+              <Stack>
+                <Center>
+                  <Heading size="md">Least worried</Heading>
+                </Center>
+                <Center>
+                  <ArrowUpIcon boxSize="2em"/>
+                </Center>
+              </Stack>
+            <SortableActivities items={newLadderData.activities} onSortEnd={onSortEnd}/>
+            <Stack>
+                <Center>
+                  <ArrowDownIcon boxSize="2em"/>
+                </Center>
+                <Center>
+                  <Heading size="md">Most worried</Heading>
+                </Center>
+              </Stack>
+
           </Stack>
           <Flex mt={8}>
             <Button variant="outline" colorScheme="purple" onClick={() => setStep(3)}>

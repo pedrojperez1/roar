@@ -1,5 +1,4 @@
 const {
-    GraphQLInt,
     GraphQLString,
     GraphQLInputObjectType,
     GraphQLNonNull
@@ -8,8 +7,7 @@ const {
 const Activity = new GraphQLInputObjectType({
     name: "Activity",
     fields: {
-        task: { type: new GraphQLNonNull(GraphQLString) },
-        level: { type: new GraphQLNonNull(GraphQLInt) }
+        task: { type: new GraphQLNonNull(GraphQLString) }
     }
 })
 

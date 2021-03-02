@@ -30,7 +30,6 @@ const Home = () => {
   if (error) {
     return `Something bad happened. ${error}`
   }
-  console.log(data.getMyProfile)
   return (
     <>
     <WelcomeModal isOpen={data.getMyProfile.isNew} onClose={onClose} refetch={refetch}/>
