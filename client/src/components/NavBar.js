@@ -46,7 +46,7 @@ const NavBar = props => {
       boxShadow={{
         base: isOpen
           ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
-          : scrollY > 40
+          : scrollY > 10
           ? "rgba(0, 0, 0, 0.08) 0px 2px 2px 0px"
           : undefined,
       }}

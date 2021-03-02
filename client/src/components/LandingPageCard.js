@@ -15,7 +15,16 @@ const LandingPageCard = ({ cardTitle, cardIcon, cardText }) => {
       p="8"
       mb="4"
     >
-      <Box mb="4" width="100px" borderRadius="full" backgroundColor="#f6f4ff" p="5">
+      <Box
+        mb="4"
+        width="100px"
+        borderRadius="full"
+        backgroundColor="#f6f4ff"
+        p="5"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         <FontAwesomeIcon color="#5A43F5" size="4x" icon={cardIcon} />
       </Box>
       <Text mb="4" fontWeight="bold">

@@ -14,7 +14,9 @@ import {
   CircularProgressLabel,
   Flex,
   Heading,
+  Image,
 } from "@chakra-ui/react"
+import emptyMountain from "../img/create-fear-mountain.png"
 import genTimeAgo from "../helpers/genTimeAgo"
 
 const LadderList = () => {
@@ -36,13 +38,15 @@ const LadderList = () => {
       <Stack>
         <Heading mb="4"> My Mountains</Heading>
         {currentUserLadders.length === 0 ? (
-          <Text>
-            You have not created any Fear Mountains yet.{" "}
-            <Link color="purple" href="/mountains/new">
-              Create one!
-            </Link>
-            !
-          </Text>
+          <Flex alignItems="center" flexDirection="column">
+            <Image maxWidth="450px" width="100%" src={emptyMountain} alt="chatting" />
+            <Text mt="4" as="i" fontWeight="bold" fontSize="lg">
+              You have not created any Fear Mountains yet.{" "}
+              <Link color="purple" colorScheme="purple" href="/mountains/new">
+                Create one!
+              </Link>
+            </Text>
+          </Flex>
         ) : (
           <Stack spacing={3}>
             {currentUserLadders.map(ladder => (

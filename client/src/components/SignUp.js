@@ -6,7 +6,7 @@ import Layout from "./layout"
 const SignUp = ({ setUser }) => {
   const [alert, setAlert] = useState("")
   return (
-    <Layout>
+    <Layout height="calc(100vh - 108px)" display="flex" justifyContent="center" alignItems="center">
       <Stack spacing={4}>
         {alert && (
           <Alert status="error">

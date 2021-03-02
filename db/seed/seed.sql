@@ -1,6 +1,6 @@
 -- seed.sql
-
-INSERT INTO achievements ("name", "description", "type", "level", "createdAt", "updatedAt")
+\c roar-db
+INSERT INTO "achievements" ("name", "description", "type", "level", "createdAt", "updatedAt")
 VALUES
       ('Scout', 'Completed first task!', 'assignment', 1, NOW(), NOW()),
       ('Trooper', 'Completed 5 tasks!', 'assignment', 2, NOW(), NOW()),
