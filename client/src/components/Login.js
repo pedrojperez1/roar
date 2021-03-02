@@ -6,15 +6,16 @@ import Layout from "./layout"
 const Login = ({ setUser }) => {
   const [alert, setAlert] = useState("")
   return (
-    <Layout>
+    <Layout height="calc(100vh - 108px)" display="flex" justifyContent="center" alignItems="center">
       <Stack spacing={4}>
         {alert && (
           <Alert status="error">
             <AlertIcon />
             <Box flex="1" textAlign="center">
               {alert}
+
+              <CloseButton position="absolute" right="8px" top="8px" onClick={() => setAlert("")} />
             </Box>
-            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setAlert("")} />
           </Alert>
         )}
         <Spacer />

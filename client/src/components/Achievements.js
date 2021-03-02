@@ -1,10 +1,11 @@
 import React from "react"
 
 import { useQuery } from "@apollo/client"
-import { Heading, Box, Flex, HStack } from "@chakra-ui/react"
+import { Heading, Box, Flex, HStack, Image, Text } from "@chakra-ui/react"
 import { GET_USER_ACHIEVEMENTS } from "../queries/achievements"
 import Loading from "./Loading"
 import AchievementItem from "./AchievementItem"
+import empty from "../img/achievement-empty.png"
 
 const Achievements = ({ username }) => {
   const { loading, error, data } = useQuery(GET_USER_ACHIEVEMENTS, {
@@ -24,9 +25,14 @@ const Achievements = ({ username }) => {
       >
         Achievements
       </Heading>
-      <Flex justifyContent="space-between">
+      <Flex justifyContent={data.getUserAchievements.length === 0 ? "center" : "space-between"}>
         {data.getUserAchievements.length === 0 ? (
-          <p>No achievements... yet!</p>
+          <Flex direction="column">
+            <Image src={empty} />
+            <Text mt="4" as="i" fontWeight="bold" fontSize="lg">
+              No Achievements yet? Go follow someone to get your first!
+            </Text>
+          </Flex>
         ) : (
           <HStack flexWrap="wrap">
             {data.getUserAchievements.map(a => (
