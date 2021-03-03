@@ -1,7 +1,5 @@
-import React, { useState } from "react"
-import { Box, Flex } from "@chakra-ui/react"
-import UserProfile from "./UserProfile"
-import UserProfilePlaceholder from "./UserProfilePlaceholder"
+import React from "react"
+import { Box, Container } from "@chakra-ui/react"
 import RecommendedUsers from "./RecommendedUsers"
 import FollowingUsers from "./FollowingUsers"
 import Loading from "./Loading"
@@ -9,7 +7,6 @@ import { RECOMMENDED_USERS_QUERY, WHO_AM_I_FOLLOWING_QUERY } from "../queries/us
 import { useQuery } from "@apollo/client"
 
 const FollowingTab = () => {
-  const [selectedUser, setSelectedUser] = useState()
   const { loading: loadingF, error: errorF, data: dataF, refetch: refetchF } = useQuery(
     WHO_AM_I_FOLLOWING_QUERY
   )
@@ -25,15 +22,14 @@ const FollowingTab = () => {
     return "Something went wrong. :("
   }
   return (
-    <Flex flexDirection={["column", "row"]}>
-      <Box w={["100%", "30%"]} py={3} pr={["0", "10"]}>
+    <Container>
+      <Box py={3} pr={["0", "10"]}>
         {loadingF ? (
           <Loading />
         ) : (
           <FollowingUsers
             users={dataF.getMyFollowing}
             refetch={refetch}
-            setSelectedUser={setSelectedUser}
           />
         )}
         {loadingR ? (
@@ -42,14 +38,8 @@ const FollowingTab = () => {
           <RecommendedUsers users={dataR.recommendedUsers} refetch={refetch} />
         )}
       </Box>
-      <Box w={["100%", "70%"]} py={3} pl={10}>
-        {selectedUser ? (
-          <UserProfile username={selectedUser} refetchFollows={refetch} />
-        ) : (
-          <UserProfilePlaceholder />
-        )}
-      </Box>
-    </Flex>
+    </Container>
+
   )
 }
 

@@ -12,7 +12,7 @@ const RecommendedUsers = ({ users, refetch }) => {
         pb="10px"
         style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
       >
-        Recommended Users
+        Recommended
       </Heading>
       <UserList users={users} refetch={refetch} type="recommended" />
     </div>
