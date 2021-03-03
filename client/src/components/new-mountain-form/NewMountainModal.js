@@ -22,9 +22,9 @@ const NewMountainModal = ({isOpen, onClose}) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader mt={5}>
-            <Stack>
-              <Heading size="4xl">🚀</Heading>
-              <Heading size="lg" textAlign="center">So, what's next?</Heading>
+            <Stack spacing={10}>
+              <Heading textAlign="center" size="4xl">🚀</Heading>
+              <Heading textAlign="center" size="lg" >So, what's next?</Heading>
             </Stack>
           </ModalHeader>
           <ModalBody mb={5}>
