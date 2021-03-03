@@ -16,7 +16,7 @@ const NewLadderStep4 = ({ setStep }) => {
   const [addLadder] = useMutation(ADD_LADDER_MUTATION, {
     variables: { ...newLadderData },
     onCompleted: ({ addLadder }) => {
-      history.push(`/mountains/${addLadder.id}`)
+      history.push(`/mountains/${addLadder.id}/?q=form`)
     },
   })
 

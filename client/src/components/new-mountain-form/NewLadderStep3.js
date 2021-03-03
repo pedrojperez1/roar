@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react"
+import React, { useContext, useState, useCallback, useRef } from "react"
 import { useHistory } from "react-router-dom"
 import {
   Container,
@@ -10,6 +10,7 @@ import {
   Flex,
   Spacer,
   HStack,
+  Kbd,
 } from "@chakra-ui/react"
 import { AddIcon } from "@chakra-ui/icons"
 import NewLadderContext from "../../helpers/NewLadderContext"
@@ -20,7 +21,7 @@ const NewLadderStep3 = ({ setStep }) => {
   const [task, setTask] = useState("")
   const [activities, setActivities] = useState(newLadderData.activities || [])
   const history = useHistory()
-
+  const activityRef = useRef()
   const saveAndNext = useCallback(() => {
     setNewLadderData({ ...newLadderData, activities: activities })
     setStep(4)
@@ -30,6 +31,11 @@ const NewLadderStep3 = ({ setStep }) => {
     e.preventDefault()
     setActivities([...activities, { task: task }])
     setTask("")
+    activityRef.current.focus()
+  }
+
+  const handleKeyDown = e => {
+    if (e.key === "Enter") handleAddActivity(e)
   }
 
   const removeActivity = taskToRemove => {
@@ -47,16 +53,18 @@ const NewLadderStep3 = ({ setStep }) => {
               (<b>{newLadderData.summit}</b>).
             </Text>
             <Text fontSize="xl">
-              Type them one at a time into the text box below use the <kbd>+</kbd>{" "}
-              button to add them to your list.
+              Type them one at a time into the text box below use the <Kbd>+</Kbd>{" "}
+              button or the <Kbd>Enter</Kbd> key to add them to your list.
             </Text>
             <HStack spacing={2} mb={5}>
               <Input
+                ref={activityRef}
                 onChange={e => setTask(e.target.value)}
                 value={task}
                 variant="flushed"
                 size="lg"
                 placeholder="Type here..."
+                onKeyDown={handleKeyDown}
               />
               <Button onClick={handleAddActivity}>
                 <AddIcon />
