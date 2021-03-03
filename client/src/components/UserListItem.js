@@ -28,7 +28,7 @@ const UserListItem = ({username, profileImage, type, refetch}) => {
             <Flex>
               <Avatar src={profileImage} size="md" mr={7}/>
               <Center>
-                <Text fontWeight="bold">{username}</Text>
+                <Text color="gray.700" fontWeight="bold">{username}</Text>
               </Center>
             </Flex>
           </Box>
