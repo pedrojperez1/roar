@@ -1,5 +1,5 @@
-import React from "react"
-import { useParams, Link as ReactRouterLink } from "react-router-dom"
+import React, { useState } from "react"
+import { useParams, Link as ReactRouterLink, useLocation } from "react-router-dom"
 import Assignments from "./Assignments"
 import Loading from "./Loading"
 import LadderLevelTitle from "./LadderLevelTitle"
@@ -17,9 +17,15 @@ import {
   Button,
 } from "@chakra-ui/react"
 import Layout from "./layout"
+import queryString from "query-string"
+import NewMountainModal from "./new-mountain-form/NewMountainModal"
 
 const Ladder = () => {
   const { id } = useParams()
+  const { search } = useLocation()
+  const query = queryString.parse(search)
+  const [open, setOpen] = useState(query.q === "form")
+  const close = () => setOpen(false)
   const { loading, error, data, refetch } = useQuery(LADDER_QUERY, {
     variables: {
       id: Number(id),
@@ -47,57 +53,61 @@ const Ladder = () => {
     }, 0)
     return (progress / levelAssignments.length) * 100
   }
+  
   return (
-    <Layout>
-      <Flex justifyContent="center" alignItems="center">
-        <Container>
-          <Flex mb="10" justifyContent="space-between" alignItems="center">
-            <Heading textAlign="left" size="2xl">
-              {ladder.name}
-            </Heading>
-            <Button colorScheme="purple">
-              <Link
-                style={{ textDecoration: "none", color: "#fff" }}
-                as={ReactRouterLink}
-                to="/mountains/new"
-                colorScheme="telegram"
-              >
-                Add New Mountain
-              </Link>
-            </Button>
-          </Flex>
-          {levels.map(level => (
-            <Box key={level} mb="3" boxShadow="lg">
-              <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
-                <Accordion allowToggle>
-                  <AccordionItem>
-                    {({ isExpanded }) => (
-                      <>
-                        <LadderLevelTitle
-                          level={level[5]}
-                          task={ladder[level]}
-                          isExpanded={isExpanded}
-                          progress={getLevelProgress(ladder[level])}
-                          ladderId={id}
-                          refetch={refetch}
-                        />
-
-                        <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
-                          <Assignments
-                            assignments={getLevelAssignments(ladder[level])}
+    <>
+      <NewMountainModal isOpen={open} onClose={close}/>
+      <Layout>
+        <Flex justifyContent="center" alignItems="center">
+          <Container>
+            <Flex mb="10" justifyContent="space-between" alignItems="center">
+              <Heading textAlign="left" size="2xl">
+                {ladder.name}
+              </Heading>
+              <Button colorScheme="purple">
+                <Link
+                  style={{ textDecoration: "none", color: "#fff" }}
+                  as={ReactRouterLink}
+                  to="/mountains/new"
+                  colorScheme="telegram"
+                >
+                  Add New Mountain
+                </Link>
+              </Button>
+            </Flex>
+            {levels.map(level => (
+              <Box key={level} mb="3" boxShadow="lg">
+                <Flex flexDirection="column" borderWidth="1px" borderRadius="8px">
+                  <Accordion allowToggle>
+                    <AccordionItem>
+                      {({ isExpanded }) => (
+                        <>
+                          <LadderLevelTitle
+                            level={level[5]}
+                            task={ladder[level]}
+                            isExpanded={isExpanded}
+                            progress={getLevelProgress(ladder[level])}
+                            ladderId={id}
                             refetch={refetch}
                           />
-                        </AccordionPanel>
-                      </>
-                    )}
-                  </AccordionItem>
-                </Accordion>
-              </Flex>
-            </Box>
-          ))}
-        </Container>
-      </Flex>
-    </Layout>
+
+                          <AccordionPanel paddingLeft="8" paddingRight="8" pb={4}>
+                            <Assignments
+                              assignments={getLevelAssignments(ladder[level])}
+                              refetch={refetch}
+                            />
+                          </AccordionPanel>
+                        </>
+                      )}
+                    </AccordionItem>
+                  </Accordion>
+                </Flex>
+              </Box>
+            ))}
+          </Container>
+        </Flex>
+      </Layout>
+    </>
   )
 }
 
