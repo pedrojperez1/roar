@@ -1,4 +1,4 @@
-import { Box, Center, Text } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 import React from "react"
 import { SortableElement, SortableContainer } from "react-sortable-hoc"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
