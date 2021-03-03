@@ -4,7 +4,8 @@ import FeedItem from "./FeedItem";
 import FeedPostForm from "./FeedPostForm";
 import { GET_USER_FEED } from "../queries/feeds";
 import Loading from "./Loading";
-import { Button, Flex, Heading, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Flex, Heading, Image, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import noactivity from "../img/noactivity.png"
 
 const Feed = ({username, myFeed}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -47,22 +48,31 @@ const Feed = ({username, myFeed}) => {
                             </Button> }
                     </Flex>
                 </Heading>
-                <Stack>
-                    {
-                        feed.length === 0 ? 
-                        <Text>No activity... yet!</Text> : 
-                        sortedFeed.map(post => (
-                            <FeedItem
-                                key={post.id}
-                                type={post.type}
-                                content={post.content}
-                                username={post.user.username}
-                                profileImage={post.user.profileImage}
-                                createdAt={post.createdAt}
-                            />
-                        ))
-                    }
-                </Stack>
+                <Flex justifyContent={feed.length === 0 ? "center" : "left"}>
+                    <Stack>
+                        {
+                            feed.length === 0 ? 
+                            (
+                                <Flex direction="column">
+                                <Image w="200px" src={noactivity} />
+                                <Text textAlign="center" mt="4" as="i" fontWeight="bold" fontSize="lg">
+                                    No Activity yet!
+                                </Text>
+                                </Flex>
+                            ) : 
+                            sortedFeed.map(post => (
+                                <FeedItem
+                                    key={post.id}
+                                    type={post.type}
+                                    content={post.content}
+                                    username={post.user.username}
+                                    profileImage={post.user.profileImage}
+                                    createdAt={post.createdAt}
+                                />
+                            ))
+                        }
+                    </Stack>
+                </Flex>
             </Stack>
             
             

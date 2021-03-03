@@ -29,8 +29,8 @@ const Achievements = ({ username }) => {
         {data.getUserAchievements.length === 0 ? (
           <Flex direction="column">
             <Image src={empty} />
-            <Text mt="4" as="i" fontWeight="bold" fontSize="lg">
-              No Achievements yet? Go follow someone to get your first!
+            <Text textAlign="center" mt="4" as="i" fontWeight="bold" fontSize="lg">
+              No Achievements yet!
             </Text>
           </Flex>
         ) : (
