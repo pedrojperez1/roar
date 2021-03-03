@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useMutation } from "@apollo/client"
-import { Link } from "react-router-dom"
 import {
   Button,
   Text,
@@ -55,7 +54,7 @@ const WelcomeModal = ({ isOpen, onClose, refetch }) => {
       emoji: "👋",
     },
     5: {
-      message: "Wondering where to start?",
+      message: "Wondering where to start? Try creating your first Fear Mountain!",
       emoji: "🥳",
     },
   }
@@ -63,15 +62,15 @@ const WelcomeModal = ({ isOpen, onClose, refetch }) => {
     <Modal size="lg" isOpen={isOpen} onClose={closeModal} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader mt={5}>
-          <Stack spacing={10}>
+        <ModalHeader my={5}>
+          <Stack spacing={5}>
+            <Heading textAlign="center" size="lg">Welcome to Roar!</Heading>
             <Center>
               <Heading size="4xl">{welcome[step].emoji}</Heading>
             </Center>
-            <Center>Welcome to Roar!</Center>
           </Stack>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody mb={3}>
           <Center>
             <Text textAlign="center">{welcome[step].message}</Text>
           </Center>
@@ -85,15 +84,7 @@ const WelcomeModal = ({ isOpen, onClose, refetch }) => {
             ) : null}
             <Spacer />
             <Button colorScheme="purple" onClick={handleNext}>
-              {step < Object.keys(welcome).length ? (
-                "Next"
-              ) : (
-                <Button colorScheme="purple">
-                  <Link style={{ color: "#fff", textDecoration: "none" }} to="/mountains/new">
-                    Create your Fear Mountain
-                  </Link>
-                </Button>
-              )}
+              {step < Object.keys(welcome).length ? "Next" : "Finish"}
             </Button>
           </HStack>
         </ModalFooter>
