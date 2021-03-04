@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom"
 import { useMutation } from "@apollo/client"
 import { LOGIN_MUTATION } from "../../queries/users"
 
-const LoginFormik = ({ setUser, setAlert }) => {
+const LoginForm = ({ setUser, setAlert }) => {
   const [show, setShow] = React.useState(false)
   const handleShow = () => setShow(!show)
   const history = useHistory()
@@ -111,4 +111,4 @@ const LoginFormik = ({ setUser, setAlert }) => {
   )
 }
 
-export default LoginFormik
+export default LoginForm
