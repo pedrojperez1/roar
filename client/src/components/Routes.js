@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import LandingPage from "./LandingPage";
-import Login from "./Login";
-import Logout from "./Logout";
-import SignUp from "./SignUp";
-import About from "./About";
-import Learn from "./Learn";
-import Home from "./Home";
-import Settings from "./Settings";
-import Ladder from "./Ladder";
-import LadderList from "./LadderList";
+import LandingPage from "./LandingPage/LandingPage";
+import Login from "./Login/Login";
+import Logout from "./Logout/Logout";
+import SignUp from "./SignUp/SignUp";
+import About from "./About/About";
+import Learn from "./Learn/Learn";
+import Home from "./Home/Home";
+import Settings from "./Settings/Settings";
+import Mountain from "./Mountain/Mountain";
+import MountainList from "./Mountain/MountainList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
-import NewMountainForm from "./new-mountain-form/NewMountainForm";
-import UserProfilePage from "./UserProfilePage";
+import NewMountainForm from "./NewMountainForm/NewMountainForm";
+import UserProfilePage from "./UserProfile/UserProfilePage";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -37,19 +37,19 @@ const Routes = () => {
                 <Learn />
             </Route>
             <Route exact path="/home">
-            { !currentUser ? <Redirect to="/login" /> : <Home /> }
+                { !currentUser ? <Redirect to="/login" /> : <Home /> }
             </Route>
             <Route exact path="/settings">
-            { !currentUser ? <Redirect to="/login" /> : <Settings /> }
+                { !currentUser ? <Redirect to="/login" /> : <Settings /> }
             </Route>
             <Route exact path="/mountains">
-                <LadderList />
+                <MountainList />
             </Route>
             <Route exact path="/mountains/new">
                 { !currentUser ? <Redirect to="/login" /> : <NewMountainForm /> }
             </Route>
             <Route exact path="/mountains/:id">
-                <Ladder />
+                <Mountain />
             </Route>
             <Route exact path="/u/:username">
                 { !currentUser ? <Redirect to="/login" /> : <UserProfilePage /> }

@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import "./App.css"
-import NavBar from "./NavBar"
+import NavBar from "./NavBar/NavBar"
 import Routes from "./Routes"
 import CurrentUserContext from "../helpers/CurrentUserContext"
 import NewLadderContext from "../helpers/NewLadderContext"
