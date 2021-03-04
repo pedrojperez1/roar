@@ -1,4 +1,4 @@
-name: Lint
+name: CI Tests
 
 on: pull_request
 
@@ -11,5 +11,8 @@ jobs:
       - name: Install Packages
         run: cd client && npm install --production=false
 
-      - name: Lint
+      - name: Lint client
         run: cd client && npm run lint
+
+      - name: Test client
+        run: cd client && npm test
