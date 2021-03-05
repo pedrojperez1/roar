@@ -145,8 +145,8 @@ query recommendedUsers {
 `;
 
 export const WHO_AM_I_FOLLOWING_QUERY = gql`
-query getMyFollowing {
-    getMyFollowing {
+query getMyFollowing($query: String) {
+    getMyFollowing(query: $query) {
         username
         profileImage
     }

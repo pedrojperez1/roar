@@ -31,8 +31,9 @@ const FollowingTab = () => {
           <Loading />
         ) : (
           <FollowingUsers
-            users={dataF.getMyFollowing.slice(0, 5)}
+            users={dataF.getMyFollowing}
             refetch={refetch}
+            max={3}
           />
         )}
         {loadingR ? (

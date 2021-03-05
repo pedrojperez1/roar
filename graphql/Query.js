@@ -89,10 +89,14 @@ const Query = new GraphQLObjectType({
             },
             getMyFollowing: {
                 type: new GraphQLList(User),
+                args: {
+                    query: { type: GraphQLString }
+                },
                 async resolve(root, args, context) {
                     const userId = getUserId(context);
                     const user = await db.models.users.findByPk(userId);
-                    return await user.getFollowing(); 
+                    const following = await user.getFollowing();
+                    return args.query ? following.filter(f => f.username.includes(args.query)) : following
                 }
             },
             getUserAchievements: {
