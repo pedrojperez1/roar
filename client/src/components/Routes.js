@@ -13,6 +13,7 @@ import MountainList from "./Mountain/MountainList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
 import NewMountainForm from "./NewMountainForm/NewMountainForm";
 import UserProfilePage from "./UserProfile/UserProfilePage";
+import Following from "./Following/Following";
 
 const Routes = () => {
     const {currentUser, setUser} = useContext(CurrentUserContext);
@@ -53,6 +54,9 @@ const Routes = () => {
             </Route>
             <Route exact path="/u/:username">
                 { !currentUser ? <Redirect to="/login" /> : <UserProfilePage /> }
+            </Route>
+            <Route exact path="/following">
+            { !currentUser ? <Redirect to="/login" /> : <Following /> }
             </Route>
             <Route>404: Not Found</Route>
         </Switch>

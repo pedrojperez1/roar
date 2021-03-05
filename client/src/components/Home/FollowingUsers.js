@@ -1,9 +1,11 @@
 import React from "react"
 import { Text, Heading, Center, Button, Stack } from "@chakra-ui/react"
 import UserList from "../UserList/UserList"
+import { useHistory } from "react-router-dom"
 
-const FollowingUsers = ({ users, refetch }) => {
-
+const FollowingUsers = ({ users, refetch, max, search}) => {
+  const history = useHistory()
+  
   return (
     <div className="FollowingUsers">
       <Heading 
@@ -17,15 +19,20 @@ const FollowingUsers = ({ users, refetch }) => {
           <Text>No Followers yet</Text>
         ) : (
           <UserList
-            users={users.slice(0, 3)}
+            users={max ? users.slice(0, max) : users}
             type="following"
             refetch={refetch}
           />
         )}
         {
-          users.length > 3 &&
+          users.length > 3 && max &&
           <Center>
-            <Button size="sm" variant="ghost" colorScheme="purple">See all</Button>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              colorScheme="purple"
+              onClick={() => history.push("/following")}
+            >See all</Button>
           </Center>
         }
       </Stack>
