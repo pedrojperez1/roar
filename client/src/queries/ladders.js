@@ -20,6 +20,12 @@ mutation AddLadder(
 }
 `;
 
+export const REMOVE_LADDER_MUTATION = gql`
+mutation removeLadder($id: Int!) {
+  removeLadder(id: $id)
+}
+`;
+
 export const LADDER_QUERY = gql`
 query getLadder($id: Int!){
   ladders(id: $id) {
