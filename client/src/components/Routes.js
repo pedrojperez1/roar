@@ -9,7 +9,6 @@ import Learn from "./Learn/Learn";
 import Home from "./Home/Home";
 import Settings from "./Settings/Settings";
 import Mountain from "./Mountain/Mountain";
-import MountainList from "./Mountain/MountainList";
 import CurrentUserContext from "../helpers/CurrentUserContext";
 import NewMountainForm from "./NewMountainForm/NewMountainForm";
 import UserProfilePage from "./UserProfile/UserProfilePage";
@@ -42,9 +41,6 @@ const Routes = () => {
             </Route>
             <Route exact path="/settings">
                 { !currentUser ? <Redirect to="/login" /> : <Settings /> }
-            </Route>
-            <Route exact path="/mountains">
-                <MountainList />
             </Route>
             <Route exact path="/mountains/new">
                 { !currentUser ? <Redirect to="/login" /> : <NewMountainForm /> }

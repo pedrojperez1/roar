@@ -113,6 +113,20 @@ const Mutation = new GraphQLObjectType({
                     return newLadder
                 }
             },
+            removeLadder: {
+                type: GraphQLInt,
+                args: {
+                    id: { type: new GraphQLNonNull(GraphQLInt) }
+                },
+                async resolve(_, args, context) {
+                    const userId = getUserId(context); // get user
+                    const ladder = await db.models.ladders.findByPk(args.id)
+                    console.log("userId:", userId)
+                    console.log("ladder.userId:", ladder.getUser().id)
+                    await ladder.destroy()
+                    return args.id
+                }
+            },
             completeAssignment: {
                 type: GraphQLString,
                 args: {

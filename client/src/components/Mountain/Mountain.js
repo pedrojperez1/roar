@@ -14,11 +14,12 @@ import {
   Box,
   Flex,
   Link,
-  Button,
+  Button
 } from "@chakra-ui/react"
 import Layout from "../Layout/Layout"
 import queryString from "query-string"
 import NewMountainModal from "../NewMountainForm/NewMountainModal"
+import NotFound from "../NotFound"
 
 const Mountain = () => {
   const { id } = useParams()
@@ -36,6 +37,9 @@ const Mountain = () => {
     console.log("error", error)
     return `Something went wrong! ${error.message}`
   }
+
+  if (!data.ladders[0]) return <NotFound /> // return 404 if id does not exist
+
   const ladder = data.ladders[0]
   const levels = Object.keys(ladder).filter(key => {
     return key.includes("level") && ladder[key]
@@ -53,7 +57,6 @@ const Mountain = () => {
     }, 0)
     return (progress / levelAssignments.length) * 100
   }
-  
   return (
     <>
       <NewMountainModal isOpen={open} onClose={close}/>
