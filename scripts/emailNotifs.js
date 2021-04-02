@@ -17,6 +17,7 @@ const {
   OAUTH_CLIENT_SECRET,
   OAUTH_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
+  DATABASE_URL
 } = process.env;
 
 const oauth2Client = new OAuth2(
@@ -32,7 +33,9 @@ const oauth2Client = new OAuth2(
  */
 
 const getTargets = async () => {
-  const client = new Client();
+  const client = new Client({
+    connectionString: DATABASE_URL
+  });
   await client.connect();
   
   const res = await client.query(`
