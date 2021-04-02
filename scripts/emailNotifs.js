@@ -61,43 +61,47 @@ const getTargets = async () => {
  * this function creates a smtp transporter object to email each target in the targets array
  */
 const emailTargets = async (targets) => {
-  oauth2Client.setCredentials({
-    refresh_token: OAUTH_REFRESH_TOKEN,
-  });
-
-  const accessToken = oauth2Client.getAccessToken();
-
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        type: 'OAuth2',
-        user: SENDER_EMAIL_ADDRESS,
-        clientId: OAUTH_CLIENT_ID,
-        clientSecret: OAUTH_CLIENT_SECRET,
-        refreshToken: OAUTH_REFRESH_TOKEN,
-        accessToken: accessToken
-    }
-  });
-  for (let target of targets) {
-    const mailOptions = {
-      from: 'admin@roar.dev <admin@roar.dev>',
-      to: target.email,
-      subject: 'You have a Roar task due today!',
-      html: `
-        <p>Hello <b>${target.username}</b>!</p>
-        <p>It's your friends at Roar! We just wanted to remind you that you have the following task due today: ${target.task}</p>
-        <p><a href="https://roar.dev">Go to Roar</a></p>
-      `
-    }
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
+  if (targets.length) {
+    oauth2Client.setCredentials({
+      refresh_token: OAUTH_REFRESH_TOKEN,
+    });
+  
+    const accessToken = oauth2Client.getAccessToken();
+  
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+          type: 'OAuth2',
+          user: SENDER_EMAIL_ADDRESS,
+          clientId: OAUTH_CLIENT_ID,
+          clientSecret: OAUTH_CLIENT_SECRET,
+          refreshToken: OAUTH_REFRESH_TOKEN,
+          accessToken: accessToken
       }
-    }); 
+    });
+    for (let target of targets) {
+      const mailOptions = {
+        from: 'admin@roar.dev <admin@roar.dev>',
+        to: target.email,
+        subject: 'You have a Roar task due today!',
+        html: `
+          <p>Hello <b>${target.username}</b>!</p>
+          <p>It's your friends at Roar! We just wanted to remind you that you have the following task due today: ${target.task}</p>
+          <p><a href="https://roar.dev">Go to Roar</a></p>
+        `
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      }); 
+    }
+  } else {
+    console.log('No notifications to send.')
   }
 }
 
