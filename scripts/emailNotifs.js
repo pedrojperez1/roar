@@ -83,7 +83,7 @@ const emailTargets = async (targets) => {
     });
     for (let target of targets) {
       const mailOptions = {
-        from: 'admin@roar.dev <admin@roar.dev>',
+        from: `${SENDER_EMAIL_ADDRESS} <${SENDER_EMAIL_ADDRESS}>`,
         to: target.email,
         subject: 'You have a Roar task due today!',
         html: `
