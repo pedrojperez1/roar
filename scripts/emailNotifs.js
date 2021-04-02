@@ -34,7 +34,8 @@ const oauth2Client = new OAuth2(
 
 const getTargets = async () => {
   const client = new Client({
-    connectionString: DATABASE_URL
+    connectionString: DATABASE_URL,
+    ssl: true
   });
   await client.connect();
   
