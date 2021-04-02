@@ -43,7 +43,8 @@ const getTargets = async () => {
     SELECT 
       "users"."email",
       "users"."username",
-      "assignments"."task"
+      "assignments"."task",
+      "assignments"."dueDate"
     FROM "users"
     JOIN "ladders"
     ON "users"."id" = "ladders"."userId"
@@ -51,8 +52,8 @@ const getTargets = async () => {
     ON "ladders"."id" = "assignments"."ladderId"
     WHERE 
       "users"."emailNotifications" = TRUE
+      AND "assignments"."completed" = FALSE
       AND DATE("assignments"."dueDate") = DATE(NOW())
-
   `);
   
   await client.end();
