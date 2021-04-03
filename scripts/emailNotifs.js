@@ -7,6 +7,7 @@
 const { Client } = require("pg");
 const nodemailer = require("nodemailer");
 const { google } = require('googleapis');
+const dayjs = require("dayjs");
 const { OAuth2 } = google.auth;
 
 const OAUTH_PLAYGROUND = 'https://developers.google.com/oauthplayground';
@@ -92,9 +93,11 @@ const emailTargets = async (targets) => {
         to: target.email,
         subject: 'You have a Roar task due today!',
         html: `
-          <p>Hello <b>${target.username}</b>!</p>
-          <p>It's your friends at Roar! We just wanted to remind you that you have the following task due today: ${target.task}</p>
-          <p><a href="https://roar.dev">Go to Roar</a></p>
+          <p>Hello <b>${target.username}</b> - it's your friends at Roar!</p>
+          <p>We just wanted to remind you that you have a task due soon!</p>
+          <p>Task: ${target.task}</p>
+          <p>Due Date: ${dayjs(target.dueDate).format("ddd, MMM DD, YYYY")}</p>
+          <p><a href="https://roar.dev">Log in to Roar</a></p>
         `
       }
       transporter.sendMail(mailOptions, function(error, info){
