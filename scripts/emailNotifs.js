@@ -91,7 +91,7 @@ const emailTargets = async (targets) => {
       const mailOptions = {
         from: `${SENDER_EMAIL_ADDRESS} <${SENDER_EMAIL_ADDRESS}>`,
         to: target.email,
-        subject: 'You have a Roar task due today!',
+        subject: 'You have a Roar task due soon!',
         html: `
           <p>Hello <b>${target.username}</b> - it's your friends at Roar!</p>
           <p>We just wanted to remind you that you have a task due soon!</p>
