@@ -4,7 +4,8 @@ const {
     GraphQLString,
     GraphQLList,
     GraphQLBoolean
-} = require("graphql")
+} = require("graphql");
+//const FeedPost = require("./FeedPost");
 const Ladder = require("./Ladder")
 
 const User = new GraphQLObjectType({
@@ -82,6 +83,12 @@ const User = new GraphQLObjectType({
                 type: new GraphQLList(User),
                 resolve(user) {
                     return user.getFollowers();
+                }
+            },
+            feed: {
+                type: new GraphQLList(require("./FeedPost")),
+                resolve(user) {
+                    return user.getFeedposts();
                 }
             }
         }

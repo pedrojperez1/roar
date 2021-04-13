@@ -76,6 +76,16 @@ query fetchProfile ($username: String!){
     followers {
         id
     }
+    feed {
+        id
+        content
+        createdAt
+        type
+        user {
+            username
+            profileImage
+        }
+    }
   }
 }
 `;
