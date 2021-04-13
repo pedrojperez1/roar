@@ -1,47 +1,26 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import React from "react";
-import { 
-    FETCH_MY_PROFILE_QUERY, 
-    FETCH_PROFILE, 
+import {
     FOLLOW_USER_MUTATION, 
     UNFOLLOW_USER_MUTATION 
 } from "../../queries/users";
-import Loading from "../Loading/Loading";
-import {MdHistory, MdPeopleOutline} from "react-icons/md";
+import { MdHistory, MdPeopleOutline } from "react-icons/md";
 import Achievements from "../Achievements/Achievements";
 import Feed from "../Feed/Feed";
 import dayjs from "dayjs";
 import { Avatar, Box, Button, Center, Heading, HStack, Stack, Text } from "@chakra-ui/react";
 
-const UserProfile = ({username, refetchFollows}) => {
-    const {loading, error, data, refetch} = useQuery(FETCH_PROFILE, {
-        variables: {username: username}
-    });
-    const {loading: loadingMe, error: errorMe, data: dataMe, refetch: refetchMe} = useQuery(FETCH_MY_PROFILE_QUERY);
+const UserProfile = ({profile, myProfile, refetchAll}) => {
     
     const [follow] = useMutation(FOLLOW_USER_MUTATION, {
-        variables: { username: username },
-        onCompleted: () => {
-            refetch()
-            refetchMe()
-            if (profile.username === myProfile.username) refetchFollows()
-        }
+        variables: { username: profile.username },
+        onCompleted: () => refetchAll()
     });
     const [unfollow] = useMutation(UNFOLLOW_USER_MUTATION, {
-        variables: { username: username },
-        onCompleted: () => {
-            refetch()
-            refetchMe()
-            refetchFollows()
-        }
+        variables: { username: profile.username },
+        onCompleted: () => refetchAll()
     });
     
-    if (loading || loadingMe) return <Loading />
-    if (error || errorMe) {
-        return `Something bad happened. ${error}`
-    }
-    const profile = data.fetchProfile;
-    const myProfile = dataMe.getMyProfile;
     const myFollowing = myProfile.following.map(user => user.username);    
 
     return (
@@ -84,7 +63,7 @@ const UserProfile = ({username, refetchFollows}) => {
                     <Achievements username={profile.username} />
                 </Box>
                 <Box>
-                    <Feed username={username} myFeed={profile.username === myProfile.username}/>
+                    <Feed feed={profile.feed} myFeed={profile.username === myProfile.username} refetch={refetchAll}/>
                 </Box>
             </Stack>
         </div>
