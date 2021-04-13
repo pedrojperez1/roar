@@ -4,14 +4,11 @@ import UserList from "../UserList/UserList"
 
 const RecommendedUsers = ({ users, refetch }) => {
   return (
-    <div className="RecommendedUsers">
-      <Heading
-        fontSize="24px"
-        mt={10}
-        mb={5}
-        pb="10px"
-        style={{ borderBottom: "1px solid rgb(226, 232, 240)", textAlign: "left" }}
-      >
+    <div
+      style={{ border: "1px solid #E2E8F0", borderRadius: "8px", padding: "20px" }}
+      className="RecommendedUsers"
+    >
+      <Heading fontSize="24px" mb={5} pb="10px" style={{ textAlign: "left" }}>
         Recommended
       </Heading>
       <UserList users={users} refetch={refetch} type="recommended" />
