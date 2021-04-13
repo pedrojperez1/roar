@@ -67,7 +67,7 @@ const Home = () => {
               <Grid
                 h="200px"
                 templateRows="repeat(2, 1fr)"
-                templateColumns="repeat(5, 1fr)"
+                templateColumns={{ md: "repeat(5, 1fr)", sm: "repeat(1, 1fr)" }}
                 gap={4}
               >
                 <GridItem colSpan={3}>
